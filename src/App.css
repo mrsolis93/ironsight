@@ -1,44 +1,64 @@
 .App {
-  text-align: center;
-  background-color: #282c34;
-  min-height: 100vh;
+  font-family: sans-serif;
+  background: #000000;
+  color: #ffffff;
+  height: 110vh;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
+.react-tabs {
   display: flex;
+  margin-right: 500px;
+  width: 1900px;
+  height: 900px;
+  border: 1px solid #3c3e43;
+  color: white;
+  background: #1c1d1f;
+}
+
+.react-tabs__tab-list {
+  display: inline-flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  width: 200px;
+  margin: 0;
+  padding: 0;
+  color: white;
+  background: #3c3e43;
+}
+
+.react-tabs__tab {
+  height: 70px;
+  list-style: none;
+  padding: 12px 6px;
+  cursor: pointer;
+  color: #bbb;
+}
+
+.react-tabs__tab--selected {
+  background: #1c1d1f;
+  border-color: #1c1d1f;
+  border-left: 2px solid #6eb800;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.react-tabs__tab-panel {
+  display: none;
+  width: 400px;
 }
 
-.Netdata {
-  min-width: 99%;
-  min-height: 85vh;
-  max-height: 85vh;
+.react-tabs__tab-panel--selected {
+  display: inline-block;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.react-tabs__tab {
+  padding-left: 24px;
 }
+
+.react-tabs__tab--selected {
+  padding-left: 21px;
+}
+
+.panel-content {
+  text-align: center;
+}
+
