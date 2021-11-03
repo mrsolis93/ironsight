@@ -9,7 +9,6 @@ function App() {
   
   return(
     <div className="App">
-      <h1 style={{margin:0}}>Ironsight</h1>
   <Tabs>
     <TabList>
       <Tab>
