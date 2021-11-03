@@ -33,33 +33,33 @@ function App() {
 
     </TabList>
     <TabPanel>
-      <div classname="panel-content">
-        <h2>landing page</h2>
+      <div className="panel-content">
+       
       </div>
     </TabPanel>
     <TabPanel>
-      <div classname="panel-content">
-        <h2>Users</h2>
+      <div className="panel-content">
+        
       </div>
     </TabPanel>
     <TabPanel>
-      <div classname="panel-content">
-        <h2>Labs</h2>
+      <div className="panel-content">
+       
       </div>
     </TabPanel>
     <TabPanel>
-      <div classname="panel-content">
-        <h2>Graphs</h2>
+      <div className="panel-content">
+       
       </div>
     </TabPanel>
     <TabPanel>
-      <div classname="panel-content">
-        <h2>Analysis</h2>
+      <div className="panel-content">
+        
       </div>
     </TabPanel>
     <TabPanel>
-      <div classname="panel-content">
-        <h2>Sandbox</h2>
+      <div className="panel-content">
+       
       </div>
     </TabPanel>
     </Tabs>
@@ -68,7 +68,7 @@ function App() {
 }
 
 const  rootElement = document.getElementById('root');
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(<div className="fill-window">{<App />}</div> , rootElement);
 
 export default App;
 
