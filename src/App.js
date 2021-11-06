@@ -1,26 +1,80 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+
+import './App.css'
 
 function App() {
-  return (
+  
+  return(
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Ironsight - Systems Analysis and Design <br></br>
-          Under Construction 2021
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  <Tabs>
+    <TabList>
+      <Tab>
+       <p> Home </p>
+      </Tab>
+      <Tab>
+        <p>Users</p>
+      </Tab>
+      <Tab>
+        <p>Labs</p>
+      </Tab>
+      <Tab>
+        <p>Resource</p>
+      </Tab>
+      <Tab>
+        <p>Analysis</p>
+      </Tab>
+      <Tab>
+        <p>Sandbox</p>
+      </Tab>
+
+    </TabList>
+    <TabPanel>
+      <div className="panel-content">
+       
+      </div>
+    </TabPanel>
+    <TabPanel>
+      <div className="panel-content">
+        
+      </div>
+    </TabPanel>
+    <TabPanel>
+      <div className="panel-content">
+       
+      </div>
+    </TabPanel>
+    <TabPanel>
+      <div className="panel-content">
+       
+      </div>
+    </TabPanel>
+    <TabPanel>
+      <div className="panel-content">
+        
+      </div>
+    </TabPanel>
+    <TabPanel>
+      <div className="panel-content">
+       
+      </div>
+    </TabPanel>
+    </Tabs>
     </div>
   );
 }
 
+const  rootElement = document.getElementById('root');
+ReactDOM.render(<div className="fill-window">{<App />}</div> , rootElement);
+
 export default App;
+
+    
+
+
+
+ 
+
+
