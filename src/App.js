@@ -1,103 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import { IconContext } from "react-icons"
-import { FaHome, FaUsers, FaBiohazard } from "react-icons/fa"
-import { ImLab } from "react-icons/im"
-import { GoGraph } from "react-icons/go"
-import { MdTimeline } from "react-icons/md"
 
-import './App.css'
+import './App.css';
+import Sidebar from './Components/Sidebar';
+import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Home from './Pages/Home'
+import Analysis from './Pages/Analysis'
+import Labs from './Pages/Labs'
+import Resources from './Pages/Resources'
+import Sandbox from './Pages/Sandbox'
+import Users from './Pages/Users'
 
 function App() {
-  
-  
+  return (
+    <div className="App">
+     <Router>   
+        <Sidebar />
+        <Routes>
+            <Route path='/' exact element={<Home/>} />
+            <Route path='/home' exact element={<Home/>} />
+            <Route path='/analysis' element={<Analysis/>}/>
+            <Route path='/analysis/analysis2' element={<Analysis/>} />
+            <Route path='/labs' element={<Labs/>}/>
+            <Route path='/resources' element={<Resources/>} />
+            <Route path='/sandbox' element={<Sandbox/>}/>
+            <Route path='/users' element={<Users/>}/>
+            {/* <Route path='/users/reports' element={<Reports/>} /> */}
+        </Routes>
+      </Router>
+         
 
-    return(
-      
-      <IconContext.Provider value={{color: "white" , size: "1.5em"}}>  
-      <div className="App">
-    <Tabs>
-          <TabList>
-
-              <Tab>
-              <p><FaHome /> Home </p>
-              </Tab>
-
-              <Tab>
-                <p><FaUsers /> Users</p>
-              </Tab>
-
-              <Tab>
-                <p><ImLab /> Labs</p>
-              </Tab>
-
-              <Tab>
-                <p><GoGraph /> Resource</p>
-              </Tab>
-
-              <Tab>
-                <p><MdTimeline /> Analysis</p>
-              </Tab>
-
-              <Tab>
-                <p><FaBiohazard /> Sandbox</p>
-              </Tab>
-
-          </TabList>
-
-
-          <TabPanel>
-            <div className="panel-content">
-            
-            </div>
-          </TabPanel>
-
-          <TabPanel>
-            <div className="panel-content">
-              
-            </div>
-          </TabPanel>
-
-          <TabPanel>
-            <div className="panel-content">
-            
-            </div>
-          </TabPanel>
-
-          <TabPanel>
-            <div className="panel-content">
-            
-            </div>
-          </TabPanel>
-
-          <TabPanel>
-            <div className="panel-content">
-              
-            </div>
-          </TabPanel>
-
-          <TabPanel>
-            <div className="panel-content">
-            
-            </div>
-          </TabPanel>
-      </Tabs>
-      </div>
-    </IconContext.Provider>
+    </div>
   );
 }
+
 
 const  rootElement = document.getElementById('root');
 ReactDOM.render(<div className="fill-window">{<App />}</div> , rootElement);
 
 export default App;
-
-    
-
-
-
- 
-
-
