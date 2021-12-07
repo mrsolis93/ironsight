@@ -1,0 +1,7 @@
+﻿"Top values of osquery.name","Median of osquery.pid.number"
+"kworker/1:2","46,737"
+"kworker/14:0-mm_percpu_wq","46,638"
+"kworker/1:0-mm_percpu_wq","46,579"
+metricbeat,"46,523"
+"osquery-extensi","46,464"
+Other,898
