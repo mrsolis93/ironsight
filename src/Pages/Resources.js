@@ -1,10 +1,11 @@
 import React from 'react'
 import '../App.css';
+import SysInfoChart from '../Components/SystemInfoChart';
 
 function Resources() {
     return (
         <div className='resources'>
-            <h1>Resources</h1>
+            <SysInfoChart/>
         </div>
     )
 }
