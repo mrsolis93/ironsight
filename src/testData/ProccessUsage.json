@@ -1,0 +1,26 @@
+[
+    {
+      "Top values of osquery.name": "kworker/1:2",
+      "Median of osquery.pid.number": "46,737"
+    },
+    {
+      "Top values of osquery.name": "kworker/14:0-mm_percpu_wq",
+      "Median of osquery.pid.number": "46,638"
+    },
+    {
+      "Top values of osquery.name": "kworker/1:0-mm_percpu_wq",
+      "Median of osquery.pid.number": "46,579"
+    },
+    {
+      "Top values of osquery.name": "metricbeat",
+      "Median of osquery.pid.number": "46,523"
+    },
+    {
+      "Top values of osquery.name": "osquery-extensi",
+      "Median of osquery.pid.number": "46,464"
+    },
+    {
+      "Top values of osquery.name": "Other",
+      "Median of osquery.pid.number": 898
+    }
+  ]
