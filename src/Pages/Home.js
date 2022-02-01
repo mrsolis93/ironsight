@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import '../App.css';
-import UserChart from '../Components/UserChart';
+import UserChart from '../Components/UserChart.js';
 
 
 class Home extends Component {
@@ -11,7 +11,7 @@ class Home extends Component {
   
         <><div className="App">
           <div className="App-header"></div>
-          <UserChart/>
+          {/* <UserChart/> */}
         </div>
         </>
      
