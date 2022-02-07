@@ -6,6 +6,7 @@ export const getdata = async () => {
     try{
         const {data} = await axios.get(baseUrl + 'daily');
         return data;
+        
     }catch(error) {
         throw error;
     }
