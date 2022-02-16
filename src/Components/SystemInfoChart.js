@@ -28,81 +28,7 @@ function createData(name, values) {
     values,
   };
 }
-
-// This needs to be replaced with a real data source (SystemInfo.csv)
-const rows = [
-    createData('@timestamp', 'Dec 6, 2021 @ 17:06:42.851'),
-    createData('_id', '84f_kX0BN3bE3tSp2yU7'),
-    createData('_index', '.ds-logs-osquery_manager.result-default-2021.12.03-000001'),
-    createData('_score', '-'),
-    createData('_type', '_doc'),
-    createData('action_data.id', '46792f4c-5a2c-4d16-9a89-78d885c0986f'),
-    createData('action_data.query', 'select * from system_info'),
-    createData('action_id', '57fdcc16-24e6-408e-85d9-db0c2993b336'),
-    createData('agent.ephemeral_id', 'ab358586-09d3-43ac-979b-e63557010c07'),
-    createData('agent.hostname', 'five'),
-    createData('agent.id', '8ff56901-0e05-42f4-b4a1-09431c6606fb'),
-    createData('agent.name', 'five'),
-    createData('agent.type', 'osquerybeat'),
-    createData('agent.version', '7.15.2'),
-    createData('ecs.version', '1.11.0'),
-    createData('elastic_agent.id', '8ff56901-0e05-42f4-b4a1-09431c6606fb'),
-    createData('elastic_agent.snapshot', 'FALSE'),
-    createData('elastic_agent.version', '7.15.2'),
-    createData('event.agent_id_status', 'verified'),
-    createData('event.ingested', 'Dec 6, 2021 @ 17:06:43.000'),
-    createData('event.module', 'osquery_manager'),
-    createData('host.architecture', 'x86_64'),
-    createData('host.containerized', 'FALSE'),
-    createData('host.hostname', 'five'),
-    createData('host.id', '79fd3c90af5448ed98bae7fc0ac0b57e'),
-    createData('host.ip', '10.190.42.13, fe80::46a8:42ff:fe1d:a464, 172.17.0.1, 192.168.122.1, fe80::fc54:ff:fefc:c520'),
-    createData('host.mac', '44:a8:42:1d:a4:64, 44:a8:42:1d:a4:65, 44:a8:42:1d:a4:66, 44:a8:42:1d:a4:67, 02:42:24:cb:62:92, 52:54:00:53:fb:80, 52:54:00:53:fb:80, fe:54:00:fc:c5:20'),
-    createData('host.os.codename', 'buster'),
-    createData('host.os.family', 'debian'),
-    createData('host.os.kernel', '4.19.0-18-amd64'),
-    createData('host.os.name', 'Debian GNU/Linux'),
-    createData('host.os.platform', 'debian'),
-    createData('host.os.type', 'linux'),
-    createData('host.os.version', '10 (buster)'),
-    createData('osquery.board_model', '0H47HH'),
-    createData('osquery.board_model.text', '0H47HH'),
-    createData('osquery.board_serial', '..CN747515410281.'),
-    createData('osquery.board_serial.text', '..CN747515410281.'),
-    createData('osquery.board_vendor', 'Dell Inc.'),
-    createData('osquery.board_vendor.text', 'Dell Inc.'),
-    createData('osquery.board_version', 'A09'),
-    createData('osquery.board_version.text', 'A09'),
-    createData('osquery.computer_name', 'five'),
-    createData('osquery.computer_name.text', 'five'),
-    createData('osquery.cpu_brand', 'Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz'),
-    createData('osquery.cpu_brand.text', 'Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz'),
-    createData('osquery.cpu_logical_cores', '16'),
-    createData('osquery.cpu_logical_cores.number', '16'),
-    createData('osquery.cpu_microcode', '0x710'),
-    createData('osquery.cpu_microcode.text', '0x710'),
-    createData('osquery.cpu_physical_cores', '16'),
-    createData('osquery.cpu_physical_cores.number', '16'),
-    createData('osquery.cpu_subtype', '45'),
-    createData('osquery.cpu_type', 'x86_64'),
-    createData('osquery.hardware_model', 'PowerEdge R620'),
-    createData('osquery.hardware_model.text', 'PowerEdge R620'),
-    createData('osquery.hardware_serial', 'F36BR52'),
-    createData('osquery.hardware_serial.text', 'F36BR52'),
-    createData('osquery.hardware_vendor', 'Dell Inc.'),
-    createData('osquery.hardware_vendor.text', 'Dell Inc.'),
-    createData('osquery.hardware_version', '(empty)'),
-    createData('osquery.hardware_version.text', '(empty)'),
-    createData('osquery.hostname', 'five'),
-    createData('osquery.hostname.text', 'five'),
-    createData('osquery.local_hostname', 'five'),
-    createData('osquery.local_hostname.text', 'five'),
-    createData('osquery.physical_memory', '1.35146E+11'),
-    createData('osquery.physical_memory.number', '135,145,771,008'),
-    createData('osquery.uuid', '4c4c4544-0033-3610-8042-c6c04f523532'),
-    createData('osquery.uuid.text', '4c4c4544-0033-3610-8042-c6c04f523532'),
-    createData('type', 'five')
-];
+var elkData = []
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -139,13 +65,13 @@ const headCells = [
     id: 'name',
     numeric: false,
     disablePadding: true,
-    label: 'Keys',
+    label: 'Hosts',
   },
   {
     id: 'values',
-    numeric: false,
+    numeric: true,
     disablePadding: false,
-    label: 'Values',
+    label: 'Elastic Records',
   },
 ];
 
@@ -235,7 +161,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          System Information
+          Elastic Agent Hostnames
         </Typography>
       )}
 
@@ -261,6 +187,48 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function SystemInfoChart() {
+
+  const [chart, setChart] = React.useState([])
+
+  var baseUrl = "https://api.tylerharrison.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
+  
+  React.useEffect(() => {
+      const fetchData = async () => {
+      fetch(`${baseUrl}`, {
+          method: 'GET',
+          headers: {}
+          }).then((response) => {
+              response.json().then(json => {
+                  elkData = json.aggregations.hostnames.buckets
+                  setChart(elkData)
+              })
+          }).catch(error => {
+              console.log(error)
+          })
+                  
+      }
+      fetchData()
+  
+  }, [baseUrl]) 
+  
+  //this function below enters buckets and grabs the keys from inside of buckets
+  var Xaxis = chart.map(function(x) {
+  return x.key;
+  });
+  //this function below enters buckets and grabs the doc_count value from inside of buckets
+  var Yaxis = chart.map(function(y) {
+  return y.doc_count;
+  });
+
+  // Append to rows a tuple of the key and the doc_count
+  const rows = Xaxis.map((row, index) => {
+    return {
+      name: row,
+      values: Yaxis[index],
+    };
+  });
+
+
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('keys');
   const [selected, setSelected] = React.useState([]);

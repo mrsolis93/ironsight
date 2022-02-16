@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
-import { elkData } from './data.js'
+
 
 ChartJS.register(
     ArcElement,
@@ -9,57 +9,54 @@ ChartJS.register(
     Legend
 
 )
-
+var elkData = []
 const DoughnutChart = () => {
 
-// const [chart, setChart] = useState([])
+    const [chart, setChart] = useState([])
 
-// var baseUrl = "http://ssh.tylerharrison.dev:9200/metrics-*/_search";
-// var proxyUrl = "https://cors-anywhere.herokuapp.com/";
-// var apikey = "YU44dnIzNEJ0UFZoZkJIa19OYWs6emJRSk01LWhTMC1hNm0xMFBPUGZuUQ==";
+    var baseUrl = "https://api.tylerharrison.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
+    
+    useEffect(() => {
+        const fetchData = async () => {
+        fetch(`${baseUrl}`, {
+            method: 'GET',
+            headers: {
+                // 'Content-Type': 'application/json',
+    
+            }
+            }).then((response) => {
+                response.json().then(json => {
+                    elkData = json.aggregations.hostnames.buckets
+                    setChart(elkData)
+    
+                })
+            }).catch(error => {
+                console.log(error)
+            })
+                    
+        }
+        fetchData()
+    
+    }, [baseUrl]) 
+    
+    for (var key in elkData) {
+        console.log(elkData[key].doc_count)
+    }
 
-// useEffect(() => {
-//     const fetchData = async () => {
-//     await fetch(`${baseUrl}`, {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': `${apikey}`,
-//             'Access-Control-Allow-Origin': '*'
-
-//         }
-//         }).then((response) => {
-//             response.json().then(json => {
-//                 console.log(json)
-//             })
-//         }).catch(error => {
-//             console.log(error)
-//         })
-                
-//     }
-//     fetchData()
-
-//}, [baseUrl, apikey]) 
-
-
-//this function below enters buckets and grabs the keys from inside of buckets
-var Xaxis = elkData.map(x => x.buckets.map(function(x) {
-return x.key;
-}));
-//this function below enters buckets and grabs the doc_count value from inside of buckets
-var Yaxis = elkData.map(y => y.buckets.map(function(y) {
-return y.doc_count;
-}));
-
-console.log(Xaxis);
-console.log(Yaxis);
-
+    //this function below enters buckets and grabs the keys from inside of buckets
+    var Xaxis = chart.map(function(x) {
+    return x.key;
+    });
+    //this function below enters buckets and grabs the doc_count value from inside of buckets
+    var Yaxis = chart.map(function(y) {
+    return y.doc_count;
+    });
 
 var data  = {
     //fill labels in with the buckets
-    labels:Xaxis[0],  //x-axis
+    labels:Xaxis,  //x-axis
         datasets: [{
-            data:Yaxis[0],
+            data:Yaxis,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
