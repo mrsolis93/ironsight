@@ -17,6 +17,7 @@ const Nav = styled.div`
 
 const NavIcon = styled(Link)`
   margin-left: 1.25rem;
+  margin-right: 1.25rem;
   font-size: 1.5rem;
   height: 55px;
   display: flex;
@@ -41,6 +42,14 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
+const CenteredImage = styled.img`
+  display:block;
+  position:absolute;
+  left:0;
+  right:0;
+  margin:auto;
+`;
+
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
 
@@ -48,16 +57,16 @@ const Sidebar = () => {
 
   return (
     <>
+
       <IconContext.Provider value={{ color: '#fff' }}>
             <Nav>
                 <NavIcon to='#'>
                     <FaIcons.FaBars onClick={showSidebar} />
                 </NavIcon>
+                <CenteredImage src={process.env.PUBLIC_URL + "/logo_horizontal.png"} alt="ironsight_banner" height="35px"/>
             </Nav>
-
             <SidebarNav sidebar={sidebar}>
                 <SidebarWrap>
-                
                     <NavIcon to='#'>
                         <AiIcons.AiOutlineClose onClick={showSidebar} />
                     </NavIcon>
