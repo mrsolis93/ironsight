@@ -1,17 +1,17 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-import Alert from "@mui/material/Alert";
+import LineChart from "../../Charts/LineChart";
 import { Rnd } from "react-rnd";
 
-var widgetName = "Widget Template";
+var widgetName = "Elastic Entries by Host";
 
 function Widget() {
   return (
     <Rnd
     default={{
       x: 10,
-      y: 370,
+      y: 10,
       width: 950,
       height: 350,
     }}>
@@ -24,8 +24,8 @@ function Widget() {
       borderStyle="solid"
       sx={{ bgcolor: "background.paper" }}
       // Minimum width of the widget
-      minWidth={350}
-      minHeight={400}
+      // minWidth={950}
+      // minHeight={350}
     >
       <Box
         sx={{ bgcolor: "grey.700" }}
@@ -38,8 +38,8 @@ function Widget() {
         <strong>{widgetName}</strong>
         </Tooltip>
       </Box>
-      <Box sx={{ bgcolor: "background.paper" }} minWidth={350}></Box>
-      <Alert severity="info">This is a widget template - content would go here</Alert>
+      <Box sx={{ bgcolor: "background.paper" }}></Box>
+      <LineChart />
     </Box>
     </Rnd>
   );
