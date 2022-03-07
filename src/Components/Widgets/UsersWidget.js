@@ -4,6 +4,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { FixedSizeList } from "react-window";
+import { Rnd } from "react-rnd";
 
 // List of all names
 const names = [
@@ -31,6 +32,13 @@ function renderRow(props) {
 
 function VirtualizedList() {
   return (
+    <Rnd
+    default={{
+      x: 970,
+      y: 10,
+      width: 350,
+      height: 350,
+    }}>
     <Box
       // Add rounded grey border
       borderRadius={2}
@@ -61,6 +69,7 @@ function VirtualizedList() {
         {renderRow}
       </FixedSizeList>
     </Box>
+    </Rnd>
   );
 }
 

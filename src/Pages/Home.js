@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import '../App.css';
 import UsersWidget from '../Components/Widgets/UsersWidget';
 import WidgetTemplate from '../Components/Widgets/WidgetTemplate';
+import RecordsWidget from '../Components/Widgets/RecordsWidget';
 import {Rnd} from 'react-rnd';
 
 
@@ -13,12 +14,9 @@ class Home extends Component {
   
         <><div className="App">
           <div className="App-header"></div>
-          <Rnd>
           <UsersWidget />
-          </Rnd>
-          <Rnd>
           <WidgetTemplate />
-          </Rnd>
+          <RecordsWidget />
         </div>
         </>
      
