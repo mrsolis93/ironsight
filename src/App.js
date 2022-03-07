@@ -8,9 +8,17 @@ import Labs from "./Pages/Labs";
 import Resources from "./Pages/Resources";
 import Sandbox from "./Pages/Sandbox";
 import Users from "./Pages/Users";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 function App() {
   return (
+    <ThemeProvider theme={darkTheme}>
     <div className="App">
       <Router>
         <Sidebar />
@@ -27,6 +35,7 @@ function App() {
         </Routes>
       </Router>
     </div>
+    </ThemeProvider>
   );
 }
 

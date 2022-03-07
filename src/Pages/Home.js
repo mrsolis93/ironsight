@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
 import '../App.css';
-//import UserChart from '../Components/UserChart.js';
-import BarChart from '../Charts/BarChart';
-import DoughnutChart from '../Charts/DoughnutChart';
-import LineChart from '../Charts/LineChart';
-import PieChart from '../Charts/PieChart';
+import UsersWidget from '../Components/Widgets/UsersWidget';
+import WidgetTemplate from '../Components/Widgets/WidgetTemplate';
+import {Rnd} from 'react-rnd';
 
 
 class Home extends Component {
@@ -15,10 +13,12 @@ class Home extends Component {
   
         <><div className="App">
           <div className="App-header"></div>
-          <BarChart />
-          <DoughnutChart />
-          <LineChart />
-          <PieChart />
+          <Rnd>
+          <UsersWidget />
+          </Rnd>
+          <Rnd>
+          <WidgetTemplate />
+          </Rnd>
         </div>
         </>
      
