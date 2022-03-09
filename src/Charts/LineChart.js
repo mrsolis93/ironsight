@@ -1,5 +1,4 @@
-
-import React,{useState, useEffect} from 'react'
+import React,{useEffect, useRef, useReducer} from 'react'
 import { Chart as ChartJS, LineElement, PointElement, CategoryScale, LinearScale} from 'chart.js'
 import { Line } from 'react-chartjs-2'
 
@@ -12,40 +11,85 @@ ChartJS.register(
 
 var elkData = []
 const LineChart = () => {
+    var url = "https://api.tylerharrison.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
+
+    const cache = useRef({});
+    const initialState = {
+        status: 'idle',
+        error: null,
+        data: [],
+    };
     
-        const [chart, setChart] = useState([])
-        var baseUrl = "https://api.tylerharrison.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
-        
-        useEffect(() => {
-            const fetchData = async () => {
-            fetch(`${baseUrl}`, {
+    const [state, dispatch] = useReducer((state, action) => {
+        switch (action.type) {
+            case 'FETCHING':
+                return { ...initialState, status: 'fetching' };
+            case 'FETCHED':
+                return { ...initialState, status: 'fetched', data: action.payload };
+            case 'FETCH_ERROR':
+                return { ...initialState, status: 'error', error: action.payload };
+            default:
+                return state;
+        }
+    }, initialState);
+    
+    useEffect(() => {
+        let cancelRequest = false;
+        if (!url) return;
+    
+        const fetchData = async () => {
+            fetch(`${url}`, {
                 method: 'GET',
-                headers: {}
-                }).then((response) => {
+                headers: {
+                    // 'Content-Type': 'application/json',
+        
+                },
+                
+                }, {cache: "force-cache"}).then((response) => {
                     response.json().then(json => {
+                        // console.log(json)
+                        // Append to elkData
                         elkData = json.aggregations.hostnames.buckets
-                        setChart(elkData)
+                        
+                        // console.log all of the keys in the elkData
+        
                     })
                 }).catch(error => {
                     console.log(error)
                 })
-                        
+            dispatch({ type: 'FETCHING' });
+            if (cache.current[url]) {
+                const data = data.current[url];
+                dispatch({ type: 'FETCHED', payload: elkData });
+            } else {
+    
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    cache.current[url] = data;
+                    if (cancelRequest) return;
+                    dispatch({ type: 'FETCHED', payload: data });
+                } catch (error) {
+                    if (cancelRequest) return;
+                    dispatch({ type: 'FETCH_ERROR', payload: error.message });
+                }
             }
-            fetchData()
-        
-        }, [baseUrl]) 
-        
-        for (var key in elkData) {
-            console.log(elkData[key].doc_count)
-        }
+        };
+    
+        fetchData();
+    
+        return function cleanup() {
+            cancelRequest = true;
+        };
+    }, [url]);
         
         // console.log(elkData)
         //this function below enters buckets and grabs the keys from inside of buckets
-        var Xaxis = chart.map(function(x) {
+        var Xaxis = elkData.map(function(x) {
         return x.key;
         });
         //this function below enters buckets and grabs the doc_count value from inside of buckets
-        var Yaxis = chart.map(function(y) {
+        var Yaxis = elkData.map(function(y) {
         return y.doc_count;
         });
 
@@ -74,6 +118,7 @@ var data  = {
         }]
     }
     var options = {
+        AnimationEffect: false,
         maintainAspectRatio: false,
         scales: {
             y: {

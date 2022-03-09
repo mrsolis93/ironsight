@@ -2,6 +2,8 @@ import React from "react";
 import "../App.css";
 import BarChart from "../Charts/BarChart";
 import { Rnd } from "react-rnd";
+import  PieChart  from "../Charts/PieChart";
+import DoughnutChart from "../Charts/DoughnutChart";
 
 function Resources() {
   return (
@@ -14,8 +16,10 @@ function Resources() {
           height: 200,
         }}
       >
+        
         <BarChart />
       </Rnd>
+    
     </div>
   );
 }
