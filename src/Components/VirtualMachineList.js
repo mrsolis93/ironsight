@@ -18,10 +18,11 @@ import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import { visuallyHidden } from '@mui/utils';
-import CreateVMDialog from './CreateVMDialog';
+import CreateVMButton from './CreateVMButton';
+import { IconButton } from '@mui/material';
+import { RadioButtonChecked } from '@mui/icons-material';
 
 function createData(name, user_name, lab_num, port_number, elastic_agent_id) {
   return {
@@ -71,6 +72,12 @@ const headCells = [
     numeric: false,
     disablePadding: true,
     label: 'VM Name',
+  },
+  {
+    id: 'status',
+    numeric: false,
+    disablePadding: true,
+    label: 'Status',
   },
   {
     id: 'user_name',
@@ -200,20 +207,7 @@ const EnhancedTableToolbar = (props) => {
             </Button>
         </Tooltip>
       ) : (
-        <div>
-            <CreateVMDialog />
-            <Tooltip title="Create a new virtual machine in Harvester" placement="top">
-                <Button variant="contained" color="success" style={{width: "100px"}}
-                  onClick={() => {
-                    // Set the state of the dialog to open
-                    
-                  }}
-                  startIcon={<AddIcon />}
-                >
-                    Create
-                </Button>
-            </Tooltip>
-        </div>
+            <CreateVMButton />
       )}
     </Toolbar>
   );
@@ -343,6 +337,13 @@ for (var i = 0; i < table_data.length; i++) {
                         padding="none"
                       >
                         {row.name}
+                      </TableCell>
+                      <TableCell align="left">
+                        <Tooltip title="Powered on" placement="top">
+                        <IconButton aria-label="status" size="small">
+                                <RadioButtonChecked color="success" />
+                            </IconButton>
+                        </Tooltip>
                       </TableCell>
                       <TableCell align="right">{row.user_name}</TableCell>
                       <TableCell align="right">{row.lab_num}</TableCell>

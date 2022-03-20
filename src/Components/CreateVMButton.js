@@ -8,9 +8,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, Tooltip} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function CreateVMDialog() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,6 +30,18 @@ export default function CreateVMDialog() {
 
   return (
     <div>
+    <Tooltip title="Create a new virtual machine in Harvester" placement="top">
+        <Button variant="contained" color="success" style={{width: "100px"}}
+            onClick={() => {
+            // Set the state of the dialog to open
+                handleClickOpen();
+            }}
+            startIcon={<AddIcon />}
+        >
+            Create
+        </Button>
+    </Tooltip>
+    
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Create Virtual Machine</DialogTitle>
         <DialogContent>

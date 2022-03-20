@@ -15,6 +15,7 @@ function VirtualMachines() {
   var baseUrl = "https://api.rellis.dev/get.php?q=get_vms";
 
   useEffect(() => {
+    let cancelRequest = false;
     const fetchData = async () => {
       fetch(`${baseUrl}`, {
         method: "GET",
@@ -36,6 +37,11 @@ function VirtualMachines() {
         });
     };
     fetchData();
+
+    return function cleanup() {
+        cancelRequest = true;
+      };
+
   }, [baseUrl]);
 
   return (
