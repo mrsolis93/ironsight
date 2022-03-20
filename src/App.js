@@ -8,6 +8,7 @@ import Labs from "./Pages/Labs";
 import Resources from "./Pages/Resources";
 import Sandbox from "./Pages/Sandbox";
 import Users from "./Pages/Users";
+import VirtualMachines from "./Pages/VirtualMachines";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const darkTheme = createTheme({
@@ -26,11 +27,12 @@ function App() {
           <Route path="/" exact element={<Home />} />
           <Route path="/home" exact element={<Home />} />
           <Route path="/analysis" element={<Analysis />} />
-          <Route path="/analysis/analysis2" element={<Analysis />} />
+          <Route path="/analysis/reports" element={<Analysis />} />
           <Route path="/labs" element={<Labs />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/sandbox" element={<Sandbox />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/virtual_machines" element={<VirtualMachines />} />
           {/* <Route path='/users/reports' element={<Reports/>} /> */}
         </Routes>
       </Router>
