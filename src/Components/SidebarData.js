@@ -5,6 +5,7 @@ import * as RiIcons from 'react-icons/ri';
 import { FaHome, FaUsers, FaBiohazard } from "react-icons/fa";
 import { ImLab } from "react-icons/im";
 import { GoGraph } from "react-icons/go";
+import { RiComputerLine } from "react-icons/ri";
 import { MdTimeline } from "react-icons/md";
 
 
@@ -23,18 +24,13 @@ export const SidebarData = [
     icon: <FaUsers />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
-
-    subNav:
-     [
-      {
-        title: 'Reports',
-        path: '/users/reports',
-        icon: <IoIcons.IoIosPaper />,
-        cName: 'sub-nav'
-      }
-     ]
   },
 
+  {
+    title: 'Virtual Machines',
+    path: '/virtual_machines',
+    icon: <RiComputerLine />
+  },
 
   {
     title: 'Labs',
@@ -58,14 +54,16 @@ export const SidebarData = [
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
 
-    subNav: 
+    subNav:
     [
-      {
-        title: 'Analysis2',
-        path: '/analysis/analysis2',
-        icon: <MdTimeline />
-      }
+     {
+       title: 'Reports',
+       path: '/users/reports',
+       icon: <IoIcons.IoIosPaper />,
+       cName: 'sub-nav'
+     }
     ]
+
   },
 
 
