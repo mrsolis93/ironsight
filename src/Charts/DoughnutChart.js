@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef, useReducer } from "react";
+import React, { useEffect, useRef, useReducer } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 var elkData = [];
+
 const DoughnutChart = () => {
   var url =
-    "https://api.tylerharrison.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
+    "https://api.rellis.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
 
   const cache = useRef({});
   const initialState = {
