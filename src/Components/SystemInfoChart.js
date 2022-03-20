@@ -190,7 +190,7 @@ export default function SystemInfoChart() {
 
   const [chart, setChart] = React.useState([])
 
-  var baseUrl = "https://api.tylerharrison.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
+  var baseUrl = "https://api.rellis.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
   
   React.useEffect(() => {
       const fetchData = async () => {

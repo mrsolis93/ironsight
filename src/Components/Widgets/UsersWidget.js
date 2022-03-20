@@ -5,21 +5,13 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { FixedSizeList } from "react-window";
 import { Rnd } from "react-rnd";
+import { useEffect, useState } from "react";
 
-// List of all names
-const names = [
-  "tyler_harrison",
-  "augustine_solis",
-  "truman_brown",
-  "sudip_koirala",
-  "caleb_hamilton",
-  "robert_freas",
-  "eman_hammad",
-];
+// Get all of the names from key "user_name" in the json from the API call and display them in a list using react-window and MUI
+// URL: "https://api.rellis.dev/get.php?q=get_users"
 
-function renderRow(props) {
-  const { index, style } = props;
-
+function renderRow({ index, style }) {
+  // const { index, style } = props;
   return (
     // List all of the names
     <ListItem style={style} key={index} component="div" disablePadding>
@@ -30,47 +22,81 @@ function renderRow(props) {
   );
 }
 
-function VirtualizedList() {
+var names = [];
+
+function UsersWidget() {
+  const [namesState, setNames] = useState([]);
+
+  var baseUrl = "https://api.rellis.dev/get.php?q=get_users";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      fetch(`${baseUrl}`, {
+        method: "GET",
+        headers: {
+          // 'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          response.json().then((json) => {
+            // console.log(json)
+            // Get all of the names from key "user_name"
+            names = json.map(function (x) {
+              return x.user_name;
+            });
+            // Set the list of names
+            setNames(names);
+            console.log(names);
+            // console.log all of the keys in the names
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    fetchData();
+  }, [baseUrl]);
+
   return (
     <Rnd
-    default={{
-      x: 970,
-      y: 10,
-      width: 350,
-      height: 350,
-    }}>
-    <Box
-      // Add rounded grey border
-      borderRadius={2}
-      border={10}
-      // borderTop={40}
-      borderColor="grey.700"
-      borderStyle="solid"
-      sx={{ bgcolor: "background.paper" }}
-      // Minimum width of the list
-      minWidth={350}
+      default={{
+        x: 970,
+        y: 10,
+        width: 350,
+        height: 350,
+      }}
     >
       <Box
-        sx={{ bgcolor: "grey.700" }}
-        height={30}
-        borderStyle="solid"
-        borderLeft={10}
+        // Add rounded grey border
+        borderRadius={2}
+        border={10}
+        // borderTop={40}
         borderColor="grey.700"
+        borderStyle="solid"
+        sx={{ bgcolor: "background.paper" }}
+        // Minimum width of the list
+        minWidth={350}
       >
-        <strong>Users</strong>
+        <Box
+          sx={{ bgcolor: "grey.700" }}
+          height={30}
+          borderStyle="solid"
+          borderLeft={10}
+          borderColor="grey.700"
+        >
+          <strong>Users</strong>
+        </Box>
+        <FixedSizeList
+          height={400}
+          // width={200}
+          itemSize={60}
+          itemCount={names.length}
+        >
+          {renderRow}
+        </FixedSizeList>
       </Box>
-      <FixedSizeList
-        height={400}
-        // width={360}
-        itemSize={46}
-        itemCount={10}
-        overscanCount={5}
-      >
-        {renderRow}
-      </FixedSizeList>
-    </Box>
     </Rnd>
   );
 }
 
-export default VirtualizedList;
+export default UsersWidget;

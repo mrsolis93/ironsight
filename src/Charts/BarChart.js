@@ -5,8 +5,7 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
-import { Bar, Line } from "react-chartjs-2";
-// import { elkData } from './data.js'
+import { Bar } from "react-chartjs-2";
 
 var elkData = [];
 
@@ -14,7 +13,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement);
 
 const BarChart = () => {
   var url =
-    "https://api.tylerharrison.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
+    "https://api.rellis.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
 
   const cache = useRef({});
   const initialState = {
@@ -53,11 +52,8 @@ const BarChart = () => {
       )
         .then((response) => {
           response.json().then((json) => {
-            // console.log(json)
             // Append to elkData
             elkData = json.aggregations.hostnames.buckets;
-
-            // console.log all of the keys in the elkData
           });
         })
         .catch((error) => {
