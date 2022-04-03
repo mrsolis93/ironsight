@@ -20,7 +20,7 @@ function Widget() {
       borderRadius={2}
       border={10}
       // borderTop={40}
-      borderColor="grey.700"
+     class="bg-grey-700"
       borderStyle="solid"
       sx={{ bgcolor: "background.paper" }}
       // Minimum width of the widget
@@ -28,11 +28,11 @@ function Widget() {
       // minHeight={350}
     >
       <Box
-        sx={{ bgcolor: "grey.700" }}
+        sx={{ bgcolor: "bg-grey-700" }}
         height={30}
         borderStyle="solid"
         borderLeft={10}
-        borderColor="grey.700"
+        borderColor="transparent"
       >
         <Tooltip title="Drag me around" placement="top">
         <strong>{widgetName}</strong>

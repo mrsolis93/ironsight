@@ -68,21 +68,22 @@ function UsersWidget() {
     >
       <Box
         // Add rounded grey border
-        borderRadius={2}
-        border={10}
+        borderRadius={1}
+        border={7}
         // borderTop={40}
-        borderColor="grey.700"
+        
+        borderColor="#2f3136"
         borderStyle="solid"
-        sx={{ bgcolor: "background.paper" }}
+        sx={{ bgcolor: "transparent" }}
         // Minimum width of the list
         minWidth={350}
       >
         <Box
-          sx={{ bgcolor: "grey.700" }}
+          sx={{ bgcolor: "#2f3136" }}
           height={30}
           borderStyle="solid"
           borderLeft={10}
-          borderColor="grey.700"
+          borderColor="#2f3136"
         >
           <strong>Users</strong>
         </Box>
