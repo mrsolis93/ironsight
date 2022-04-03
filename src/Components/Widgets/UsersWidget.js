@@ -46,7 +46,7 @@ function UsersWidget() {
             });
             // Set the list of names
             setNames(names);
-            console.log(names);
+            // console.log(names);
             // console.log all of the keys in the names
           });
         })
