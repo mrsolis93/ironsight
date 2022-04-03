@@ -1,5 +1,4 @@
 import "./App.css";
-import Sidebar from "./Components/Sidebar";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
@@ -10,6 +9,7 @@ import Sandbox from "./Pages/Sandbox";
 import Users from "./Pages/Users";
 import VirtualMachines from "./Pages/VirtualMachines";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Navbar from "./Components/Navbar";
 
 const darkTheme = createTheme({
   palette: {
@@ -20,9 +20,9 @@ const darkTheme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
-    <div className="App">
+    <div className="App bg-slate-800">
       <Router>
-        <Sidebar />
+        <Navbar />
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/home" exact element={<Home />} />
@@ -42,6 +42,6 @@ function App() {
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<div className="fill-window">{<App />}</div>, rootElement);
+ReactDOM.render(<div className="fill-window bg-slate-800">{<App />}</div>, rootElement);
 
 export default App;

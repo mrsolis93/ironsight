@@ -8,10 +8,10 @@
 
 .App {
   font-family: 'Roboto', sans-serif;
-  background:  #1c1d1f;
+  /* background:  #1c1d1f; */
   color: #ffffff;
   height: 100%;
-  min-height: 100vh;
+  min-height: 140vh;
   box-sizing: border-box;
 }
 
@@ -25,7 +25,7 @@ body
 
 .home, .users, .labs, .resources, .analysis, .sandbox {
   display: flex;
-  height: 90vh;
+  height: 190vh;
   color: white;
   align-items: center;
   justify-content: center;
