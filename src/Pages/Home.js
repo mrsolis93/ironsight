@@ -3,7 +3,6 @@ import '../App.css';
 import UsersWidget from '../Components/Widgets/UsersWidget';
 import WidgetTemplate from '../Components/Widgets/WidgetTemplate';
 import RecordsWidget from '../Components/Widgets/RecordsWidget';
-import {Rnd} from 'react-rnd';
 
 
 class Home extends Component {
