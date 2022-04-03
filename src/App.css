@@ -34,3 +34,11 @@ body
 
 }
 
+.virtual_machines {
+  display: flex;
+  border-left: 40px solid #1c1d1f;
+  border-right: 40px solid #1c1d1f;
+  color: white;
+  align-items: center;
+}
+
