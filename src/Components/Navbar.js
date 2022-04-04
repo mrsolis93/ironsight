@@ -19,7 +19,7 @@ function classNames(...classes) {
 
 export default function Navbar2() {
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-800 z-[-1]">
       {({ open }) => (
         <>
           <div className="mx-auto px-2 sm:px-6 lg:px-8">
@@ -84,7 +84,7 @@ export default function Navbar2() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://lh3.googleusercontent.com/a-/AOh14GhWhlEbhi8ZmBBxC-G40EgFDEur1kef2k-sNWyTTm0=s288-p-no"
+                        src="https://tylerharrison.dev/images/user-3.jpg"
                         alt=""
                       />
                     </Menu.Button>
