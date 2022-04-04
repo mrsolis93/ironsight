@@ -44,9 +44,6 @@ class Home extends Component {
                 <h2 class="card-title">News / Alerts</h2>
                 <ul class="menu bg-base-100 text-base-content"></ul>
 
-                <div class="card-actions justify-end">
-                  <button class="btn btn-primary shadow-xl">View all</button>
-                </div>
               </div>
             </div>
           </div>
