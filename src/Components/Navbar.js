@@ -19,7 +19,7 @@ function classNames(...classes) {
 
 export default function Navbar2() {
   return (
-    <Disclosure as="nav" className="bg-gray-800 z-[-1]">
+    <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
           <div className="mx-auto px-2 sm:px-6 lg:px-8">
@@ -98,7 +98,7 @@ export default function Navbar2() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none -z-[-1]">
                       <Menu.Item>
                         {({ active }) => (
                           <a
