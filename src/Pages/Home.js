@@ -26,7 +26,7 @@ class Home extends Component {
 
                 <CurrentLabs />
                 <div class="card-actions justify-end">
-                  <button class="btn btn-primary shadow-xl">View all</button>
+                  <button class="btn btn-primary shadow-xl"><a href="/labs">View all</a></button>
                 </div>
               </div>
             </div>
