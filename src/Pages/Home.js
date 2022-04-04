@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../App.css";
 import LineChart from "../Charts/LineChart.js";
 import CurrentLabs from "../Components/Widgets/CurrentLabs";
+import NewsWidget from "../Components/Widgets/NewsWidget";
 
 class Home extends Component {
   render() {
@@ -37,17 +38,11 @@ class Home extends Component {
                 <LineChart />
               </div>
             </div>
-
-            {/* News */}
-            <div class="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3">
-              <div class="card-body">
-                <h2 class="card-title">News / Alerts</h2>
-                <ul class="menu bg-base-100 text-base-content"></ul>
-
-              </div>
-            </div>
+          {/* News Widget */}
+            <NewsWidget />
           </div>
 
+          {/* Lower Row */}
           <div class="flex md:flex-row flex-col mr-3 ml-3">
             {/* Hypervisor Performance */}
             <div class="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
