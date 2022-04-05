@@ -16,7 +16,7 @@ const DoughnutChart = () => {
     data: [],
   };
 
-  const [chartstate, dispatch] = useReducer((state, action) => {
+  const [chartstate, dispatch] = useReducer((chartstate, action) => {
     switch (action.type) {
       case "FETCHING":
         return { ...initialState, status: "fetching" };
@@ -25,7 +25,7 @@ const DoughnutChart = () => {
       case "FETCH_ERROR":
         return { ...initialState, status: "error", error: action.payload };
       default:
-        return state;
+        return chartstate;
     }
   }, initialState);
 
@@ -49,7 +49,6 @@ const DoughnutChart = () => {
             // console.log(json)
             // Append to elkData
             elkData = json.aggregations.hostnames.buckets;
-            state(elkData);
             // console.log all of the keys in the elkData
           });
         })

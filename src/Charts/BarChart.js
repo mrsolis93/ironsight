@@ -23,7 +23,7 @@ const BarChart = () => {
   };
   
 
-  const [chartstate, dispatch] = useReducer((state, action) => {
+  const [chartstate, dispatch] = useReducer((chartstate, action) => {
     switch (action.type) {
       case "FETCHING":
         return { ...initialState, status: "fetching" };
@@ -32,7 +32,7 @@ const BarChart = () => {
       case "FETCH_ERROR":
         return { ...initialState, status: "error", error: action.payload };
       default:
-        return state;
+        return chartstate;
     }
   }, initialState);
 
