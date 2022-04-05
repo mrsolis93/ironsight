@@ -75,7 +75,7 @@ const PieChart = () => {
       }
     };
 
-    fetchData();
+    fetchData(state);
 
     return function cleanup() {
       cancelRequest = true;

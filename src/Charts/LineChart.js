@@ -80,13 +80,14 @@ const LineChart = () => {
       }
     };
 
-    fetchData();
+    fetchData(state);
+    
 
     return function cleanup() {
       cancelRequest = true;
     };
   }, [url]);
-
+ 
   // console.log(elkData)
   //this function below enters buckets and grabs the keys from inside of buckets
   var Xaxis = elkData.map(function (x) {

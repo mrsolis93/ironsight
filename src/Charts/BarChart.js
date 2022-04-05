@@ -77,7 +77,7 @@ const BarChart = () => {
       }
     };
 
-    fetchData();
+    fetchData(state);
 
     return function cleanup() {
       cancelRequest = true;

@@ -74,7 +74,7 @@ const DoughnutChart = () => {
       }
     };
 
-    fetchData();
+    fetchData(state);
 
     return function cleanup() {
       cancelRequest = true;
