@@ -10,7 +10,7 @@ const UsersWidget = () => {
         // console.log(data);
         var user_list = data.map(function (user) {
           return (
-            <tr class="hover">
+            <tr className="hover">
               <td>{user.user_name}</td>
             </tr>
           );
@@ -23,11 +23,11 @@ const UsersWidget = () => {
   }, []);
 
   return (
-    <div class="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3">
-      <div class="card-body">
-        <h2 class="card-title">Users</h2>
-        <div class="overflow-x-auto max-h-64">
-          <table class="table w-full">
+    <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3">
+      <div className="card-body">
+        <h2 className="card-title">Users</h2>
+        <div className="overflow-x-auto max-h-64">
+          <table className="table w-full">
             <tbody>{user_list}</tbody>
           </table>
         </div>

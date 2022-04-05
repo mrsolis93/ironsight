@@ -20,23 +20,23 @@ const darkTheme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
-    <div className="App bg-slate-800">
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="/home" exact element={<Home />} />
-          <Route path="/analysis" element={<Analysis />} />
-          <Route path="/analysis/reports" element={<Analysis />} />
-          <Route path="/labs" element={<Labs />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/sandbox" element={<Sandbox />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/virtual_machines" element={<VirtualMachines />} />
-          {/* <Route path='/users/reports' element={<Reports/>} /> */}
-        </Routes>
-      </Router>
-    </div>
+      <div className="App bg-slate-800">
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" exact element={<Home />} />
+            <Route path="/home" exact element={<Home />} />
+            <Route path="/analysis" element={<Analysis />} />
+            <Route path="/analysis/reports" element={<Analysis />} />
+            <Route path="/labs" element={<Labs />} />
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/sandbox" element={<Sandbox />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/virtual_machines" element={<VirtualMachines />} />
+            {/* <Route path='/users/reports' element={<Reports/>} /> */}
+          </Routes>
+        </Router>
+      </div>
     </ThemeProvider>
   );
 }

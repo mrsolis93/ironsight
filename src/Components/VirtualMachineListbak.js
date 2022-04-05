@@ -14,21 +14,27 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import Button from "@mui/material/Button";
 import { visuallyHidden } from "@mui/utils";
+import CreateVMButton from "./CreateVMButton";
+import { IconButton } from "@mui/material";
+import { RadioButtonChecked } from "@mui/icons-material";
 
-function createData(name, values) {
+function createData(name, user_name, lab_num, port_number, elastic_agent_id) {
   return {
     name,
-    values,
+    user_name,
+    lab_num,
+    port_number,
+    elastic_agent_id,
   };
 }
-var elkData = [];
+
+var rows = [];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -65,13 +71,37 @@ const headCells = [
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Hosts",
+    label: "VM Name",
   },
   {
-    id: "values",
+    id: "status",
+    numeric: false,
+    disablePadding: true,
+    label: "Status",
+  },
+  {
+    id: "user_name",
     numeric: true,
     disablePadding: false,
-    label: "Elastic Records",
+    label: "User Name",
+  },
+  {
+    id: "lab_num",
+    numeric: true,
+    disablePadding: false,
+    label: "Lab Number",
+  },
+  {
+    id: "port_number",
+    numeric: true,
+    disablePadding: false,
+    label: "Port Number",
+  },
+  {
+    id: "elastic_agent_id",
+    numeric: true,
+    disablePadding: false,
+    label: "Elastic Agent ID",
   },
 ];
 
@@ -98,7 +128,7 @@ function EnhancedTableHead(props) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all desserts",
+              "aria-label": "select all virtual_machines",
             }}
           />
         </TableCell>
@@ -170,22 +200,26 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Elastic Agent Hostnames
+          Virtual Machines
         </Typography>
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
+        <Tooltip title="Delete virtual machine in Harvester" placement="top">
+          <Button
+            variant="contained"
+            color="error"
+            style={{ width: "100px" }}
+            onClick={() => {
+              alert("clicked");
+            }}
+            startIcon={<DeleteIcon />}
+          >
+            Delete
+          </Button>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        <CreateVMButton />
       )}
     </Toolbar>
   );
@@ -195,54 +229,26 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function SystemInfoChart() {
-  const [chart, setChart] = React.useState([]);
-
-  var baseUrl =
-    "https://api.rellis.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      fetch(`${baseUrl}`, {
-        method: "GET",
-        headers: {},
-      })
-        .then((response) => {
-          response.json().then((json) => {
-            elkData = json.aggregations.hostnames.buckets;
-            setChart(elkData);
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    fetchData();
-  }, [baseUrl]);
-
-  //this function below enters buckets and grabs the keys from inside of buckets
-  var Xaxis = chart.map(function (x) {
-    return x.key;
-  });
-  //this function below enters buckets and grabs the doc_count value from inside of buckets
-  var Yaxis = chart.map(function (y) {
-    return y.doc_count;
-  });
-
-  // Append to rows a tuple of the key and the doc_count
-  const rows = Xaxis.map((row, index) => {
-    return {
-      name: row,
-      values: Yaxis[index],
-    };
-  });
-
+export default function VirtualMachineList({ table_data }) {
+  var create_data_list = [];
+  for (var i = 0; i < table_data.length; i++) {
+    create_data_list.push(
+      createData(
+        table_data[i].vm_name,
+        table_data[i].user_name,
+        table_data[i].lab_num,
+        table_data[i].port_number,
+        table_data[i].elastic_agent_id ? table_data[i].elastic_agent_id : "N/A"
+      )
+    );
+  }
+  rows = create_data_list;
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("keys");
+  const [orderBy, setOrderBy] = React.useState("user_name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(8);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -299,8 +305,8 @@ export default function SystemInfoChart() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: "50%", height: "80%" }}>
-      <Paper sx={{ width: "100%", height: "100%", mb: 2 }}>
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
@@ -352,7 +358,19 @@ export default function SystemInfoChart() {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.values}</TableCell>
+                      <TableCell align="left">
+                        <Tooltip title="Powered on" placement="top">
+                          <IconButton aria-label="status" size="small">
+                            <RadioButtonChecked color="success" />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell align="right">{row.user_name}</TableCell>
+                      <TableCell align="right">{row.lab_num}</TableCell>
+                      <TableCell align="right">{row.port_number}</TableCell>
+                      <TableCell align="right">
+                        {row.elastic_agent_id}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -369,7 +387,7 @@ export default function SystemInfoChart() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[8, 16, 24]}
+          rowsPerPageOptions={[10, 15, 25]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

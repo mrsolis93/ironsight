@@ -21,7 +21,6 @@ const BarChart = () => {
     error: null,
     data: [],
   };
-  
 
   const [chartstate, dispatch] = useReducer((state, action) => {
     switch (action.type) {
