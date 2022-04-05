@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import { SidebarData } from './SidebarData';
-import SubMenu from './SubMenu';
-import { IconContext } from 'react-icons/lib';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import * as FaIcons from "react-icons/fa";
+import * as AiIcons from "react-icons/ai";
+import { SidebarData } from "./SidebarData";
+import SubMenu from "./SubMenu";
+import { IconContext } from "react-icons/lib";
 
 const Nav = styled.div`
   background: #3c3e43;
@@ -33,7 +33,7 @@ const SidebarNav = styled.nav`
   justify-content: center;
   position: fixed;
   top: 0;
-  left: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
+  left: ${({ sidebar }) => (sidebar ? "0" : "-100%")};
   transition: 350ms;
   z-index: 10;
 `;
@@ -43,11 +43,11 @@ const SidebarWrap = styled.div`
 `;
 
 const CenteredImage = styled.img`
-  display:block;
-  position:absolute;
-  left:0;
-  right:0;
-  margin:auto;
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
 `;
 
 const Sidebar = () => {
@@ -57,26 +57,28 @@ const Sidebar = () => {
 
   return (
     <>
+      <IconContext.Provider value={{ color: "#fff" }}>
+        <Nav>
+          <NavIcon to="#">
+            <FaIcons.FaBars onClick={showSidebar} />
+          </NavIcon>
+          <CenteredImage
+            src={process.env.PUBLIC_URL + "/logo_horizontal.png"}
+            alt="ironsight_banner"
+            height="35px"
+          />
+        </Nav>
+        <SidebarNav sidebar={sidebar}>
+          <SidebarWrap>
+            <NavIcon to="#">
+              <AiIcons.AiOutlineClose onClick={showSidebar} />
+            </NavIcon>
 
-      <IconContext.Provider value={{ color: '#fff' }}>
-            <Nav>
-                <NavIcon to='#'>
-                    <FaIcons.FaBars onClick={showSidebar} />
-                </NavIcon>
-                <CenteredImage src={process.env.PUBLIC_URL + "/logo_horizontal.png"} alt="ironsight_banner" height="35px"/>
-            </Nav>
-            <SidebarNav sidebar={sidebar}>
-                <SidebarWrap>
-                    <NavIcon to='#'>
-                        <AiIcons.AiOutlineClose onClick={showSidebar} />
-                    </NavIcon>
-
-                    {SidebarData.map((item, index) => {
+            {SidebarData.map((item, index) => {
               return <SubMenu item={item} key={index} />;
             })}
-
-                </SidebarWrap>
-            </SidebarNav>
+          </SidebarWrap>
+        </SidebarNav>
       </IconContext.Provider>
     </>
   );

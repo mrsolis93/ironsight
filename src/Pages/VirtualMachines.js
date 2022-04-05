@@ -39,14 +39,13 @@ function VirtualMachines() {
     fetchData();
 
     return function cleanup() {
-        cancelRequest = true;
-      };
-
+      cancelRequest = true;
+    };
   }, [baseUrl]);
 
   return (
     <div className="virtual_machines">
-        <VirtualMachineList table_data={raw_data} />
+      <VirtualMachineList />
     </div>
   );
 }

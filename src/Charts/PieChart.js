@@ -50,7 +50,7 @@ const PieChart = () => {
             // console.log(json)
             // Append to elkData
             elkData = json.aggregations.hostnames.buckets;
-          
+
             // console.log all of the keys in the elkData
           });
         })

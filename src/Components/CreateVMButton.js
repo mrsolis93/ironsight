@@ -68,10 +68,7 @@ export default function CreateVMDialog() {
         // console.log(data);
         var template_list = data.map(function (template) {
           return (
-            <MenuItem
-              key={template.template_name}
-              value={template}
-            >
+            <MenuItem key={template.template_name} value={template}>
               {template.template_name}
             </MenuItem>
           );
@@ -109,7 +106,7 @@ export default function CreateVMDialog() {
     fetch("https://api.rellis.dev/create_vm.php", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         template_name: template_selection.template_name,
@@ -122,9 +119,8 @@ export default function CreateVMDialog() {
       .then((data) => {
         console.log(data);
         handleClose();
-      }
-      );
-  }
+      });
+  };
 
   return (
     <div>
@@ -167,7 +163,7 @@ export default function CreateVMDialog() {
             onChange={set_vm_name}
           />
           <FormControl sx={{ m: 2, minWidth: "46%" }}>
-            <InputLabel htmlFor="template">Template</InputLabel>
+            <InputLabel htmlhtmlFor="template">Template</InputLabel>
             <Select
               value={template_selection}
               label="template"
@@ -182,7 +178,7 @@ export default function CreateVMDialog() {
           </FormControl>
 
           <FormControl sx={{ mt: 2, minWidth: "46%" }}>
-            <InputLabel htmlFor="user">User</InputLabel>
+            <InputLabel htmlhtmlFor="user">User</InputLabel>
             <Select
               value={user_selection}
               onChange={change_user}

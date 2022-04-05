@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
 function Analysis() {
-    return (
-        <div className='analysis'>
-            <h1>Analysis</h1>
-        </div>
-    )
+  return (
+    <div className="analysis">
+      <h1>Analysis</h1>
+    </div>
+  );
 }
 
-export default Analysis
+export default Analysis;
