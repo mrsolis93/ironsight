@@ -10,6 +10,7 @@ import { Line } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement);
 
+var data = [];
 var elkData = [];
 const LineChart = () => {
   var url =
@@ -22,7 +23,7 @@ const LineChart = () => {
     data: [],
   };
 
-  const [chart, dispatch] = useReducer((state, action) => {
+  const [line_chart_state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case "FETCHING":
         return { ...initialState, status: "fetching" };
@@ -80,7 +81,7 @@ const LineChart = () => {
       }
     };
 
-    fetchData(chartstate);
+    fetchData(line_chart_state);
     
 
     return function cleanup() {

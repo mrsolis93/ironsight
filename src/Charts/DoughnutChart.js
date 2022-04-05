@@ -49,7 +49,6 @@ const DoughnutChart = () => {
             // console.log(json)
             // Append to elkData
             elkData = json.aggregations.hostnames.buckets;
-            state(elkData);
             // console.log all of the keys in the elkData
           });
         })
