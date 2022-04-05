@@ -22,7 +22,7 @@ const LineChart = () => {
     data: [],
   };
 
-  const [state, dispatch] = useReducer((state, action) => {
+  const [chart, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case "FETCHING":
         return { ...initialState, status: "fetching" };
@@ -80,13 +80,14 @@ const LineChart = () => {
       }
     };
 
-    fetchData();
+    fetchData(chartstate);
+    
 
     return function cleanup() {
       cancelRequest = true;
     };
   }, [url]);
-
+ 
   // console.log(elkData)
   //this function below enters buckets and grabs the keys from inside of buckets
   var Xaxis = elkData.map(function (x) {

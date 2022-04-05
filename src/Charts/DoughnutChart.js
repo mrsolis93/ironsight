@@ -16,7 +16,7 @@ const DoughnutChart = () => {
     data: [],
   };
 
-  const [state, dispatch] = useReducer((state, action) => {
+  const [chartstate, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case "FETCHING":
         return { ...initialState, status: "fetching" };
@@ -74,7 +74,7 @@ const DoughnutChart = () => {
       }
     };
 
-    fetchData();
+    fetchData(chartstate);
 
     return function cleanup() {
       cancelRequest = true;
