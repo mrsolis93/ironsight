@@ -17,7 +17,7 @@ const PieChart = () => {
     data: [],
   };
 
-  const [chartstate, dispatch] = useReducer((chartstate, action) => {
+  const [chartstate, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case "FETCHING":
         return { ...initialState, status: "fetching" };
@@ -26,7 +26,7 @@ const PieChart = () => {
       case "FETCH_ERROR":
         return { ...initialState, status: "error", error: action.payload };
       default:
-        return chartstate;
+        return state;
     }
   }, initialState);
 
