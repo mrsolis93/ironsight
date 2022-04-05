@@ -41,7 +41,4 @@ function App() {
   );
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<div className="fill-window bg-slate-800">{<App />}</div>, rootElement);
-
 export default App;
