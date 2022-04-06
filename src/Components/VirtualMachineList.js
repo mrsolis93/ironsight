@@ -9,6 +9,7 @@ const VirtualMachineList = () => {
     fetch("https://api.rellis.dev/get.php?q=get_vms")
       .then((response) => response.json())
       .then((data) => {
+        console.log("[Ironsight] VM List:", data);
         var vm_list = data.map(function (vm) {
           return <li key={vm.vm_name}>{vm.vm_name}</li>;
         });
