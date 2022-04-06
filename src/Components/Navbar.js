@@ -2,6 +2,7 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 
 const navigation = [
   { name: "Home", href: "/home", current: false },
@@ -48,12 +49,13 @@ export default function Navbar2() {
                     alt="Ironsight Logo"
                   />
                 </div>
+
+                {/* Desktop navbar buttons */}
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
+                      <Link key={item.name} to={item.href}
+
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
@@ -63,10 +65,11 @@ export default function Navbar2() {
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
+
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
@@ -148,6 +151,7 @@ export default function Navbar2() {
             </div>
           </div>
 
+          {/* Mobile menu, show/hide based on menu open state. */}
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
