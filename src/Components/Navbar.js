@@ -2,22 +2,44 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
+import { NavbarData } from "./NavbarData";
+import styled from "styled-components";
 
-const navigation = [
-  { name: "Home", href: "/home", current: false },
-  { name: "Users", href: "/users", current: false },
-  { name: "Virtual Machines", href: "/virtual_machines", current: false },
-  { name: "Labs", href: "/labs", current: false },
-  { name: "Resources", href: "/resources", current: false },
-  { name: "Analysis", href: "/analysis", current: false },
-  { name: "Sandbox", href: "/sandbox", current: false },
-];
+const MobileLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  list-style: none;
+  height: 35px;
+  text-decoration: none;
+  font-size: 18px;
+  &:hover {
+    background: #1c1d1f;
+    border-left: 4px solid #632ce4;
+    cursor: pointer;
+  }
+`;
+
+const NavbarLabel = styled.span`
+  margin-left: 5px;
+`;
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar2() {
+
+  // const [currentab, setCurrenttab] = useState(false);
+
+  // const showSidebar = () => setCurrentab(!currentab);
+
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -50,10 +72,10 @@ export default function Navbar2() {
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
+
+                  {NavbarData.map((item) => (
+                      <Link key={item.name} to={item.path}
+
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
@@ -63,8 +85,9 @@ export default function Navbar2() {
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
+
                   </div>
                 </div>
               </div>
@@ -148,13 +171,14 @@ export default function Navbar2() {
             </div>
           </div>
 
+        {/* Mobile NavBar */}
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <Disclosure.Button
+              {NavbarData.map((item) => (
+                <MobileLink
                   key={item.name}
                   as="a"
-                  href={item.href}
+                  to={item.path}
                   className={classNames(
                     item.current
                       ? "bg-gray-900 text-white"
@@ -163,8 +187,9 @@ export default function Navbar2() {
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >
-                  {item.name}
-                </Disclosure.Button>
+                  {item.icon}
+                  <NavbarLabel>{item.name}</NavbarLabel>
+                </MobileLink>
               ))}
             </div>
           </Disclosure.Panel>

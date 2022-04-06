@@ -12,15 +12,18 @@ class Home extends Component {
         <div className="home">
           {/* Upper row */}
           <div className="flex md:flex-row flex-col mt-3 mr-3 ml-3">
+
             {/* Ongoing Labs */}
             <div className="max-h-96 md:w-1/4 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body">
                 <div className="flex flex-row">
                   <h2 className="card-title mr-3">Ongoing Labs</h2>
+
                   {/* Display the current date */}
                   <h3 className="font-mono text-lg mr-3">
                     [{new Date().toLocaleDateString()}]
                   </h3>
+
                 </div>
                 <CurrentLabs />
                 <div className="card-actions justify-end">
@@ -30,6 +33,7 @@ class Home extends Component {
                 </div>
               </div>
             </div>
+
             {/* VM Overview */}
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body">
@@ -37,17 +41,20 @@ class Home extends Component {
                   <LineChart />
               </div>
             </div>
+
             {/* News Widget */}
             <NewsWidget />
           </div>
           {/* Lower Row */}
           <div className="flex md:flex-row flex-col mr-3 ml-3">
+
             {/* Hypervisor Performance */}
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body">
                 <h2 className="card-title">Hypervisor Performance</h2>
               </div>
             </div>
+            
             {/* Recent Activity */}
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body">
