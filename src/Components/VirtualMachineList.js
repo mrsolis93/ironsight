@@ -11,9 +11,15 @@ const VirtualMachineList = () => {
       .then((data) => {
         console.log("[Ironsight] VM List:", data);
         var vm_list = data.map(function (vm) {
-          return <li key={vm.vm_name}>{vm.vm_name}</li>;
+          return (
+            <tr key={vm.vm_name} className="hover">
+              <td>{vm.vm_name}</td>
+              <td>{vm.template_name}</td>
+              <td>{vm.port_number}</td>
+            </tr>
+          );
         });
-          setVMList(vm_list);
+        setVMList(vm_list);
       });
   };
 
@@ -23,8 +29,17 @@ const VirtualMachineList = () => {
   }, []);
 
   return (
-    <div>
-      <ul>{vm_list}</ul>
+    <div className="overflow-auto">
+      <table className="table w-full">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Template</th>
+            <th>Port</th>
+          </tr>
+        </thead>
+        <tbody>{vm_list}</tbody>
+      </table>
     </div>
   );
 };

@@ -69,7 +69,7 @@ const DoughnutChart = () => {
   // Get the list of templates on page load, and set the state
   React.useEffect(() => {
     get_doc_count();
-  });
+  }, []);
   var options = {
     AnimationEffect: false,
     maintainAspectRatio: false,

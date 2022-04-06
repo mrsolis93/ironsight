@@ -11,7 +11,12 @@ const NewsWidget = () => {
           return (
             <tr key={article.title} className="hover">
               <td>
-                <a href={article.link}>{article.title}</a>
+                <a
+                  href={article.link}
+                  className="break-normal whitespace-normal"
+                >
+                  {article.title}
+                </a>
               </td>
             </tr>
           );
@@ -24,15 +29,10 @@ const NewsWidget = () => {
   }, []);
 
   return (
-    <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3">
-      <div className="card-body">
-        <h2 className="card-title">News / Alerts</h2>
-        <div className="overflow-x-auto max-h-64">
-          <table className="table w-full">
-            <tbody className="break-all">{news_list}</tbody>
-          </table>
-        </div>
-      </div>
+    <div className="overflow-auto">
+      <table className="table w-full">
+        <tbody>{news_list}</tbody>
+      </table>
     </div>
   );
 };
