@@ -27,7 +27,7 @@ body
 
 }
 
-.home, .users, .labs, .resources, .analysis, .sandbox {
+.home, .users, .labs, .resources, .analysis, .sandbox, .virtual_machines {
   font-family: 'Roboto', sans-serif;
   color: #ffffff;
   height: 100%;
@@ -37,11 +37,11 @@ body
 
 }
 
-.virtual_machines {
+/* .virtual_machines {
   display: flex;
   border-left: 40px solid #1c1d1f;
   border-right: 40px solid #1c1d1f;
   color: white;
   align-items: center;
-}
+} */
 

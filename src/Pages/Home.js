@@ -4,11 +4,13 @@ import LineChart from "../Charts/LineChart.js";
 import BarChart from "../Charts/BarChart.js";
 import CurrentLabs from "../Components/Widgets/CurrentLabs";
 import NewsWidget from "../Components/Widgets/NewsWidget";
+import Navbar from "../Components/Navbar";
 
 class Home extends Component {
   render() {
     return (
       <>
+      <Navbar />
         <div className="home">
           {/* Upper row */}
           <div className="flex md:flex-row flex-col mt-3 mr-3 ml-3">

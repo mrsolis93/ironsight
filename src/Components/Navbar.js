@@ -1,12 +1,14 @@
 /* This example requires Tailwind CSS v2.0+ */
+import React, { useState, useEffect } from "react"
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
-import { Link } from "react-router-dom";
-import { NavbarData } from "./NavbarData";
+import { NavLink, Link } from "react-router-dom";
+import { NavbarData, userNavigation } from "./NavbarData";
 import styled from "styled-components";
+import "../App.css";
 
-const MobileLink = styled(Link)`
+const DesktopLink = styled(NavLink)`
   display: flex;
   align-items: center;
   padding-left: 10px;
@@ -19,10 +21,29 @@ const MobileLink = styled(Link)`
   font-size: 18px;
   &:hover {
     background: #1c1d1f;
-    border-left: 4px solid #632ce4;
     cursor: pointer;
   }
 `;
+
+const MobileLink = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  list-style: none;
+  height: 35px;
+  text-decoration: none;
+  font-size: 18px;
+  &:hover {
+    background: #1c1d1f;
+    border-left: 4px solid #6419E6;
+    cursor: pointer;
+  }
+`;
+
+
 
 const NavbarLabel = styled.span`
   margin-left: 5px;
@@ -33,12 +54,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar2() {
-
-  // const [currentab, setCurrenttab] = useState(false);
-
-  // const showSidebar = () => setCurrentab(!currentab);
-
+export default function Navbar() {
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -74,18 +90,20 @@ export default function Navbar2() {
                   <div className="flex space-x-4">
 
                   {NavbarData.map((item) => (
-                      <Link key={item.name} to={item.path}
+                      <DesktopLink 
+                       key={item.name} 
+                       to={item.path}
 
-                        className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "px-3 py-2 rounded-md text-sm font-medium"
-                        )}
-                        aria-current={item.current ? "page" : undefined}
+                       className={(state) => console.log(state)}
+
+                       style={isActive => ({
+                      background: isActive ? "red" : "blue"
+                        })}
+  
+                        
                       >
                         {item.name}
-                      </Link>
+                      </DesktopLink>
                     ))}
 
                   </div>
@@ -123,47 +141,23 @@ export default function Navbar2() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none -z-[-1]">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
+                      {userNavigation.map((item) => (
+                                <Menu.Item key={item.name}>
+                                  {({ active }) => (
+                                    <a
+                                      href={item.path}
+                                      className={classNames(
+                                        active 
+                                        ? 'bg-gray-500'
+                                        : "text-gray-300",
+                                        'block px-4 py-2 text-sm text-gray-900'
+                                      )}
+                                    >
+                                      {item.name}
+                                    </a>
+                                  )}
+                                </Menu.Item>
+                      ))}
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -177,7 +171,6 @@ export default function Navbar2() {
               {NavbarData.map((item) => (
                 <MobileLink
                   key={item.name}
-                  as="a"
                   to={item.path}
                   className={classNames(
                     item.current

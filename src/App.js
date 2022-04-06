@@ -23,7 +23,6 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <div className="App bg-slate-800">
         <Router>          
-          <Navbar />
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/home" exact element={<Home />} />

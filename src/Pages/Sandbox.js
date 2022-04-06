@@ -6,10 +6,12 @@ import DoughnutChart from "../Charts/DoughnutChart";
 import BarChart from "../Charts/BarChart";
 import LineChart from "../Charts/LineChart";
 import PieChart from "../Charts/PieChart";
+import Navbar from "../Components/Navbar";
 
 function Sandbox() {
   return (
     <div className="sandbox">
+    <Navbar />
       {/* Upper row */}
       <div className="flex md:flex-row flex-col mt-3 mr-3 ml-3">
         {/* Widget Card */}

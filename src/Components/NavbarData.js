@@ -11,7 +11,7 @@ export const NavbarData = [
     name: "Home",
     path: "/home",
     icon: <FaHome />,
-    current: false
+    current: true
   },
 
   {
@@ -58,3 +58,9 @@ export const NavbarData = [
     current: false
   },
 ];
+
+export const userNavigation = [
+  { name: 'Your Profile', path: '#' },
+  { name: 'Settings', path: '#' },
+  { name: 'Sign out', path: '#' },
+]

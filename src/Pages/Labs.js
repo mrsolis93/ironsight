@@ -1,5 +1,6 @@
 import React from "react";
 import "../App.css";
+import Navbar from "../Components/Navbar";
 
 function Labs() {
   const [lab_list, setLabList] = React.useState([]);
@@ -43,7 +44,8 @@ function Labs() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="labs">
+    <Navbar />
       {/* Card 1 */}
       <div className="row_1 flex md:flex-row flex-col">
         <div className="card md:w-96 bg-base-100 shadow-xl m-3">
