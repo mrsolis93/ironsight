@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../App.css";
 import LineChart from "../Charts/LineChart.js";
+import BarChart from "../Charts/BarChart.js";
 import CurrentLabs from "../Components/Widgets/CurrentLabs";
 import NewsWidget from "../Components/Widgets/NewsWidget";
 
@@ -8,8 +9,7 @@ class Home extends Component {
   render() {
     return (
       <>
-        <div className="App">
-          <div className="App-header"></div>
+        <div className="home">
           {/* Upper row */}
           <div className="flex md:flex-row flex-col mt-3 mr-3 ml-3">
             {/* Ongoing Labs */}
@@ -34,7 +34,7 @@ class Home extends Component {
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body">
                 <h2 className="card-title">VM Overview</h2>
-                <LineChart />
+                  <LineChart />
               </div>
             </div>
             {/* News Widget */}

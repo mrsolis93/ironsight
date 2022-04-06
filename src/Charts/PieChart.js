@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useReducer } from "react";
+import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import LinearProgress from "@mui/material/LinearProgress";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -9,126 +10,78 @@ var elkData = [];
 const PieChart = () => {
   var url =
     "https://api.rellis.dev/get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27";
+  const [chart_data, setChartData] = React.useState(null);
 
-  const cache = useRef({});
-  const initialState = {
-    status: "idle",
-    error: null,
-    data: [],
-  };
-
-  const [chartstate, dispatch] = useReducer((state, action) => {
-    switch (action.type) {
-      case "FETCHING":
-        return { ...initialState, status: "fetching" };
-      case "FETCHED":
-        return { ...initialState, status: "fetched", data: action.payload };
-      case "FETCH_ERROR":
-        return { ...initialState, status: "error", error: action.payload };
-      default:
-        return state;
-    }
-  }, initialState);
-
-  useEffect(() => {
-    let cancelRequest = false;
-    if (!url) return;
-
-    const fetchData = async () => {
-      fetch(
-        `${url}`,
-        {
-          method: "GET",
-          headers: {
-            // 'Content-Type': 'application/json',
-          },
-        },
-        { cache: "force-cache" }
-      )
-        .then((response) => {
-          response.json().then((json) => {
-            // console.log(json)
-            // Append to elkData
-            elkData = json.aggregations.hostnames.buckets;
-
-            // console.log all of the keys in the elkData
-          });
-        })
-        .catch((error) => {
-          console.log(error);
+  // Make a GET request to the server to get the list of hostnames
+  // and map them to a react-chartjs-2 chart
+  const get_doc_count = () => {
+    console.log("[Ironsight] Fetching Chart Data...");
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        // Get X axis (keys)
+        var chart_data_keys = data.aggregations.hostnames.buckets.map(function (
+          bucket
+        ) {
+          return bucket.key;
         });
-      dispatch({ type: "FETCHING" });
-      if (cache.current[url]) {
-        const data = data.current[url];
-        dispatch({ type: "FETCHED", payload: elkData });
-      } else {
-        try {
-          const response = await fetch(url);
-          const data = await response.json();
-          cache.current[url] = data;
-          if (cancelRequest) return;
-          dispatch({ type: "FETCHED", payload: data });
-        } catch (error) {
-          if (cancelRequest) return;
-          dispatch({ type: "FETCH_ERROR", payload: error.message });
-        }
-      }
-    };
+        console.log("[Ironsight] VM List:", chart_data_keys);
 
-    fetchData(chartstate);
+        // Get Y axis (values)
+        var chart_data_values = data.aggregations.hostnames.buckets.map(
+          function (bucket) {
+            return bucket.doc_count;
+          }
+        );
+        console.log("[Ironsight] Doc Count:", chart_data_values);
 
-    return function cleanup() {
-      cancelRequest = true;
-    };
-  }, [url]);
-
-  for (var key in elkData) {
-    console.log(elkData[key].doc_count);
-  }
-
-  // console.log(elkData)
-  //this function below enters buckets and grabs the keys from inside of buckets
-  var Xaxis = elkData.map(function (x) {
-    return x.key;
-  });
-  //this function below enters buckets and grabs the doc_count value from inside of buckets
-  var Yaxis = elkData.map(function (y) {
-    return y.doc_count;
-  });
-
-  var data = {
-    //fill labels in with the buckets
-    labels: Xaxis, //x-axis
-    datasets: [
-      {
-        data: Yaxis,
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 3,
-      },
-    ],
+        var chart_data = {
+          //fill labels in with the buckets
+          labels: chart_data_keys, //x-axis
+          datasets: [
+            {
+              data: chart_data_values,
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(255, 206, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+              ],
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+              ],
+              borderWidth: 3,
+            },
+          ],
+        };
+        setChartData(chart_data);
+        console.log("[Ironsight] Chart Data:", chart_data);
+        console.log("[Ironsight] Loading complete");
+      });
   };
+
+  // Get the list of templates on page load, and set the state
+  React.useEffect(() => {
+    get_doc_count();
+  }, []);
   var options = {
     maintainAspectRatio: false,
   };
 
   return (
     <div>
-      <Pie data={data} height={400} options={options} />
+      {chart_data === null ? (
+        <LinearProgress />
+      ) : (
+        <Pie data={chart_data} height={400} options={options} />
+      )}
     </div>
   );
 };
