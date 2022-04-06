@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useReducer } from "react";
+import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -69,7 +69,7 @@ const DoughnutChart = () => {
   // Get the list of templates on page load, and set the state
   React.useEffect(() => {
     get_doc_count();
-  }, []);
+  });
   var options = {
     AnimationEffect: false,
     maintainAspectRatio: false,
