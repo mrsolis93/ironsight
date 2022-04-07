@@ -56,7 +56,7 @@ function Labs() {
             />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">CSCI 359 - Systems Analysis</h2>
+            <h2 className="card-title">CSCI 440 - Database Design</h2>
             <p>Labs Here</p>
           </div>
         </div>
@@ -108,7 +108,7 @@ function Labs() {
               />
             </figure>
             <div className="card-body">
-              <h2 className="card-title">CSCI 440 - Database Design</h2>
+              <h2 className="card-title">CSCI 359 - Systems Analysis</h2>
               <p>Labs Here</p>
             </div>
           </div>
