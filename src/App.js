@@ -11,6 +11,7 @@ import VirtualMachines from "./Pages/VirtualMachines";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Navbar from "./Components/Navbar";
 
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -21,8 +22,7 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="App bg-slate-800">
-        <Router>
-          <Navbar />
+        <Router>          
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/home" exact element={<Home />} />

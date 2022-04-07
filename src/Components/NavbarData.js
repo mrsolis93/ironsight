@@ -1,6 +1,4 @@
 import React from "react";
-import * as IoIcons from "react-icons/io";
-import * as RiIcons from "react-icons/ri";
 
 import { FaHome, FaUsers, FaBiohazard } from "react-icons/fa";
 import { ImLab } from "react-icons/im";
@@ -8,60 +6,61 @@ import { GoGraph } from "react-icons/go";
 import { RiComputerLine } from "react-icons/ri";
 import { MdTimeline } from "react-icons/md";
 
-export const SidebarData = [
+export const NavbarData = [
   {
-    title: "Home",
+    name: "Home",
     path: "/home",
     icon: <FaHome />,
+    current: true
   },
 
   {
-    title: "Users",
+    name: "Users",
     path: "/users",
     icon: <FaUsers />,
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-    iconOpened: <RiIcons.RiArrowUpSFill />,
+    current: false
+ 
   },
 
   {
-    title: "Virtual Machines",
+    name: "Virtual Machines",
     path: "/virtual_machines",
     icon: <RiComputerLine />,
+    current: false
   },
 
   {
-    title: "Labs",
+    name: "Labs",
     path: "/labs",
     icon: <ImLab />,
+    current: false
   },
 
   {
-    title: "Resources",
+    name: "Resources",
     path: "/resources",
     icon: <GoGraph />,
+    current: false
   },
 
   {
-    title: "Analysis",
+    name: "Analysis",
     path: "/analysis",
     icon: <MdTimeline />,
+    current: false
 
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-    iconOpened: <RiIcons.RiArrowUpSFill />,
-
-    subNav: [
-      {
-        title: "Reports",
-        path: "/users/reports",
-        icon: <IoIcons.IoIosPaper />,
-        cName: "sub-nav",
-      },
-    ],
   },
 
   {
-    title: "Sandbox",
+    name: "Sandbox",
     path: "/sandbox",
     icon: <FaBiohazard />,
+    current: false
   },
 ];
+
+export const userNavigation = [
+  { name: 'Your Profile', path: '#' },
+  { name: 'Settings', path: '#' },
+  { name: 'Sign out', path: '#' },
+]
