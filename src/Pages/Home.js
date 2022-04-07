@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../App.css";
 import LineChart from "../Charts/LineChart.js";
 import BarChart from "../Charts/BarChart.js";
-import CurrentLabs from "../Components/Widgets/CurrentLabs";
+import OngoingLabs from "../Components/Widgets/OngoingLabs";
 import NewsWidget from "../Components/Widgets/NewsWidget";
 import Navbar from "../Components/Navbar";
 
@@ -17,7 +17,7 @@ class Home extends Component {
 
             {/* Ongoing Labs */}
             <div className="max-h-96 md:w-1/4 rounded-box bg-base-100 shadow-xl m-3">
-              <div className="card-body">
+              <div className="card-body max-h-96">
                 <div className="flex flex-row">
                   <h2 className="card-title mr-3">Ongoing Labs</h2>
 
@@ -27,25 +27,27 @@ class Home extends Component {
                   </h3>
 
                 </div>
-                <CurrentLabs />
-                <div className="card-actions justify-end">
-                  <button className="btn btn-primary shadow-xl">
-                    <a href="/labs">View all</a>
-                  </button>
-                </div>
+                <OngoingLabs />
               </div>
             </div>
 
             {/* VM Overview */}
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
-              <div className="card-body">
+              <div className="max-h-96 card-body">
                 <h2 className="card-title">VM Overview</h2>
-                  <LineChart />
+                <LineChart />
               </div>
             </div>
 
             {/* News Widget */}
-            <NewsWidget />
+            <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3 max-h-96">
+              <div className="card-body max-h-96">
+                <div className="flex flex-row">
+                  <h2 className="card-title mr-3">News / Alerts</h2>
+                </div>
+                <NewsWidget />
+              </div>
+            </div>
           </div>
           {/* Lower Row */}
           <div className="flex md:flex-row flex-col mr-3 ml-3">
