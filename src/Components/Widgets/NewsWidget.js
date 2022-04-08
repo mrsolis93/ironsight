@@ -14,6 +14,7 @@ const NewsWidget = () => {
                 <a
                   href={article.link}
                   className="break-normal whitespace-normal"
+                  target="_blank" rel="noopener noreferrer"
                 >
                   {article.title}
                 </a>
