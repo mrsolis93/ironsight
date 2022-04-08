@@ -1,33 +1,36 @@
 import React from "react";
+import { useQuery } from "react-query";
+import { getNewsList } from "../../IronsightAPI";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const NewsWidget = () => {
-  const [news_list, setNewsList] = React.useState([]);
-  const get_users = () => {
-    fetch("https://api.rellis.dev/get.php?q=get_news")
-      .then((response) => response.json())
-      .then((data) => {
-        data = data.articles;
-        var news_list = data.map(function (article) {
-          return (
-            <tr key={article.title} className="hover">
-              <td>
-                <a
-                  href={article.link}
-                  className="break-normal whitespace-normal"
-                  target="_blank" rel="noopener noreferrer"
-                >
-                  {article.title}
-                </a>
-              </td>
-            </tr>
-          );
-        });
-        setNewsList(news_list);
-      });
-  };
-  React.useEffect(() => {
-    get_users();
-  }, []);
+  const { data, isLoading, isError } = useQuery("news_list", getNewsList);
+
+  if (isLoading) {
+    return <LinearProgress />;
+  }
+
+  if (isError) {
+    return <p>Error!</p>;
+  }
+
+  var articles = data.articles;
+  var news_list = articles.map(function (article) {
+    return (
+      <tr key={article.title} className="hover">
+        <td>
+          <a
+            href={article.link}
+            className="break-normal whitespace-normal"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {article.title}
+          </a>
+        </td>
+      </tr>
+    );
+  });
 
   return (
     <div className="overflow-auto">
