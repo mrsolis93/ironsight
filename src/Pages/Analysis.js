@@ -3,12 +3,10 @@ import Navbar from "../Components/Navbar";
 
 function Analysis() {
   return (
-   <> 
-    <Navbar />
-      <div className="analysis">
-        
-      </div>
-  </>
+    <>
+      <Navbar />
+      <div className="analysis"></div>
+    </>
   );
 }
 
