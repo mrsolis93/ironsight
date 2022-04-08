@@ -10,6 +10,7 @@ import Users from "./Pages/Users";
 import VirtualMachines from "./Pages/VirtualMachines";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Navbar from "./Components/Navbar";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 
 const darkTheme = createTheme({
@@ -18,10 +19,13 @@ const darkTheme = createTheme({
   },
 });
 
+const queryClient = new QueryClient()
+
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="App bg-slate-800">
+            <QueryClientProvider client={queryClient}> 
         <Router>          
           <Routes>
             <Route path="/" exact element={<Home />} />
@@ -36,6 +40,7 @@ function App() {
             {/* <Route path='/users/reports' element={<Reports/>} /> */}
           </Routes>
         </Router>
+            </QueryClientProvider>
       </div>
     </ThemeProvider>
   );
