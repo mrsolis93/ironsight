@@ -26,6 +26,7 @@
     "react-window": "^1.8.6",
     "recharts": "^2.1.9",
     "styled-components": "^5.3.5",
+    "theme-change": "^2.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

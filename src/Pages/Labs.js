@@ -1,51 +1,53 @@
 import React from "react";
 import "../App.css";
 import Navbar from "../Components/Navbar";
+import { useQuery } from "react-query";
+import { getLabList } from "../IronsightAPI";
+import LinearProgress from "@mui/material/LinearProgress";
 
 function Labs() {
-  const [lab_list, setLabList] = React.useState([]);
-  const get_labs = () => {
-    fetch("https://api.rellis.dev/get.php?q=get_labs")
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-        var lab_list = data.map(function (lab) {
-          return (
-            <tr key={lab.lab_num} className="hover cursor-pointer">
-              <td>{lab.lab_num}</td>
-              <td>
-                <div className="flex items-center space-x-3">
-                  <div>
-                    <div className="font-bold">{lab.lab_name}</div>
-                    <div className="badge">linux</div>
-                    <div className="badge">csci 359</div>
-                    <div className="badge">cryptography</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div>
-                  {/* <p>Back in 2012, there was an internet phenomenon known as Cicada 3301. It was a worldwide puzzle/mystery that remains unsolved to this day. Cicada 3301 has been described as “the most baffling and enigmatic mystery on the Internet”. On three occasions, Cicada 3301 has posted spectacular puzzles on the internet and dark web, with the stated intent of "recruiting intelligent individuals". There has been much speculation and theories about Cicada 3301, including that they are recruitment tools for the NSA, MI6, Illuminati, a cult, or a hacker group. Many first thought Cicada 3301 was an Alternate Reality Game, but still very few known where this rabbit hole leads to. Those who do have disappeared from the internet.</p> */}
-                  <p className="w-96 md:w-full relative overflow-x-auto break-words whitespace-normal max-h-24">
-                    {lab.lab_description}
-                  </p>
-                </div>
-              </td>
-              <td>{lab.date_start}</td>
-              <td>{lab.date_end}</td>
-            </tr>
-          );
-        });
-        setLabList(lab_list);
-      });
-  };
-  React.useEffect(() => {
-    get_labs();
-  }, []);
+  const { data, isLoading, isError } = useQuery("lab_list", getLabList);
+
+  if (isLoading) {
+    console.log("[Ironsight] Fetching Chart Data...");
+    return <LinearProgress />;
+  }
+
+  if (isError) {
+    return <p>Error!</p>;
+  }
+
+  var lab_list = data.map(function (lab) {
+    return (
+      <tr key={lab.lab_num} className="hover cursor-pointer">
+        <td>{lab.lab_num}</td>
+        <td>
+          <div className="flex items-center space-x-3">
+            <div>
+              <div className="font-bold">{lab.lab_name}</div>
+              <div className="badge">linux</div>
+              <div className="badge">csci 359</div>
+              <div className="badge">cryptography</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div>
+            {/* <p>Back in 2012, there was an internet phenomenon known as Cicada 3301. It was a worldwide puzzle/mystery that remains unsolved to this day. Cicada 3301 has been described as “the most baffling and enigmatic mystery on the Internet”. On three occasions, Cicada 3301 has posted spectacular puzzles on the internet and dark web, with the stated intent of "recruiting intelligent individuals". There has been much speculation and theories about Cicada 3301, including that they are recruitment tools for the NSA, MI6, Illuminati, a cult, or a hacker group. Many first thought Cicada 3301 was an Alternate Reality Game, but still very few known where this rabbit hole leads to. Those who do have disappeared from the internet.</p> */}
+            <p className="w-96 md:w-full relative overflow-x-auto break-words whitespace-normal max-h-24">
+              {lab.lab_description}
+            </p>
+          </div>
+        </td>
+        <td>{lab.date_start}</td>
+        <td>{lab.date_end}</td>
+      </tr>
+    );
+  });
 
   return (
     <div className="labs">
-    <Navbar />
+      <Navbar />
       {/* Card 1 */}
       <div className="row_1 flex md:flex-row flex-col">
         <div className="card md:w-96 bg-base-100 shadow-xl m-3">
@@ -63,7 +65,10 @@ function Labs() {
 
         <input type="checkbox" id="my-modal-5" className="modal-toggle" />
         <label htmlFor="my-modal-5" className="modal cursor-pointer">
-          <label className="modal-box xl:w-4/5 max-w-full max-h-full" htmlFor="">
+          <label
+            className="modal-box xl:w-4/5 max-w-full max-h-full"
+            htmlFor=""
+          >
             <label
               htmlFor="my-modal-5"
               className="btn btn-sm btn-circle absolute right-2 top-2"
