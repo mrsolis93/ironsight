@@ -33,3 +33,11 @@ export const getDocCount = async () => {
   }
   return response.json();
 };
+
+export const getCPUUsage = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get_cpu_usage&step=5`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch CPU usage");
+  }
+  return response.json();
+};

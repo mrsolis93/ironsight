@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../App.css";
 import LineChart from "../Charts/LineChart.js";
-import BarChart from "../Charts/BarChart.js";
+import HypervisorWidget from "../Components/Widgets/HypervisorWidget";
 import OngoingLabs from "../Components/Widgets/OngoingLabs";
 import NewsWidget from "../Components/Widgets/NewsWidget";
 import Navbar from "../Components/Navbar";
@@ -56,6 +56,7 @@ class Home extends Component {
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body">
                 <h2 className="card-title">Hypervisor Performance</h2>
+                <HypervisorWidget />
               </div>
             </div>
             
