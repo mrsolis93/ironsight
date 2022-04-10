@@ -19,7 +19,7 @@ class Home extends Component {
           <div className="flex md:flex-row flex-col mt-3 md:mr-3 md:ml-3">
             {/* Ongoing Labs */}
             <div className="max-h-96 md:w-1/4 rounded-box bg-base-100 shadow-xl m-3">
-              <div className="card-body max-h-96">
+              <div className="card-body p-4 md:p-8 max-h-96">
                 <div className="flex flex-row">
                   <h2 className="card-title mr-3">Ongoing Labs</h2>
 
@@ -34,7 +34,7 @@ class Home extends Component {
 
             {/* VM Overview */}
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
-              <div className="max-h-96 card-body">
+              <div className="max-h-96 card-body p-4 md:p-8">
                 <h2 className="card-title">VM Overview</h2>
                 <LineChart />
               </div>
@@ -42,7 +42,7 @@ class Home extends Component {
 
             {/* News Widget */}
             <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3 max-h-96">
-              <div className="card-body max-h-96">
+              <div className="card-body p-4 md:p-8 max-h-96">
                 <div className="flex flex-row">
                   <h2 className="card-title">News / Alerts</h2>
                 </div>
@@ -54,7 +54,7 @@ class Home extends Component {
           <div className="flex md:flex-row flex-col md:mr-3 md:ml-3">
             {/* Hypervisor Performance */}
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
-              <div className="card-body">
+              <div className="card-body p-4 md:p-8">
                 <h2 className="card-title">Hypervisor Performance</h2>
                 <div className="flex flex-col md:flex-row">
                   <div className="flex flex-col md:w-1/2">
@@ -71,7 +71,7 @@ class Home extends Component {
 
             {/* Recent Activity */}
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
-              <div className="card-body">
+              <div className="card-body p-4 md:p-8">
                 <h2 className="card-title">Recent Activity</h2>
                 <div className="overflow-x-auto">
                   <table className="table w-full">
