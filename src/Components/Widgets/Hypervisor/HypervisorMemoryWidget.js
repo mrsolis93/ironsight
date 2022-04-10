@@ -9,21 +9,21 @@ import {
 import { Line } from "react-chartjs-2";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useQuery } from "react-query";
-import { getNetworkUsage } from "../../IronsightAPI";
+import { getMemoryUsage } from "../../../IronsightAPI";
 import { BsZoomIn } from "react-icons/bs";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement);
 
-const HypervisorCPUWidget = () => {
+const HypervisorMemoryWidget = () => {
   const [intervalMs, setIntervalMs] = React.useState(5000);
   const [isZoomed, setIsZoomed] = React.useState(true);
-  const { data, isLoading, isError } = useQuery("network_usage", getNetworkUsage, {
+  const { data, isLoading, isError } = useQuery("memory_usage", getMemoryUsage, {
     // Refetch the data every 5 seconds
     refetchInterval: intervalMs,
   });
 
   if (isLoading) {
-    console.log("[Ironsight] Fetching CPU Data...");
+    console.log("[Ironsight] Fetching Memory Data...");
     return <LinearProgress />;
   }
 
@@ -59,18 +59,18 @@ const HypervisorCPUWidget = () => {
       label: hostname,
       data: chart_data_values,
       backgroundColor: [
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
+        "rgba(100, 255, 100, 0.2)",
+        "rgba(150, 150, 150, 0.2)",
+        "rgba(255, 206, 86, 0.2)",
+        "rgba(75, 192, 192, 0.2)",
         "rgba(255, 99, 132, 0.2)",
         "rgba(54, 162, 235, 0.2)",
       ],
       borderColor: [
+        "rgba(100, 255, 100, 1)",
+        "rgba(150, 150, 150, 1)",
         "rgba(255, 206, 86, 1)",
         "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
         "rgba(255, 99, 132, 1)",
         "rgba(54, 162, 235, 1)",
       ],
@@ -99,13 +99,12 @@ const HypervisorCPUWidget = () => {
         autoskip: false,
         usePointStyle: false,
         // Set max to 100 unless zoomed in
-        max: isZoomed ? null : 10000000,
+        max: isZoomed ? null : 100,
       },
     },
     plugins: {
       legend: {
         display: true,
-        // Set label to CPU Usage
       },
     },
   };
@@ -125,4 +124,4 @@ const HypervisorCPUWidget = () => {
   );
 };
 
-export default HypervisorCPUWidget;
+export default HypervisorMemoryWidget;

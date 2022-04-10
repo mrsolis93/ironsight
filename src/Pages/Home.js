@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import "../App.css";
 import LineChart from "../Charts/LineChart.js";
-import HypervisorCPUWidget from "../Components/Widgets/HypervisorCPUWidget";
-import HypervisorNetworkWidget from "../Components/Widgets/HypervisorNetworkWidget";
+import HypervisorCPUWidget from "../Components/Widgets/Hypervisor/HypervisorCPUWidget";
+import HypervisorNetworkWidget from "../Components/Widgets/Hypervisor/HypervisorNetworkWidget";
+import HypervisorMemoryWidget from "../Components/Widgets/Hypervisor/HypervisorMemoryWidget";
+import HypervisorDiskWidget from "../Components/Widgets/Hypervisor/HypervisorDiskWidget";
 import OngoingLabs from "../Components/Widgets/OngoingLabs";
 import NewsWidget from "../Components/Widgets/NewsWidget";
 import Navbar from "../Components/Navbar";
@@ -60,8 +62,8 @@ class Home extends Component {
                     <HypervisorNetworkWidget />
                   </div>
                   <div className="flex flex-col w-1/2">
-                    <HypervisorNetworkWidget />
-                    <HypervisorCPUWidget />
+                    <HypervisorMemoryWidget />
+                    <HypervisorDiskWidget />
                   </div>
                 </div>
               </div>
