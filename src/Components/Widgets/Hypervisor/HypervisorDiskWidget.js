@@ -9,21 +9,21 @@ import {
 import { Line } from "react-chartjs-2";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useQuery } from "react-query";
-import { getCPUUsage } from "../../IronsightAPI";
+import { getDiskUsage } from "../../../IronsightAPI";
 import { BsZoomIn } from "react-icons/bs";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement);
 
-const HypervisorWidget = () => {
+const HypervisorDiskWidget = () => {
   const [intervalMs, setIntervalMs] = React.useState(5000);
-  const [isZoomed, setIsZoomed] = React.useState(false);
-  const { data, isLoading, isError } = useQuery("cpu_usage", getCPUUsage, {
-    // Refetch the data every second
+  const [isZoomed, setIsZoomed] = React.useState(true);
+  const { data, isLoading, isError } = useQuery("disk_usage", getDiskUsage, {
+    // Refetch the data every 5 seconds
     refetchInterval: intervalMs,
   });
 
   if (isLoading) {
-    console.log("[Ironsight] Fetching Chart Data...");
+    console.log("[Ironsight] Fetching Disk Data...");
     return <LinearProgress />;
   }
 
@@ -33,9 +33,7 @@ const HypervisorWidget = () => {
 
   // Make a GET request to the server to get the list of hostnames
   // and map them to a react-chartjs-2 chart
-  //   console.log("[Ironsight] CPU Usage:", data.data.result[0].values);
-
-  //   For every host in data.data.result, create a new dataset
+  // For every host in data.data.result, create a new dataset
 
   var results_list = data.data.result;
   var datasets = [];
@@ -61,18 +59,18 @@ const HypervisorWidget = () => {
       label: hostname,
       data: chart_data_values,
       backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
         "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
+        "rgba(75, 192, 192, 0.2)",
+        "rgba(255, 206, 86, 0.2)",
+        "rgba(255, 99, 132, 0.2)",
+        "rgba(153, 102, 255, 0.2)",
+        "rgba(255, 159, 64, 0.2)",
       ],
       borderColor: [
-        "rgba(255, 99, 132, 1)",
         "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
         "rgba(75, 192, 192, 1)",
+        "rgba(255, 206, 86, 1)",
+        "rgba(255, 99, 132, 1)",
         "rgba(153, 102, 255, 1)",
         "rgba(255, 159, 64, 1)",
       ],
@@ -85,8 +83,6 @@ const HypervisorWidget = () => {
     });
     labels = chart_data_keys;
   }
-  // console.log("[Ironsight] Chart Data:", datasets);
-  // console.log("[Ironsight] Chart Labels:", labels);
 
   // Create the chart
   var chart_data = {
@@ -94,9 +90,6 @@ const HypervisorWidget = () => {
     labels: labels, //x-axis
     datasets: datasets,
   };
-
-  // console.log("[Ironsight] Chart Data:", chart_data);
-  // console.log("[Ironsight] Loading complete");
 
   var options = {
     maintainAspectRatio: false,
@@ -106,7 +99,7 @@ const HypervisorWidget = () => {
         autoskip: false,
         usePointStyle: false,
         // Set max to 100 unless zoomed in
-        max: isZoomed ? null : 100,
+        max: isZoomed ? null : 10000000,
       },
     },
     plugins: {
@@ -132,4 +125,4 @@ const HypervisorWidget = () => {
   );
 };
 
-export default HypervisorWidget;
+export default HypervisorDiskWidget;

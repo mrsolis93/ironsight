@@ -41,3 +41,27 @@ export const getCPUUsage = async () => {
   }
   return response.json();
 };
+
+export const getNetworkUsage = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get_network_usage&step=5`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch network usage");
+  }
+  return response.json();
+};
+
+export const getMemoryUsage = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get_memory_usage&step=5`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch network usage");
+  }
+  return response.json();
+};
+
+export const getDiskUsage = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get_disk_usage&step=5`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch network usage");
+  }
+  return response.json();
+};

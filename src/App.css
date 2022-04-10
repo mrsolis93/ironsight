@@ -4,14 +4,20 @@
 
 [data-theme='ironsight_dark'] {
   --text-color: #ffffff;
+  --scheme: dark;
 }
 [data-theme='light'] {
   --text-color: #000;
+  --scheme: light;
 }
 
 /* Override .bg-slate-800 */
 [data-theme='light'] .bg-slate-800 {
   background-color: #fafafa;
+}
+
+:root {
+  color-scheme: var(--scheme);
 }
 
 .fill-window {
