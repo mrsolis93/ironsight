@@ -16,7 +16,7 @@ class Home extends Component {
         <Navbar />
         <div className="home">
           {/* Upper row */}
-          <div className="flex md:flex-row flex-col mt-3 mr-3 ml-3">
+          <div className="flex md:flex-row flex-col mt-3 md:mr-3 md:ml-3">
             {/* Ongoing Labs */}
             <div className="max-h-96 md:w-1/4 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body max-h-96">
@@ -44,14 +44,14 @@ class Home extends Component {
             <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3 max-h-96">
               <div className="card-body max-h-96">
                 <div className="flex flex-row">
-                  <h2 className="card-title mr-3">News / Alerts</h2>
+                  <h2 className="card-title">News / Alerts</h2>
                 </div>
                 <NewsWidget />
               </div>
             </div>
           </div>
           {/* Lower Row */}
-          <div className="flex md:flex-row flex-col mr-3 ml-3">
+          <div className="flex md:flex-row flex-col md:mr-3 md:ml-3">
             {/* Hypervisor Performance */}
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body">
