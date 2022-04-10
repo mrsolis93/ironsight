@@ -1,7 +1,6 @@
 import React from "react";
-import { themeChange, themeSelect } from "theme-change";
+import { themeChange } from "theme-change";
 import { useEffect } from "react";
-import { MdOutlineDarkMode } from "react-icons/md";
 
 const ThemeButton = () => {
   useEffect(() => {

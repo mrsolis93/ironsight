@@ -22,6 +22,11 @@ const darkTheme = createTheme({
 const queryClient = new QueryClient()
 
 function App() {
+  // Check if localStorage.theme is set
+  if (localStorage.getItem("theme") === null) {
+    // If not, set it to "ironsight_dark"
+    localStorage.setItem("theme", "ironsight_dark");
+  }
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="App bg-slate-800">
