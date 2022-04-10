@@ -38,9 +38,17 @@ module.exports = {
   plugins: [require("daisyui")],
   daisyui: {
     styled: true,
+    rtl: false,
+    base: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    themes: true,
+    prefix: "",
     themes: [
+      "light",
       {
-        mytheme: {
+        ironsight_dark: {
           primary: "#6419E6",
           secondary: "#D926A9",
           accent: "#1FB2A6",
@@ -52,12 +60,7 @@ module.exports = {
           error: "#F87272",
         },
       },
+
     ],
-    base: true,
-    utils: true,
-    logs: true,
-    rtl: false,
-    prefix: "",
-    darkTheme: "dark",
   },
 };
