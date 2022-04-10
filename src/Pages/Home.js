@@ -8,6 +8,7 @@ import HypervisorDiskWidget from "../Components/Widgets/Hypervisor/HypervisorDis
 import OngoingLabs from "../Components/Widgets/OngoingLabs";
 import NewsWidget from "../Components/Widgets/NewsWidget";
 import Navbar from "../Components/Navbar";
+import ReAreaChart from "../Charts/ReAreaChart";
 
 class Home extends Component {
   render() {
@@ -36,7 +37,7 @@ class Home extends Component {
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
               <div className="max-h-96 card-body p-4 md:p-8">
                 <h2 className="card-title">VM Overview</h2>
-                <LineChart />
+                <ReAreaChart />
               </div>
             </div>
 
