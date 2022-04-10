@@ -56,12 +56,12 @@ class Home extends Component {
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body">
                 <h2 className="card-title">Hypervisor Performance</h2>
-                <div className="flex flex-row">
-                  <div className="flex flex-col w-1/2">
+                <div className="flex flex-col md:flex-row">
+                  <div className="flex flex-col md:w-1/2">
                     <HypervisorCPUWidget />
                     <HypervisorNetworkWidget />
                   </div>
-                  <div className="flex flex-col w-1/2">
+                  <div className="flex flex-col md:w-1/2">
                     <HypervisorMemoryWidget />
                     <HypervisorDiskWidget />
                   </div>
