@@ -44,7 +44,7 @@ class Home extends Component {
             <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3 max-h-96">
               <div className="card-body max-h-96">
                 <div className="flex flex-row">
-                  <h2 className="card-title mr-3">News / Alerts</h2>
+                  <h2 className="card-title">News / Alerts</h2>
                 </div>
                 <NewsWidget />
               </div>
