@@ -82,7 +82,7 @@ export default function ReAreaChart() {
 
 
     return (
-        <div style={{ width: '100%', height: 400 }}>
+        <div style={{ width: '100%', height: 290 }}>
             <ResponsiveContainer>
                 <AreaChart
                 data={chart_data}

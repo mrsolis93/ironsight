@@ -1,5 +1,4 @@
 import "./App.css";
-import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Analysis from "./Pages/Analysis";
@@ -9,9 +8,11 @@ import Sandbox from "./Pages/Sandbox";
 import Users from "./Pages/Users";
 import VirtualMachines from "./Pages/VirtualMachines";
 import Login from "./Pages/Login";
+import LabDetails from "./Pages/DetailPages/LabDetails";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Navbar from "./Components/Navbar";
 import { QueryClientProvider, QueryClient } from "react-query";
+import LabOverview from "./Pages/DetailPages/LabOverview";
 
 const darkTheme = createTheme({
   palette: {
@@ -48,6 +49,14 @@ function App() {
               <Route path="/analysis" element={<Analysis />} />
               <Route path="/analysis/reports" element={<Analysis />} />
               <Route path="/labs" element={<Labs />} />
+              <Route
+                path="lab_details/:lab_num"
+                element={<LabOverview />}
+              />
+              <Route
+                path="lab_details/:lab_num/:student_name"
+                element={<LabDetails />}
+              />
               <Route path="/resources" element={<Resources />} />
               <Route path="/sandbox" element={<Sandbox />} />
               <Route path="/users" element={<Users />} />

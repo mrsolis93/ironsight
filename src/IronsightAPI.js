@@ -53,7 +53,7 @@ export const getNetworkUsage = async () => {
 export const getMemoryUsage = async () => {
   const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_memory_usage&step=5`);
   if (!response.ok) {
-    throw new Error("Failed to fetch network usage");
+    throw new Error("Failed to fetch memory usage");
   }
   return response.json();
 };
@@ -61,23 +61,42 @@ export const getMemoryUsage = async () => {
 export const getDiskUsage = async () => {
   const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_disk_usage&step=5`);
   if (!response.ok) {
-    throw new Error("Failed to fetch network usage");
+    throw new Error("Failed to fetch disk usage");
   }
   return response.json();
 };
 
-// export const authenticate = async (username, password) => {
-//   const response = await fetch(`${process.env.REACT_APP_API_SERVER}authenticate.php`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ username, password })});
-//   if (!response.ok) {
-//     throw new Error("Failed to fetch network usage");
-//   }
-//   return response.json();
-// };
+export const getNumVMsOn = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms_on`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch number of VMs on");
+  }
+  return response.json();
+};
+
+export const getNumVMs = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch number of VMs");
+  }
+  return response.json();
+};
+
+export const getVMsOn = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_vms_on`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch list of VMs on");
+  }
+  return response.json();
+};
+
+export const getLabOverview = async ({queryKey}) => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_lab_overview&lab_num=${queryKey[1]}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch lab overview data for ");
+  }
+  return response.json();
+};
 
 export const authenticate = (username, password) => {
   console.log("Authenticating...");
