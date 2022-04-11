@@ -8,6 +8,7 @@ import Sandbox from "./Pages/Sandbox";
 import Users from "./Pages/Users";
 import VirtualMachines from "./Pages/VirtualMachines";
 import Login from "./Pages/Login";
+import SignOut from "./Pages/SignOut";
 import LabDetails from "./Pages/DetailPages/LabDetails";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Navbar from "./Components/Navbar";
@@ -62,6 +63,7 @@ function App() {
               <Route path="/users" element={<Users />} />
               <Route path="/virtual_machines" element={<VirtualMachines />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/signout" element={<SignOut />} />
               {/* <Route path='/users/reports' element={<Reports/>} /> */}
             </Routes>
           </Router>
