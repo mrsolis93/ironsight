@@ -81,7 +81,7 @@ export const getDiskUsage = async () => {
 
 export const authenticate = (username, password) => {
   console.log("Authenticating...");
-  console.log(JSON.stringify({ username, password }));
+  try {
   return fetch(`${process.env.REACT_APP_API_SERVER}authenticate.php`, {
     method: "POST",
     headers: {
@@ -92,4 +92,8 @@ export const authenticate = (username, password) => {
   .then((status) => {
     return status.status;
   });
+  } catch (error) {
+    console.log(error);
+    alert(error);
+  }
 }
