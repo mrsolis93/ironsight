@@ -56,6 +56,10 @@ export const VirtualMachineList = () => {
 
   // Function to power on a VM with a GET request
   const toggleVMPower = (hostname) => {
+    if (localStorage.getItem("ironsight_username") === "demo_user") {
+      alert("You are not authorized to manage VMs");
+      return;
+    }
     // Ask if the user wants to power on the VM
     var confirm_power_on = window.confirm(
       "Are you sure you want to toggle the power to " + hostname + "?"
