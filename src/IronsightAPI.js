@@ -66,19 +66,6 @@ export const getDiskUsage = async () => {
   return response.json();
 };
 
-// export const authenticate = async (username, password) => {
-//   const response = await fetch(`${process.env.REACT_APP_API_SERVER}authenticate.php`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ username, password })});
-//   if (!response.ok) {
-//     throw new Error("Failed to fetch network usage");
-//   }
-//   return response.json();
-// };
-
 export const authenticate = (username, password) => {
   console.log("Authenticating...");
   try {
