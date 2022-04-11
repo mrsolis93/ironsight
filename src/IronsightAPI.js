@@ -85,9 +85,8 @@ export const authenticate = (username, password) => {
   return fetch(`${process.env.REACT_APP_API_SERVER}authenticate.php`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
     },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ username: username, password: password })
   }).then((response) => response.json())
   .then((status) => {
     return status.status;
