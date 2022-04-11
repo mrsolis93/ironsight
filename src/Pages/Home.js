@@ -9,6 +9,7 @@ import NewsWidget from "../Components/Widgets/NewsWidget";
 import Navbar from "../Components/Navbar";
 import ReAreaChart from "../Charts/ReAreaChart";
 import MiniVMStatsWidget from "../Components/Widgets/VMStats/MiniVMStatsWidget";
+import ActivityLog from "../Components/Widgets/ActivityLog";
 
 class Home extends Component {
   render() {
@@ -81,44 +82,7 @@ class Home extends Component {
             <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body p-4 md:p-8">
                 <h2 className="card-title">Recent Activity</h2>
-                <div className="overflow-x-auto">
-                  <table className="table w-full">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>Timestamp</th>
-                        <th>User</th>
-                        <th>Activity</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th>.</th>
-                        <td>2022-04-02 00:00:00</td>
-                        <td>tyler_harrison</td>
-                        <td>[Ironsight] User logon</td>
-                      </tr>
-                      <tr>
-                        <th>.</th>
-                        <td>2022-04-02 00:00:00</td>
-                        <td>tyler_harrison</td>
-                        <td>VM Created - debian11_tharrison</td>
-                      </tr>
-                      <tr>
-                        <th>.</th>
-                        <td>2022-04-02 00:00:00</td>
-                        <td>tyler_harrison</td>
-                        <td>VM Deleted - debian11_tharrison</td>
-                      </tr>
-                      <tr>
-                        <th>.</th>
-                        <td>2022-04-02 00:00:00</td>
-                        <td>tyler_harrison</td>
-                        <td>[Ironsight] User logoff</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <ActivityLog />
               </div>
             </div>
           </div>

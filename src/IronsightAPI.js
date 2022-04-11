@@ -114,6 +114,14 @@ export const getHarvesterVMList = async () => {
   return response.json();
 };
 
+export const getActivityLog = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}log_data.php`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch activity log");
+  }
+  return response.json();
+}
+
 export const powerOnVM = async ({queryKey}) => {
   if (queryKey[1] === "") {
     return {"error": "No VM specified"};
