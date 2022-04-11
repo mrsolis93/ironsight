@@ -74,6 +74,14 @@ export const getNumVMsOn = async () => {
   return response.json();
 };
 
+export const getNumVMs = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch number of VMs");
+  }
+  return response.json();
+};
+
 export const getVMsOn = async () => {
   const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_vms_on`);
   if (!response.ok) {
