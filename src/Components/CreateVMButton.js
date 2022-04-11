@@ -33,7 +33,13 @@ export default function CreateVMDialog() {
   const [is_customize_open, setIsCustomizeOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (localStorage.getItem("ironsight_username") === "demo_user") {
+      alert("You are not authorized to manage VMs");
+      return;
+    }
+    else {
+      setOpen(true);
+    }
   };
 
   const handleClose = () => {
@@ -169,6 +175,7 @@ export default function CreateVMDialog() {
         handleClose();
       });
   };
+
   return (
     <div>
       <Tooltip
