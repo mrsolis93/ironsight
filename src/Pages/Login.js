@@ -1,14 +1,24 @@
 import React from "react";
 import "../App.css";
 import ThemeButton from "../Components/ThemeButton";
-import { authenticate } from "../IronsightAPI";
+import { authenticate, postActivityLog } from "../IronsightAPI";
+
+//   Get clients remote IP address and log to console
+const get_client_ip = () => {
+  var client_ip = "";
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "http://ip.jsontest.com/", false);
+  xhr.send();
+  if (xhr.status === 200) {
+    client_ip = xhr.responseText;
+  }
+  return client_ip;
+};
 
 // Submit login function, console.log the username and password
 function submitLogin() {
   var username = document.getElementById("ironsight_username").value;
   var password = document.getElementById("ironsight_password").value;
-  console.log("Username: " + username);
-  console.log("Password: " + password);
   //   Try catch block to handle errors
   try {
     var status = authenticate(username, password);
@@ -17,16 +27,43 @@ function submitLogin() {
       console.log(data);
       if (data === "success") {
         console.log("Login successful!");
+        try {
+          const client_ip = get_client_ip();
+          // Parse JSON string to object from client_ip
+          const client_ip_obj = JSON.parse(client_ip);
+          // Log client IP address to activity log
+          postActivityLog(username, "[Ironsight] Logged in from " + client_ip_obj.ip);
+        } catch (error) {
+          console.log(error);
+        }
         window.location.href = "/";
         localStorage.setItem("ironsight_token", "test");
         localStorage.setItem("ironsight_username", username);
       }
       if (data === "wrong_password") {
         console.log("Wrong password!");
+        try {
+          const client_ip = get_client_ip();
+          // Parse JSON string to object from client_ip
+          const client_ip_obj = JSON.parse(client_ip);
+          // Log client IP address to activity log
+          postActivityLog(username, "[Ironsight] Failed login from " + client_ip_obj.ip + ", Reason: Wrong Password");
+        } catch (error) {
+          console.log(error);
+        }
         alert("Wrong password!");
       }
       if (data === "user_not_found") {
         console.log("User not found!");
+        try {
+          const client_ip = get_client_ip();
+          // Parse JSON string to object from client_ip
+          const client_ip_obj = JSON.parse(client_ip);
+          // Log client IP address to activity log
+          postActivityLog(username, "[Ironsight] Failed login from " + client_ip_obj.ip +", Reason: User not found");
+        } catch (error) {
+          console.log(error);
+        }
         alert("User not found!");
       }
     });

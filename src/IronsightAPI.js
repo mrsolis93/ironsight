@@ -1,5 +1,7 @@
 export const getVMList = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_vms`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vms`
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch VMs");
@@ -8,7 +10,9 @@ export const getVMList = async () => {
 };
 
 export const getLabList = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_labs`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_labs`
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch labs");
@@ -17,7 +21,9 @@ export const getLabList = async () => {
 };
 
 export const getNewsList = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_news`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_news`
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch news");
@@ -26,7 +32,9 @@ export const getNewsList = async () => {
 };
 
 export const getDocCount = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=%27{%22size%22:100,%22aggs%22:{%22hostnames%22:{%22terms%22:{%22field%22:%22host.name%22,%22size%22:100}}}}%27`
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch doc count");
@@ -35,7 +43,9 @@ export const getDocCount = async () => {
 };
 
 export const getCPUUsage = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_cpu_usage&step=5`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_cpu_usage&step=5`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch CPU usage");
   }
@@ -43,7 +53,9 @@ export const getCPUUsage = async () => {
 };
 
 export const getNetworkUsage = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_network_usage&step=5`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_network_usage&step=5`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch network usage");
   }
@@ -51,7 +63,9 @@ export const getNetworkUsage = async () => {
 };
 
 export const getMemoryUsage = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_memory_usage&step=5`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_memory_usage&step=5`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch memory usage");
   }
@@ -59,7 +73,9 @@ export const getMemoryUsage = async () => {
 };
 
 export const getDiskUsage = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_disk_usage&step=5`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_disk_usage&step=5`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch disk usage");
   }
@@ -67,7 +83,9 @@ export const getDiskUsage = async () => {
 };
 
 export const getNumVMsOn = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms_on`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms_on`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch number of VMs on");
   }
@@ -75,7 +93,9 @@ export const getNumVMsOn = async () => {
 };
 
 export const getNumVMs = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch number of VMs");
   }
@@ -83,15 +103,19 @@ export const getNumVMs = async () => {
 };
 
 export const getVMsOn = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_vms_on`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vms_on`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch list of VMs on");
   }
   return response.json();
 };
 
-export const getLabOverview = async ({queryKey}) => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_lab_overview&lab_num=${queryKey[1]}`);
+export const getLabOverview = async ({ queryKey }) => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_lab_overview&lab_num=${queryKey[1]}`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch lab overview data for ");
   }
@@ -99,7 +123,9 @@ export const getLabOverview = async ({queryKey}) => {
 };
 
 export const getClassList = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_classes`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_classes`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch class list");
   }
@@ -107,7 +133,9 @@ export const getClassList = async () => {
 };
 
 export const getHarvesterVMList = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_harvester_vms`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_harvester_vms`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch harvester VM list");
   }
@@ -115,18 +143,42 @@ export const getHarvesterVMList = async () => {
 };
 
 export const getActivityLog = async () => {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}log_data.php`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}log_data.php`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch activity log");
   }
   return response.json();
-}
+};
 
-export const powerOnVM = async ({queryKey}) => {
+export const postActivityLog = (username, activity) => {
+  return fetch(`${process.env.REACT_APP_API_SERVER}log_data.php`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      // Timestamp in YYYY-MM-DD HH:MM:SS format
+      timestamp: new Date().toISOString().slice(0, 19).replace("T", " "),
+      username: username,
+      activity: activity,
+    }),
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Failed to post activity log");
+    }
+    return response.json();
+  });
+};
+
+export const powerOnVM = async ({ queryKey }) => {
   if (queryKey[1] === "") {
-    return {"error": "No VM specified"};
+    return { error: "No VM specified" };
   }
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=power_on_vm&vm_name=${queryKey[1]}`);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=power_on_vm&vm_name=${queryKey[1]}`
+  );
   if (!response.ok) {
     throw new Error("Failed to power on VM " + queryKey[1]);
   }
@@ -136,17 +188,17 @@ export const powerOnVM = async ({queryKey}) => {
 export const authenticate = (username, password) => {
   console.log("Authenticating...");
   try {
-  return fetch(`${process.env.REACT_APP_API_SERVER}authenticate.php`, {
-    method: "POST",
-    headers: {
-    },
-    body: JSON.stringify({ username: username, password: password })
-  }).then((response) => response.json())
-  .then((status) => {
-    return status.status;
-  });
+    return fetch(`${process.env.REACT_APP_API_SERVER}authenticate.php`, {
+      method: "POST",
+      headers: {},
+      body: JSON.stringify({ username: username, password: password }),
+    })
+      .then((response) => response.json())
+      .then((status) => {
+        return status.status;
+      });
   } catch (error) {
     console.log(error);
     alert(error);
   }
-}
+};

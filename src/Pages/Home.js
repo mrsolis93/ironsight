@@ -79,9 +79,11 @@ class Home extends Component {
             </div>
 
             {/* Recent Activity */}
-            <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
-              <div className="card-body p-4 md:p-8">
-                <h2 className="card-title">Recent Activity</h2>
+            <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3 max-h-96">
+              <div className="card-body p-4 md:p-8 max-h-96">
+                <div className="flex flex-row">
+                  <h2 className="card-title">Recent Activity</h2>
+                </div>
                 <ActivityLog />
               </div>
             </div>
