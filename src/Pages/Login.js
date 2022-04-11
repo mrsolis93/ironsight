@@ -9,24 +9,31 @@ function submitLogin() {
   var password = document.getElementById("ironsight_password").value;
   console.log("Username: " + username);
   console.log("Password: " + password);
-  var status = authenticate(username, password);
-  // Handle pending promise
-  status.then(function (data) {
-    console.log(data);
-    if (data === "success") {
-      console.log("Login successful!");
-      window.location.href = "/";
-      localStorage.setItem("ironsight_token", "test");
-    }
-    if (data === "wrong_password") {
-      console.log("Wrong password!");
-      alert("Wrong password!");
-    }
-    if (data === "user_not_found") {
-      console.log("User not found!");
-      alert("User not found!");
-    }
-  });
+  //   Try catch block to handle errors
+  try {
+    var status = authenticate(username, password);
+    // Handle pending promise
+    status.then(function (data) {
+      console.log(data);
+      if (data === "success") {
+        console.log("Login successful!");
+        window.location.href = "/";
+        localStorage.setItem("ironsight_token", "test");
+      }
+      if (data === "wrong_password") {
+        console.log("Wrong password!");
+        alert("Wrong password!");
+      }
+      if (data === "user_not_found") {
+        console.log("User not found!");
+        alert("User not found!");
+      }
+    });
+  } catch (error) {
+    // Catch any errors
+    console.log(error);
+    alert("Error: " + error);
+  }
 }
 
 const Login = () => {
