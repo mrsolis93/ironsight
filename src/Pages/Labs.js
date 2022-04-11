@@ -5,12 +5,13 @@ import { useQuery } from "react-query";
 import { getLabList } from "../IronsightAPI";
 import LinearProgress from "@mui/material/LinearProgress";
 import { Link } from "react-router-dom";
+import ClassList from "../Components/ClassList";
 
 function Labs() {
   const { data, isLoading, isError } = useQuery("lab_list", getLabList);
 
   if (isLoading) {
-    console.log("[Ironsight] Fetching Chart Data...");
+    console.log("[Ironsight] Fetching Lab Data...");
     return <LinearProgress />;
   }
 
@@ -31,9 +32,6 @@ function Labs() {
           <div className="flex items-center space-x-3">
             <div>
               <div className="font-bold">{lab.lab_name}</div>
-              <div className="badge">linux</div>
-              <div className="badge">csci 359</div>
-              <div className="badge">cryptography</div>
             </div>
           </div>
           </Link>
@@ -57,18 +55,7 @@ function Labs() {
       <Navbar />
       {/* Card 1 */}
       <div className="row_1 flex md:flex-row flex-col">
-        <div className="card md:w-96 bg-base-100 shadow-xl m-3">
-          <figure>
-            <img
-              className="object-cover h-48 min-w-full md:w-96"
-              src="https://svitla.com/uploads_converted/0/2135-database_management_software.webp?1560161553"
-            />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Database Design</h2>
-            <p>CSCI 440</p>
-          </div>
-        </div>
+   
 
         <input type="checkbox" id="my-modal-5" className="modal-toggle" />
         <label htmlFor="my-modal-5" className="modal cursor-pointer">
@@ -99,32 +86,15 @@ function Labs() {
                     <th>End Date</th>
                   </tr>
                 </thead>
-
                 <tbody>
-                  {/*make the lab list line up with the table headers  */}
-
                   {lab_list}
                 </tbody>
               </table>
             </div>
           </label>
         </label>
-
-        {/* Card 2 */}
-        <label htmlFor="my-modal-5" className="modal-button cursor-pointer">
-          <div className="card md:w-96 bg-base-100 shadow-xl m-3">
-            <figure>
-              <img
-                className="object-cover h-48 min-w-full"
-                src="https://bs-uploads.toptal.io/blackfish-uploads/components/seo/content/og_image_file/og_image/777046/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">Systems Analysis</h2>
-              <p>CSCI 359</p>
-            </div>
-          </div>
-        </label>
+        {/* imports the cards with the active classes that are currently present in the datatbase */}
+        <ClassList />
       </div>
     </div>
   );

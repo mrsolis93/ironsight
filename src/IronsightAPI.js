@@ -98,6 +98,15 @@ export const getLabOverview = async ({queryKey}) => {
   return response.json();
 };
 
+export const getClassList = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_classes`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch class list");
+  }
+  return response.json();
+};
+
+
 export const authenticate = (username, password) => {
   console.log("Authenticating...");
   try {
