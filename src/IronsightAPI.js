@@ -53,7 +53,7 @@ export const getNetworkUsage = async () => {
 export const getMemoryUsage = async () => {
   const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_memory_usage&step=5`);
   if (!response.ok) {
-    throw new Error("Failed to fetch network usage");
+    throw new Error("Failed to fetch memory usage");
   }
   return response.json();
 };
@@ -61,7 +61,23 @@ export const getMemoryUsage = async () => {
 export const getDiskUsage = async () => {
   const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_disk_usage&step=5`);
   if (!response.ok) {
-    throw new Error("Failed to fetch network usage");
+    throw new Error("Failed to fetch disk usage");
+  }
+  return response.json();
+};
+
+export const getNumVMsOn = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms_on`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch number of VMs on");
+  }
+  return response.json();
+};
+
+export const getVMsOn = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_vms_on`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch list of VMs on");
   }
   return response.json();
 };
