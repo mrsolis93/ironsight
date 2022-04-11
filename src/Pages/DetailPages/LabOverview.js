@@ -14,11 +14,21 @@ function LabOverview() {
   );
 
   if (isLoading) {
-    return <LinearProgress />;
+    return (
+      <div>
+        <Navbar />
+        <LinearProgress />
+      </div>
+    );
   }
 
   if (isError) {
-    return <p>Error!</p>;
+    return (
+      <div>
+        <Navbar />
+        <p>Error!</p>)
+      </div>
+    );
   }
 
   // If data comes back as {}, return "No data"
@@ -35,6 +45,7 @@ function LabOverview() {
   for (let i = 0; i < data.users.length; i++) {
     users.push(data.users[i]);
   }
+
   // Map the users to a table
   const get_users = () => {
     return users.map((user) => (
@@ -44,23 +55,57 @@ function LabOverview() {
     ));
   };
 
+  const virtual_machines = [];
+  for (let i = 0; i < data.virtual_machines.length; i++) {
+    virtual_machines.push(data.virtual_machines[i]);
+  }
+
+  // Map the virtual machines to a table
+  const get_virtual_machines = () => {
+    return virtual_machines.map((vm) => (
+      <tr key={vm} className="hover">
+        <td>{vm}</td>
+      </tr>
+    ));
+  }
+
   const templates = [];
-    for (let i = 0; i < data.templates.length; i++) {
-        templates.push(data.templates[i]);
-    }
-    // Map the templates to a table
-    const get_templates = () => {
-        return templates.map((template) => (
-            <tr key={template} className="hover">
-                <td>{template}</td>
-            </tr>
-        ));
-    }
+  for (let i = 0; i < data.templates.length; i++) {
+    templates.push(data.templates[i]);
+  }
+  // Map the templates to a table
+  const get_templates = () => {
+    return templates.map((template) => (
+      <tr key={template} className="hover">
+        <td>{template}</td>
+      </tr>
+    ));
+  };
+
+  const tags = [];
+  for (let i = 0; i < data.tags.length; i++) {
+    // Capitalize the first letter of the tag
+    const tag = data.tags[i]['tag'];
+    const capitalized_tag = tag.charAt(0).toUpperCase() + tag.slice(1);
+    tags.push(capitalized_tag);
+  }
+
+  // Map the tags to a table
+  const get_tags = () => {
+    return tags.map((tag) => (
+      <tr key={tag} className="hover">
+        <td>{tag}</td>
+      </tr>
+    ));
+  }
 
   return (
     <div className="labs">
       <Navbar />
       <h2 className="card-title m-4">Lab: {data.lab_name}</h2>
+      <p className="m-4">Date start: {data.date_start}</p>
+      <p className="m-4">Date end: {data.date_end}</p>
+      <p className="m-4">{data.lab_description}</p>
       <div className="overflow-auto m-4">
         <table className="table w-full">
           <thead>
@@ -75,13 +120,32 @@ function LabOverview() {
         <table className="table w-full">
           <thead>
             <tr>
+              <th>Virtual Machines</th>
+            </tr>
+          </thead>
+          <tbody>{get_virtual_machines()}</tbody>
+        </table>
+      </div>
+      <div className="overflow-auto m-4">
+        <table className="table w-full">
+          <thead>
+            <tr>
               <th>Templates</th>
             </tr>
           </thead>
           <tbody>{get_templates()}</tbody>
         </table>
       </div>
-      <p className="m-4">{data.lab_description}</p>
+      <div className="overflow-auto m-4">
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>Tags</th>
+            </tr>
+          </thead>
+          <tbody>{get_tags()}</tbody>
+        </table>
+      </div>
     </div>
   );
 }

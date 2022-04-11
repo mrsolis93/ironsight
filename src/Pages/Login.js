@@ -19,6 +19,7 @@ function submitLogin() {
         console.log("Login successful!");
         window.location.href = "/";
         localStorage.setItem("ironsight_token", "test");
+        localStorage.setItem("ironsight_username", username);
       }
       if (data === "wrong_password") {
         console.log("Wrong password!");
