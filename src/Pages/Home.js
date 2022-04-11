@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "../App.css";
-import LineChart from "../Charts/LineChart.js";
 import HypervisorCPUWidget from "../Components/Widgets/Hypervisor/HypervisorCPUWidget";
 import HypervisorNetworkWidget from "../Components/Widgets/Hypervisor/HypervisorNetworkWidget";
 import HypervisorMemoryWidget from "../Components/Widgets/Hypervisor/HypervisorMemoryWidget";
