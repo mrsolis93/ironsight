@@ -90,6 +90,14 @@ export const getVMsOn = async () => {
   return response.json();
 };
 
+export const getLabOverview = async ({queryKey}) => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_lab_overview&lab_num=${queryKey[1]}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch lab overview data for ");
+  }
+  return response.json();
+};
+
 export const authenticate = (username, password) => {
   console.log("Authenticating...");
   try {

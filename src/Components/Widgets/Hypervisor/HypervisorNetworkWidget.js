@@ -15,10 +15,10 @@ import { BsZoomIn } from "react-icons/bs";
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement);
 
 const HypervisorCPUWidget = () => {
-  const [intervalMs, setIntervalMs] = React.useState(5000);
+  const [intervalMs, setIntervalMs] = React.useState(15000);
   const [isZoomed, setIsZoomed] = React.useState(true);
   const { data, isLoading, isError } = useQuery("network_usage", getNetworkUsage, {
-    // Refetch the data every 5 seconds
+    // Refetch the data every 15 seconds
     refetchInterval: intervalMs,
   });
 
