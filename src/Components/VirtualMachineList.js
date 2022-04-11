@@ -1,16 +1,26 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { getVMList } from "../IronsightAPI";
+import { getVMList, getHarvesterVMList } from "../IronsightAPI";
 import LinearProgress from "@mui/material/LinearProgress";
+import CreateVMButton from "./CreateVMButton";
+import { BsPower } from "react-icons/bs";
 
 export const VirtualMachineList = () => {
+  const [intervalMs, setIntervalMs] = React.useState(5000);
   const { data, isLoading, isError } = useQuery("virtual_machines", getVMList);
+  const {
+    data: harvester_data,
+    isLoading: harvester_isLoading,
+    isError: harvester_isError,
+  } = useQuery("harvester_vms", getHarvesterVMList, {
+    refetchInterval: intervalMs,
+  });
 
-  if (isLoading) {
+  if (isLoading || harvester_isLoading) {
     return <LinearProgress />;
   }
 
-  if (isError) {
+  if (isError || harvester_isError) {
     return <p>Error!</p>;
   }
 
@@ -25,18 +35,111 @@ export const VirtualMachineList = () => {
   };
   const vm_list = get_vm_list();
 
+  // Function to power on a VM with a GET request
+  const toggleVMPower = (hostname) => {
+    // Ask if the user wants to power on the VM
+    var confirm_power_on = window.confirm(
+      "Are you sure you want to toggle the power to " + hostname + "?"
+    );
+    if (confirm_power_on) {
+      console.log("[Ironsight] Toggling power on : " + hostname);
+      var status = fetch(
+        "https://api.rellis.dev/get.php?q=power_toggle_vm&vm_name=" + hostname
+      );
+      status.then((response) => {
+        return response.json();
+      });
+    } else {
+      console.log("[Ironsight] Cancelled power on VM: " + hostname);
+    }
+  };
+
+  // Loop through Harvester VM list and if there is a VM in the get_vm_list, add the port number to the list
+  for (var i = 0; i < harvester_data.length; i++) {
+    var harvester_vm = harvester_data[i];
+    var harvester_vm_name = harvester_vm.metadata.name;
+    for (var j = 0; j < data.length; j++) {
+      if (harvester_vm_name === data[j].vm_name) {
+        harvester_data[i].port_number = data[j].port_number;
+        harvester_data[i].users = data[j].users;
+        harvester_data[i].labs = data[j].labs;
+      }
+    }
+  }
+
+  const get_harvester_vm_list = () => {
+    return harvester_data.map(({ metadata, status, port_number, users, labs }) => (
+      <tr key={metadata.name} className="hover">
+        <td>{metadata.name}</td>
+        <td>
+          {
+            // If users is undefined or an empty list, display ---. Otherwise, display the users list
+            labs === undefined || labs.length === 0 ? "---" : labs.join(", ")
+          }
+        </td>
+        <td>
+          {
+            // If users is undefined or an empty list, display ---. Otherwise, display the users list
+            users === undefined || users.length === 0 ? "---" : users.join(", ")
+          }
+        </td>
+        <td>{port_number ? port_number : "---"}</td>
+        <td>
+          {/* Three states are Running, Starting, and Stopped */}
+
+          {status.printableStatus === "Running" ? (
+            <div className="badge badge-success gap-2">
+              {status.printableStatus}
+            </div>
+          ) : status.printableStatus === "Starting" ? (
+            <div className="badge badge-info gap-2">
+              {status.printableStatus}
+            </div>
+          ) : status.printableStatus === "Stopped" ? (
+            <div className="badge badge-error gap-2">
+              {status.printableStatus}
+            </div>
+          ) : (
+            <div className="badge badge-warning gap-2">
+              {status.printableStatus}
+            </div>
+          )}
+        </td>
+        {/* Power button */}
+        <td>
+          <button
+            onClick={() => {
+              toggleVMPower(metadata.name);
+            }}
+            className="btn btn-outline btn-sm btn-circle"
+            type="button"
+          >
+            <BsPower />
+          </button>
+        </td>
+      </tr>
+    ));
+  };
+  const harvester_vm_list = get_harvester_vm_list();
+
   return (
-    <div>
-      <div className="overflow-auto">
+    <div className="w-full overflow-auto">
+      <div className="flex justify-end m-4 xl:mr-48">
+        <CreateVMButton />
+      </div>
+      <div className="overflow-auto m-4 xl:mx-48">
         <table className="table w-full">
           <thead>
             <tr>
               <th>Name</th>
-              <th>Template</th>
+              <th>Labs</th>
+              <th>Users</th>
               <th>Port</th>
+              <th>Status</th>
+              <th>Power</th>
             </tr>
           </thead>
-          <tbody>{vm_list}</tbody>
+          <tbody>{harvester_vm_list}</tbody>
         </table>
       </div>
     </div>

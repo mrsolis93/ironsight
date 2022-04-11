@@ -22,10 +22,15 @@ export default function CreateVMDialog() {
   const [open, setOpen] = React.useState(false);
   const [template_selection, setTemplateSelection] = React.useState("");
   const [template_list, setTemplateList] = React.useState([]);
+  const [lab_list, setLabList] = React.useState([]);
+  const [lab_selection, setLabSelection] = React.useState("");
+  const [class_list, setClassList] = React.useState([]);
+  const [class_selection, setClassSelection] = React.useState("");
   const [vm_name, setVmName] = React.useState("");
   const [user_list, setUserList] = React.useState([]);
   const [user_selection, setUserSelection] = React.useState("");
   const [is_elastic, setIsElastic] = React.useState(false);
+  const [is_customize_open, setIsCustomizeOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,8 +40,6 @@ export default function CreateVMDialog() {
     // console.log(vm_name);
     setOpen(false);
   };
-
-  const changeSpecs = (event) => {};
 
   const change_template = (event) => {
     setTemplateSelection(event.target.value);
@@ -58,6 +61,14 @@ export default function CreateVMDialog() {
     setIsElastic(event.target.checked);
     // console.log(event.target.checked);
   };
+
+  const toggle_customize = () => {
+    setIsCustomizeOpen(!is_customize_open);
+  };
+
+  const set_lab_selection = (event) => {
+    setLabSelection(event.target.value);
+  }
 
   // Make a GET request to the server to get the list of templates
   // and map them to a dropdown menu
@@ -95,10 +106,47 @@ export default function CreateVMDialog() {
       });
   };
 
+  // Make a GET request to the server to get the list of templates
+  // and map them to a dropdown menu
+  const get_labs = () => {
+    fetch("https://api.rellis.dev/get.php?q=get_labs")
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        var lab_list = data.map(function (lab) {
+          return (
+            <MenuItem key={lab.lab_name} value={lab}>
+              {lab.lab_name}
+            </MenuItem>
+          );
+        });
+        setLabList(lab_list);
+      });
+  };
+
+  // Make a GET request to the server to get the list of templates
+  // and map them to a dropdown menu
+  const get_classes = () => {
+    fetch("https://api.rellis.dev/get.php?q=get_classes")
+      .then((response) => response.json())
+      .then((data) => {
+        var class_list = data.map(function (class_obj) {
+          return (
+            <MenuItem key={class_obj.tag} value={class_obj.tag}>
+              {class_obj.tag}
+            </MenuItem>
+          );
+        });
+        setClassList(class_list);
+      });
+  };
+
   // Get the list of templates on page load, and set the state
   React.useEffect(() => {
     get_templates();
     get_users();
+    get_labs();
+    get_classes();
   }, []);
 
   // Make a POST request to the server to create a new VM
@@ -121,7 +169,6 @@ export default function CreateVMDialog() {
         handleClose();
       });
   };
-
   return (
     <div>
       <Tooltip
@@ -163,22 +210,40 @@ export default function CreateVMDialog() {
             onChange={set_vm_name}
           />
           <FormControl sx={{ m: 2, minWidth: "46%" }}>
-            <InputLabel htmlhtmlFor="template">Template</InputLabel>
+            <InputLabel htmlFor="class">Class</InputLabel>
             <Select
-              value={template_selection}
-              label="template"
-              onChange={change_template}
+              value={class_selection}
+              onChange={(event) => {
+                setClassSelection(event.target.value);
+              }}
+              label="Class"
               inputProps={{
-                name: "template",
-                id: "template",
+                name: "class",
+                id: "class",
               }}
             >
-              {template_list}
+              {class_list}
+            </Select>
+          </FormControl>
+          <FormControl sx={{ m: 2, minWidth: "46%" }}>
+            <InputLabel htmlFor="lab">Lab</InputLabel>
+            <Select
+              value={lab_selection}
+              onChange={(event) => {
+                set_lab_selection(event);
+              }}
+              label="Lab"
+              inputProps={{
+                name: "lab",
+                id: "lab",
+              }}
+            >
+              {lab_list}
             </Select>
           </FormControl>
 
           <FormControl sx={{ mt: 2, minWidth: "46%" }}>
-            <InputLabel htmlhtmlFor="user">User</InputLabel>
+            <InputLabel htmlFor="user">User</InputLabel>
             <Select
               value={user_selection}
               onChange={change_user}
@@ -197,7 +262,7 @@ export default function CreateVMDialog() {
             color="primary"
             variant="outline"
             startIcon={<EditIcon />}
-            onClick={changeSpecs}
+            onClick={toggle_customize}
           >
             Customize
           </Button>
@@ -215,6 +280,33 @@ export default function CreateVMDialog() {
               label="Install Elastic Agent"
             />
           </Tooltip>
+          {/* If customize toggle is true, open submenu to customize CPU cores and memory */}
+          {is_customize_open ? (
+            <div>
+              <FormControl sx={{ m: 2, minWidth: "46%" }}>
+                <InputLabel htmlFor="template">Template</InputLabel>
+                <Select
+                  value={template_selection}
+                  label="template"
+                  onChange={change_template}
+                  inputProps={{
+                    name: "template",
+                    id: "template",
+                  }}
+                >
+                  {template_list}
+                </Select>
+              </FormControl>
+              <FormControl sx={{ mt: 2, minWidth: "46%" }}>
+                <InputLabel htmlFor="cpu_cores">CPU Cores</InputLabel>
+                <TextField id="cpu_cores" type="number" />
+              </FormControl>
+              <FormControl sx={{ mt: 2, minWidth: "46%" }}>
+                <InputLabel htmlFor="memory">Memory</InputLabel>
+                <TextField id="memory" type="number" />
+              </FormControl>
+            </div>
+          ) : null}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
