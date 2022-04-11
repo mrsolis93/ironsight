@@ -4,6 +4,7 @@ import Navbar from "../Components/Navbar";
 import { useQuery } from "react-query";
 import { getLabList } from "../IronsightAPI";
 import LinearProgress from "@mui/material/LinearProgress";
+import { Link } from "react-router-dom";
 
 function Labs() {
   const { data, isLoading, isError } = useQuery("lab_list", getLabList);
@@ -19,9 +20,14 @@ function Labs() {
 
   var lab_list = data.map(function (lab) {
     return (
-      <tr key={lab.lab_num} className="hover cursor-pointer">
+      <tr key={lab.lab_num} className="hover">
         <td>{lab.lab_num}</td>
         <td>
+        <Link
+              className="w-full"
+              to={"/lab_details/" + lab.lab_num}
+              key={lab.lab_num}
+            >
           <div className="flex items-center space-x-3">
             <div>
               <div className="font-bold">{lab.lab_name}</div>
@@ -30,6 +36,7 @@ function Labs() {
               <div className="badge">cryptography</div>
             </div>
           </div>
+          </Link>
         </td>
         <td>
           <div>
@@ -58,8 +65,8 @@ function Labs() {
             />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">CSCI 440 - Database Design</h2>
-            <p>Labs Here</p>
+            <h2 className="card-title">Database Design</h2>
+            <p>CSCI 440</p>
           </div>
         </div>
 
@@ -78,7 +85,7 @@ function Labs() {
 
             <div className="mb-3">
               <h1 className="card-title">
-                CSCI 359 - Systems Analysis and Design
+                Systems Analysis and Design
               </h1>
             </div>
             <div className="overflow-x-auto w-full">
@@ -104,7 +111,7 @@ function Labs() {
         </label>
 
         {/* Card 2 */}
-        <label htmlFor="my-modal-5" className="modal-button">
+        <label htmlFor="my-modal-5" className="modal-button cursor-pointer">
           <div className="card md:w-96 bg-base-100 shadow-xl m-3">
             <figure>
               <img
@@ -113,8 +120,8 @@ function Labs() {
               />
             </figure>
             <div className="card-body">
-              <h2 className="card-title">CSCI 359 - Systems Analysis</h2>
-              <p>Labs Here</p>
+              <h2 className="card-title">Systems Analysis</h2>
+              <p>CSCI 359</p>
             </div>
           </div>
         </label>

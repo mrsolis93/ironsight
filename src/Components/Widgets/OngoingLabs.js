@@ -38,32 +38,38 @@ const OngoingLabs = () => {
     if (today >= date_start && today <= date_end) {
       return (
         <tr key={lab.lab_num} className="hover">
-          <Link to={"/lab_details/" + lab.lab_num} key={lab.lab_num}>
           <th>{lab.lab_num}</th>
-          <td>{lab.lab_name}</td>
+          <td>
+            <Link
+              className="w-full"
+              to={"/lab_details/" + lab.lab_num}
+              key={lab.lab_num}
+            >
+              {lab.lab_name}
+            </Link>
+          </td>
           <td>{class_name}</td>
           <td>{time_left_readable.days} days</td>
-        </Link>
         </tr>
       );
     }
   });
 
-    return (
-      <div className="overflow-auto">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Class</th>
-              <th>Time Left</th>
-            </tr>
-          </thead>
-          <tbody>{lab_list}</tbody>
-        </table>
-      </div>
-    );
+  return (
+    <div className="overflow-auto">
+      <table className="table w-full">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Time Left</th>
+          </tr>
+        </thead>
+        <tbody className="w-full">{lab_list}</tbody>
+      </table>
+    </div>
+  );
 };
 
 export default OngoingLabs;
