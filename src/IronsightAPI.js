@@ -106,6 +106,24 @@ export const getClassList = async () => {
   return response.json();
 };
 
+export const getHarvesterVMList = async () => {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=get_harvester_vms`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch harvester VM list");
+  }
+  return response.json();
+};
+
+export const powerOnVM = async ({queryKey}) => {
+  if (queryKey[1] === "") {
+    return {"error": "No VM specified"};
+  }
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}get.php?q=power_on_vm&vm_name=${queryKey[1]}`);
+  if (!response.ok) {
+    throw new Error("Failed to power on VM " + queryKey[1]);
+  }
+  return response.json();
+};
 
 export const authenticate = (username, password) => {
   console.log("Authenticating...");
