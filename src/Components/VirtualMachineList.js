@@ -1,9 +1,10 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { getVMList, getHarvesterVMList } from "../IronsightAPI";
+import { getVMList, getHarvesterVMList, getLabList } from "../IronsightAPI";
 import LinearProgress from "@mui/material/LinearProgress";
 import CreateVMButton from "./CreateVMButton";
 import { BsPower } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 export const VirtualMachineList = () => {
   const [intervalMs, setIntervalMs] = React.useState(5000);
@@ -16,11 +17,19 @@ export const VirtualMachineList = () => {
     refetchInterval: intervalMs,
   });
 
-  if (isLoading || harvester_isLoading) {
+  const {
+    data: lab_data,
+    isLoading: lab_isLoading,
+    isError: lab_isError,
+  } = useQuery("labs", getLabList, {
+    refetchInterval: intervalMs,
+  });
+
+  if (isLoading || harvester_isLoading || lab_isLoading) {
     return <LinearProgress />;
   }
 
-  if (isError || harvester_isError) {
+  if (isError || harvester_isError || lab_isError) {
     return <p>Error!</p>;
   }
 
@@ -34,6 +43,16 @@ export const VirtualMachineList = () => {
     ));
   };
   const vm_list = get_vm_list();
+
+  const get_labs_list = () => {
+    // Find lab by lab num and store in lab_mapping
+    var lab_mapping = {};
+    for (let i = 0; i < lab_data.length; i++) {
+      lab_mapping[lab_data[i].lab_num] = lab_data[i].lab_name;
+    }
+    return lab_mapping;
+  };
+  const lab_mapping = get_labs_list();
 
   // Function to power on a VM with a GET request
   const toggleVMPower = (hostname) => {
@@ -67,58 +86,75 @@ export const VirtualMachineList = () => {
     }
   }
 
-  const get_harvester_vm_list = () => {
-    return harvester_data.map(({ metadata, status, port_number, users, labs }) => (
-      <tr key={metadata.name} className="hover">
-        <td>{metadata.name}</td>
-        <td>
-          {
-            // If users is undefined or an empty list, display ---. Otherwise, display the users list
-            labs === undefined || labs.length === 0 ? "---" : labs.join(", ")
-          }
-        </td>
-        <td>
-          {
-            // If users is undefined or an empty list, display ---. Otherwise, display the users list
-            users === undefined || users.length === 0 ? "---" : users.join(", ")
-          }
-        </td>
-        <td>{port_number ? port_number : "---"}</td>
-        <td>
-          {/* Three states are Running, Starting, and Stopped */}
+  // Convert the labs in the harvester_data to the lab_mapping alias
+  for (var i = 0; i < harvester_data.length; i++) {
+    var harvester_vm = harvester_data[i];
+    if (harvester_vm.labs) {
+      var harvester_vm_labs = harvester_vm.labs;
+      var harvester_vm_labs_list = [];
+      for (var j = 0; j < harvester_vm_labs.length; j++) {
+        harvester_vm_labs_list[j] = lab_mapping[harvester_vm_labs[j]];
+      }
+      harvester_data[i].labs = harvester_vm_labs_list;
+    }
+  }
 
-          {status.printableStatus === "Running" ? (
-            <div className="badge badge-success gap-2">
-              {status.printableStatus}
-            </div>
-          ) : status.printableStatus === "Starting" ? (
-            <div className="badge badge-info gap-2">
-              {status.printableStatus}
-            </div>
-          ) : status.printableStatus === "Stopped" ? (
-            <div className="badge badge-error gap-2">
-              {status.printableStatus}
-            </div>
-          ) : (
-            <div className="badge badge-warning gap-2">
-              {status.printableStatus}
-            </div>
-          )}
-        </td>
-        {/* Power button */}
-        <td>
-          <button
-            onClick={() => {
-              toggleVMPower(metadata.name);
-            }}
-            className="btn btn-outline btn-sm btn-circle"
-            type="button"
-          >
-            <BsPower />
-          </button>
-        </td>
-      </tr>
-    ));
+  const get_harvester_vm_list = () => {
+    return harvester_data.map(
+      ({ metadata, status, port_number, users, labs }) => (
+        <tr key={metadata.name} className="hover">
+          <td>{metadata.name}</td>
+          <td>
+            {
+              // If users is undefined or an empty list, display ---. Otherwise, display the users list
+              labs === undefined || labs.length === 0 ? "---" : labs.join(", ")
+            }
+          </td>
+          <td>
+            {
+              // If users is undefined or an empty list, display ---. Otherwise, display the users list
+              users === undefined || users.length === 0
+                ? "---"
+                : users.join(", ")
+            }
+          </td>
+          <td>{port_number ? port_number : "---"}</td>
+          <td>
+            {/* Three states are Running, Starting, and Stopped */}
+
+            {status.printableStatus === "Running" ? (
+              <div className="badge badge-success gap-2">
+                {status.printableStatus}
+              </div>
+            ) : status.printableStatus === "Starting" ? (
+              <div className="badge badge-info gap-2">
+                {status.printableStatus}
+              </div>
+            ) : status.printableStatus === "Stopped" ? (
+              <div className="badge badge-error gap-2">
+                {status.printableStatus}
+              </div>
+            ) : (
+              <div className="badge badge-warning gap-2">
+                {status.printableStatus}
+              </div>
+            )}
+          </td>
+          {/* Power button */}
+          <td>
+            <button
+              onClick={() => {
+                toggleVMPower(metadata.name);
+              }}
+              className="btn btn-outline btn-sm btn-circle"
+              type="button"
+            >
+              <BsPower />
+            </button>
+          </td>
+        </tr>
+      )
+    );
   };
   const harvester_vm_list = get_harvester_vm_list();
 
