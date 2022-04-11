@@ -39,7 +39,7 @@ class Home extends Component {
               <div className="flex flex-col max-h-96 card-body p-4 md:p-8">
                 <h2 className="card-title">VM Overview</h2>
                 <div className="flex flex-col md:flex-row">
-                  <div className="flex max-h-10 w-3/4">
+                  <div className="hidden lg:flex max-h-10 w-3/4">
                     <ReAreaChart />
                   </div>
                   <div className="flex flex-row md:flex-col">
