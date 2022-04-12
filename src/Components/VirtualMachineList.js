@@ -107,7 +107,7 @@ export const VirtualMachineList = () => {
     return harvester_data.map(
       ({ metadata, status, port_number, users, labs }) => (
         <tr key={metadata.name} className="hover">
-          <td>{metadata.name}</td>
+          <td><Link key={metadata.name} to={"/vm_details/" + metadata.name}>{metadata.name}</Link></td>
           <td>
             {
               // If users is undefined or an empty list, display ---. Otherwise, display the users list

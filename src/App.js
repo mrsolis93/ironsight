@@ -9,11 +9,12 @@ import Users from "./Pages/Users";
 import VirtualMachines from "./Pages/VirtualMachines";
 import Login from "./Pages/Login";
 import SignOut from "./Pages/SignOut";
-import LabDetails from "./Pages/DetailPages/LabDetails";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Navbar from "./Components/Navbar";
 import { QueryClientProvider, QueryClient } from "react-query";
 import LabOverview from "./Pages/DetailPages/LabOverview";
+import LabDetails from "./Pages/DetailPages/LabDetails";
+import UserDetails from "./Pages/DetailPages/UserDetails";
+import VMDetails from "./Pages/DetailPages/VMDetails";
 
 const darkTheme = createTheme({
   palette: {
@@ -58,6 +59,8 @@ function App() {
                 path="lab_details/:lab_num/:student_name"
                 element={<LabDetails />}
               />
+              <Route path="vm_details/:vm_name" element={<VMDetails />} />
+              <Route path="user_details/:user_name" element={<UserDetails />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/sandbox" element={<Sandbox />} />
               <Route path="/users" element={<Users />} />
