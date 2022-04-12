@@ -87,15 +87,15 @@ function LabOverview() {
     // Capitalize the first letter of the tag
     const tag = data.tags[i]["tag"];
     const capitalized_tag = tag.charAt(0).toUpperCase() + tag.slice(1);
-    tags.push(capitalized_tag);
+    if (data.tags[i]["type"] != "image_link") {
+      tags.push(capitalized_tag);
+    }
   }
 
   // Map the tags to a table
   const get_tags = () => {
     return tags.map((tag) => (
-      <tr key={tag} className="hover">
-        <td>{tag}</td>
-      </tr>
+      <div className=" badge badge-primary w-25 mx-1 my-4">{tag}</div>
     ));
   };
 
@@ -103,30 +103,31 @@ function LabOverview() {
     <div className="labs">
       <Navbar />
 
-      <div class="navbar bg-base-300 rounded-box">
-  <div class="flex-1 px-2 lg:flex-none">
-    <a class="text-lg font-bold">{data.lab_name}</a>
-  </div> 
-  <div class="flex justify-end flex-1 px-2">
-    <div class="flex items-stretch">
-    <p className="w-60 mt-4">Date start: {data.date_start}</p>
-      <p className="w-60 mt-4">Date end: {data.date_end}</p>
-      <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-ghost rounded-btn">Description</label>
-        <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-          <li><a>{data.lab_description}</a></li> 
-        </ul>
-      </div>
-        <div class="dropdown dropdown-end">
-        <label tabindex="1" class="btn btn-ghost rounded-btn">Tags</label>
-        <ul tabindex="1" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-          <li>{get_tags()}</li>
-        </ul>
+      <div className="navbar bg-base-300 rounded-box">
+        <div className="flex-1 px-2 lg:flex-none">
+          <div className="flex flex-row ml-4">{data.lab_name}</div>
         </div>
-      
+        <div className="flex justify-end flex-1 px-2">
+          <div className="flex items-stretch">
+            <div className="flex flex-col">
+            
+            <div class="flex flex-row ml-4">{get_tags()}</div>
+            
+            
+            <div className="flex flex-row ml-4">Date start: {data.date_start}</div>
+            <div className="flex flex-row ml-4">Date end: {data.date_end}</div>
+            
+            
+            
+            
+            <div className="overflow-auto m-4">
+                  {data.lab_description}
+            </div>
+              
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
       <div className="overflow-auto m-4">
         <table className="table w-full">
