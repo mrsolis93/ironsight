@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getLabOverview } from "../../IronsightAPI";
 import LinearProgress from "@mui/material/LinearProgress";
+import { Link } from "react-router-dom";
+import ReAreaChart from "../../Charts/ReAreaChart";
 
 function LabOverview() {
   const { lab_num } = useParams();
@@ -50,7 +52,9 @@ function LabOverview() {
   const get_users = () => {
     return users.map((user) => (
       <tr key={user} className="hover">
-        <td>{user}</td>
+        <td>
+          <Link key={user} to={"/user_details/" + user}  className="hover">
+           {user} </Link></td>
       </tr>
     ));
   };
@@ -64,10 +68,16 @@ function LabOverview() {
   const get_virtual_machines = () => {
     return virtual_machines.map((vm) => (
       <tr key={vm} className="hover">
-        <td>{vm}</td>
+        <td>
+          <Link key={vm} to={"/vm_details/" + vm}>
+            {vm}
+          </Link>
+        </td>
       </tr>
     ));
   };
+
+  
 
   const templates = [];
   for (let i = 0; i < data.templates.length; i++) {
@@ -102,35 +112,50 @@ function LabOverview() {
   return (
     <div className="labs">
       <Navbar />
+      {/* Top bar (breadcrumbs) */}
+    
 
       <div className="navbar bg-base-300 rounded-box">
-        <div className="flex-1 px-2 lg:flex-none">
-          <div className="flex flex-row ml-4">{data.lab_name}</div>
-        </div>
-        <div className="flex justify-end flex-1 px-2">
+        <div className="flex flex-1 px-2">
           <div className="flex items-stretch">
             <div className="flex flex-col">
-            
-            <div class="flex flex-row ml-4">{get_tags()}</div>
-            
-            
-            <div className="flex flex-row ml-4">Date start: {data.date_start}</div>
-            <div className="flex flex-row ml-4">Date end: {data.date_end}</div>
-            
-            
-            
-            
-            <div className="overflow-auto m-4">
-                  {data.lab_description}
-            </div>
+              <div className="flex flex-row ml-4 text-xl text-md breadcrumbs m-4">
               
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/labs">Labs</Link>
+          </li>
+          <li>
+            <strong>{data.lab_name}</strong>
+          </li>
+        </ul>
+      
+              
+              
+              </div>
+              <div class="flex flex-row ml-4">{get_tags()}</div>
+
+              <div className="flex flex-row ml-4">
+                Date start: {data.date_start}
+              </div>
+              <div className="flex flex-row ml-4">
+                Date end: {data.date_end}
+              </div>
+              <div className="overflow-auto m-4">{data.lab_description}</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-      <div className="overflow-auto m-4">
-        <table className="table w-full">
+      
+      <div className="flex md:flex-row flex-col mt-3 md:mr-3 md:ml-3">
+        {/* Users table */}
+      <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3 max-h-96">
+              <div className="card-body p-4 md:p-8 max-h-96">
+                <div className="flex flex-row">
+                  <table className="table w-full">
           <thead>
             <tr>
               <th>Users</th>
@@ -138,9 +163,26 @@ function LabOverview() {
           </thead>
           <tbody>{get_users()}</tbody>
         </table>
+        </div>
+        </div>
       </div>
-      <div className="overflow-auto m-4">
-        <table className="table w-full">
+
+      <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
+              <div className="flex flex-col max-h-96 card-body p-4 md:p-8">
+                <h2 className="card-title">Lab Activity</h2>
+                <div className="flex flex-col md:flex-row">
+                  <div className="hidden lg:flex  w-full">
+                    <ReAreaChart />
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+      {/* Virtual Machine table will eventually add status icons */}
+      <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3 max-h-96">
+              <div className="card-body p-4 md:p-8 max-h-96">
+                <div className="flex flex-row">
+                  <table className="table w-full">
           <thead>
             <tr>
               <th>Virtual Machines</th>
@@ -149,7 +191,16 @@ function LabOverview() {
           <tbody>{get_virtual_machines()}</tbody>
         </table>
       </div>
-      <div className="overflow-auto m-4">
+      </div>
+      </div>
+      {/* this is where the to div ends right below this comment */}
+      </div>
+      
+      {/* the template table is such a meme and begins here */}
+      <div className="flex md:flex-row flex-col md:mr-1 md:ml-1">
+      <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3 max-h-96">
+      <div className="card-body p-2 md:p-5 max-h-96">
+      
         <table className="table w-full">
           <thead>
             <tr>
@@ -159,7 +210,10 @@ function LabOverview() {
           <tbody>{get_templates()}</tbody>
         </table>
       </div>
+      </div>
     </div>
+    </div>
+  
   );
 }
 
