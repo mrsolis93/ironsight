@@ -54,17 +54,17 @@ function VMDetails() {
       <div className="flex flex-col md:flex-row">
         <div className="flex flex-row mx-4 md:m-4 md:mt-0">
           Tags:
-          <div class="badge badge-info badge-outline gap-2 mx-1">cryptography</div>
-          <div class="badge badge-success badge-outline mx-1">networking</div>
-          <div class="badge badge-warning badge-outline mx-1">linux</div>
-          <div class="badge badge-error badge-outline ml-1 mr-4 break-after-all whitespace-nowrap">terminal practice</div>
+          <div class="badge badge-info badge gap-2 mx-1">cryptography</div>
+          <div class="badge badge-success badge mx-1">networking</div>
+          <div class="badge badge-warning badge mx-1">linux</div>
+          <div class="badge badge-error badge ml-1 mr-4 break-after-all whitespace-nowrap">terminal practice</div>
         </div>
         <div className="flex flex-row mx-4 mt-2 mb-4 md:m-4 md:mt-0">
           Labs:
-          <div class="badge badge-info badge-outline gap-2 mx-1">
+          <div class="badge badge-info badge-ghost gap-2 mx-1">
             <Link to="/lab_details/1">Cicada 3301 Puzzle</Link>
             </div>
-            <div class="badge badge-info badge-outline gap-2 mx-1">
+            <div class="badge badge-info badge-ghost gap-2 mx-1">
             <Link to="/lab_details/3">Project Management</Link>
             </div>
         </div>
@@ -94,7 +94,7 @@ function VMDetails() {
         <div className="col-span-1 row-span-1 rounded-box bg-base-100 shadow-xl">
           <h2 className="card-title mx-4 mt-4">Status Panel</h2>
           <div class="grid grid-cols-2 xl:grid-cols-4 grid-row-1 gap-4 m-4">
-            <button className="btn btn-success btn-lg col-span-1 text-2xl">
+            <button className="btn btn-success btn-outline btn-lg col-span-1 text-2xl">
               <span>
                 <BsPower
                   onClick={() => {
@@ -103,7 +103,7 @@ function VMDetails() {
                 />
               </span>
             </button>
-            <button className="btn btn-lg btn-warning btn-outline col-span-1">
+            <button className="btn btn-lg btn-success btn-outline col-span-1">
               <span>Elastic Agent</span>
             </button>
             <button className="btn btn-lg btn-error btn-outline col-span-1">
