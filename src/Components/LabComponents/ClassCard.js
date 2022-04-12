@@ -27,10 +27,16 @@ const ClassCard = ({ tag, sub_tag }) => {
   }
 
   //   Take the raw JSON and turn it into the rows of the table
+  var real_lab_num = "";
   var lab_html = raw_lab_data.map(function (lab) {
+    for (let i = 0; i < lab.tags.length; i++) {
+      if (lab.tags[i]["type"] === "lab") {
+      real_lab_num = lab.tags[i]["sub_tag"];
+         }
+       }
     return (
       <tr key={lab.lab_num} className="hover">
-        <td>{lab.lab_num}</td>
+        <td>{real_lab_num}</td>
         <td>
           <Link
             className="w-full"
@@ -59,6 +65,10 @@ const ClassCard = ({ tag, sub_tag }) => {
 
   //   Replace space in sub_tag with underscore
   var modal_id = "modal_" + sub_tag.replace(" ", "_");
+
+  
+        
+
 
   return (
     <div className="master">
