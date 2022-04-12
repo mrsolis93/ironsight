@@ -109,14 +109,21 @@ function LabOverview() {
   </div> 
   <div class="flex justify-end flex-1 px-2">
     <div class="flex items-stretch">
-    <p className="m-4">Date start: {data.date_start}</p>
-      <p className="m-4">Date end: {data.date_end}</p>
+    <p className="w-60 mt-4">Date start: {data.date_start}</p>
+      <p className="w-60 mt-4">Date end: {data.date_end}</p>
       <div class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-ghost rounded-btn">Description</label>
         <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
           <li><a>{data.lab_description}</a></li> 
         </ul>
       </div>
+        <div class="dropdown dropdown-end">
+        <label tabindex="1" class="btn btn-ghost rounded-btn">Tags</label>
+        <ul tabindex="1" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+          <li>{get_tags()}</li>
+        </ul>
+        </div>
+      
     </div>
   </div>
 </div>
@@ -149,16 +156,6 @@ function LabOverview() {
             </tr>
           </thead>
           <tbody>{get_templates()}</tbody>
-        </table>
-      </div>
-      <div className="overflow-auto m-4">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>Tags</th>
-            </tr>
-          </thead>
-          <tbody>{get_tags()}</tbody>
         </table>
       </div>
     </div>
