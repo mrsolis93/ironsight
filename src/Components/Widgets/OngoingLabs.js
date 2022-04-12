@@ -5,7 +5,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { Link } from "react-router-dom";
 
 const OngoingLabs = () => {
-  const { data, isLoading, isError } = useQuery("lab_list_ongoing", getLabList);
+  const { data, isLoading, isError } = useQuery("lab_list", getLabList);
 
   if (isLoading) {
     console.log("[Ironsight] Fetching Chart Data...");
