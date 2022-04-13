@@ -23,13 +23,15 @@ function Labs() {
   ));
 
   return (
-    <div className="labs">
+    <>
       <Navbar />
+    <div className="labs">
       {/* If cards are going to off the screen, make them go into the next column */}
       <div className="flex flex-wrap">
         {class_cards}
       </div>
     </div>
+    </>
   );
 }
 
