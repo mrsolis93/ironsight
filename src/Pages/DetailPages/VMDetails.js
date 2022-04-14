@@ -4,6 +4,8 @@ import Navbar from "../../Components/Navbar";
 import { Link, useParams } from "react-router-dom";
 import ReAreaChart from "../../Charts/ReAreaChart";
 import { BsPower } from "react-icons/bs";
+import { getHarvesterVMList } from "../../IronsightAPI";
+import { useQuery } from "react-query";
 
 function VMDetails() {
   // Function to power on a VM with a GET request
@@ -28,9 +30,26 @@ function VMDetails() {
       console.log("[Ironsight] Cancelled power on VM: " + hostname);
     }
   };
+  const [intervalMs, setIntervalMs] = React.useState(5000);
+  const {
+    data: harvester_data,
+    isLoading: harvester_isLoading,
+    isError: harvester_isError,
+  } = useQuery("harvester_vms", getHarvesterVMList, {
+    refetchInterval: intervalMs,
+  });
 
   const { vm_name } = useParams();
-  console.log("vm_name: " + vm_name);
+  var vm_status = "";
+  if (!harvester_isLoading && !harvester_isError) {
+    for (let i = 0; i < harvester_data.length; i++) {
+      if (harvester_data[i]["metadata"]["name"] === vm_name) {
+        vm_status = harvester_data[i]["status"]["printableStatus"];
+        console.log(vm_status);
+      }
+    }
+  }
+
   return (
     <div className="virtual_machines">
       <Navbar />
@@ -57,16 +76,18 @@ function VMDetails() {
           <div className="badge badge-info gap-2 mx-1">cryptography</div>
           <div className="badge badge-success mx-1">networking</div>
           <div className="badge badge-warning mx-1">linux</div>
-          <div className="badge badge-error ml-1 mr-4 break-after-all whitespace-nowrap">terminal practice</div>
+          <div className="badge badge-error ml-1 mr-4 break-after-all whitespace-nowrap">
+            terminal practice
+          </div>
         </div>
         <div className="flex flex-row mx-4 mt-2 mb-4 md:m-4 md:mt-0">
           Labs:
           <div className="badge badge-info badge-ghost gap-2 mx-1">
             <Link to="/lab_details/1">Cicada 3301 Puzzle</Link>
-            </div>
-            <div className="badge badge-info badge-ghost gap-2 mx-1">
+          </div>
+          <div className="badge badge-info badge-ghost gap-2 mx-1">
             <Link to="/lab_details/3">Project Management</Link>
-            </div>
+          </div>
         </div>
       </div>
 
@@ -94,15 +115,47 @@ function VMDetails() {
         <div className="col-span-1 row-span-1 rounded-box bg-base-100 shadow-xl">
           <h2 className="card-title mx-4 mt-4">Status Panel</h2>
           <div className="grid grid-cols-2 xl:grid-cols-4 grid-row-1 gap-4 m-4">
-            <button className="btn btn-success btn-outline btn-lg col-span-1 text-2xl">
-              <span>
-                <BsPower
-                  onClick={() => {
-                    toggleVMPower(vm_name);
-                  }}
-                />
-              </span>
-            </button>
+            {vm_status === "Running" ? (
+              <button className="btn btn-success btn-outline btn-lg col-span-1 text-2xl">
+                <span>
+                  <BsPower
+                    onClick={() => {
+                      toggleVMPower(vm_name);
+                    }}
+                  />
+                </span>
+              </button>
+            ) : vm_status === "Starting" ? (
+              <button className="btn btn-info btn-outline btn-lg col-span-1 text-2xl">
+                <span>
+                  <BsPower
+                    onClick={() => {
+                      toggleVMPower(vm_name);
+                    }}
+                  />
+                </span>
+              </button>
+            ) : vm_status === "Stopped" ? (
+              <button className="btn btn-error btn-outline btn-lg col-span-1 text-2xl">
+                <span>
+                  <BsPower
+                    onClick={() => {
+                      toggleVMPower(vm_name);
+                    }}
+                  />
+                </span>
+              </button>
+            ) : (
+              <button className="btn btn-warning btn-outline btn-lg col-span-1 text-2xl">
+                <span>
+                  <BsPower
+                    onClick={() => {
+                      toggleVMPower(vm_name);
+                    }}
+                  />
+                </span>
+              </button>
+            )}
             <button className="btn btn-lg btn-success btn-outline col-span-1">
               <span>Elastic Agent</span>
             </button>
