@@ -6,7 +6,8 @@ import { useParams, Link } from "react-router-dom";
 import { getCourseList } from "../../IronsightAPI";
 import LinearProgress from "@mui/material/LinearProgress";
 import { RiArrowRightSLine } from "react-icons/ri";
-import LabTable from "../../Components/DetailPageComponents/LabTable";
+import LabTable from "../../Components/DetailPageComponents/LabsTable";
+import StudentTable from "../../Components/DetailPageComponents/StudentsTable";
 
 function CourseDetails() {
   const { course_id } = useParams();
@@ -104,9 +105,19 @@ function CourseDetails() {
           <div className="rounded-box w-full h-full bg-base-100 shadow-xl">
             <div className="course-content">
               {/* Display the selected tab */}
+
+              {/* Labs */}
               {selectedTab === "labs" && (
                 <LabTable course_id={course_id} sub_tag={sub_tag} />
               )}
+
+              {/* Students */}
+              {selectedTab === "students" && (
+                <StudentTable course_id={course_id} sub_tag={sub_tag} />
+              )}
+
+              {/* Virtual Machines */}
+
             </div>
           </div>
         </div>

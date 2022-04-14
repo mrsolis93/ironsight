@@ -132,6 +132,16 @@ export const getCourseList = async () => {
   return response.json();
 };
 
+export const getUsersList = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_users`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch user list");
+  }
+  return response.json();
+};
+
 export const getHarvesterVMList = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_harvester_vms`
