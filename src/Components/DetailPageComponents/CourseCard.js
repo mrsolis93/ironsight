@@ -1,5 +1,4 @@
 import React from "react";
-import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 const CourseCard = ({ tag, sub_tag, image_link }) => {

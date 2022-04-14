@@ -1,101 +1,116 @@
 import React from "react";
 import "../../App.css";
 import Navbar from "../../Components/Navbar";
-import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { useParams, Link } from "react-router-dom";
+import { getCourseList } from "../../IronsightAPI";
+import LinearProgress from "@mui/material/LinearProgress";
+import { RiArrowRightSLine } from "react-icons/ri";
+import LabTable from "../../Components/DetailPageComponents/LabTable";
 
 function CourseDetails() {
-  //   Pull in JSON data and add to array if the lab belongs in this class (using sub_tag matching)
-  // var raw_lab_data = [];
-  // for (var i = 0; i < data.length; i++) {
-  //   for (var j = 0; j < data[i]["tags"].length; j++) {
-  //     if (data[i]["tags"][j]["tag"] === sub_tag) {
-  //       raw_lab_data.push(data[i]);
-  //     }
-  //   }
-  // }
-
-  //   Take the raw JSON and turn it into the rows of the table
-  // var real_lab_num = "";
-  // var lab_html = raw_lab_data.map(function (lab) {
-  //   for (let i = 0; i < lab.tags.length; i++) {
-  //     if (lab.tags[i]["type"] === "lab") {
-  //     real_lab_num = lab.tags[i]["sub_tag"];
-  //        }
-  //      }
-  //   return (
-  //     <tr key={lab.lab_num} className="hover">
-  //       <td>{real_lab_num}</td>
-  //       <td>
-  //         <Link
-  //           className="w-full"
-  //           to={"/lab_details/" + lab.lab_num}
-  //           key={lab.lab_num}
-  //         >
-  //           <div className="flex items-center space-x-3">
-  //             <div>
-  //               <div className="font-bold">{lab.lab_name}</div>
-  //             </div>
-  //           </div>
-  //         </Link>
-  //       </td>
-  //       <td>
-  //         <div>
-  //           <p className="w-96 md:w-full relative overflow-x-auto break-words whitespace-normal max-h-24">
-  //             {lab.lab_description}
-  //           </p>
-  //         </div>
-  //       </td>
-  //       <td>{lab.date_start}</td>
-  //       <td>{lab.date_end}</td>
-  //     </tr>
-  //   );
-  // });
-
-  //   Replace space in sub_tag with underscore
-  // var modal_id = "modal_" + sub_tag.replace(" ", "_");
-
   const { course_id } = useParams();
-  console.log("course_id: " + course_id);
+  const { data, isLoading, isError } = useQuery("course_list", getCourseList);
+  const [selectedTab, setSelectedTab] = React.useState("labs");
+
+  if (isLoading) {
+    console.log("[Ironsight] Fetching Course Data...");
+    return <LinearProgress />;
+  }
+
+  if (isError) {
+    return <p>Error!</p>;
+  }
+
+  const set_selected_tab = (tab) => {
+    setSelectedTab(tab);
+  };
+
+  // Retrieve friendly name for course rather than the course id
+  var course_name = "";
+  var sub_tag = "";
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].sub_tag.replace(" ", "_").toLowerCase() === course_id) {
+      course_name = data[i].tag;
+      sub_tag = data[i].sub_tag;
+    }
+  }
+
   return (
     <div className="courses">
       <Navbar />
-      <h2>Course ID: {course_id}</h2>
-      {/* <label htmlFor={modal_id} className="modal-button cursor-pointer"> */}
-      {/* </label> */}
 
-      {/* Modal */}
-      {/* <input type="checkbox" id={modal_id} className="modal-toggle" />
-      <label htmlFor={modal_id} className="modal cursor-pointer">
-        <label className="modal-box xl:w-4/5 max-w-full max-h-full" htmlFor=""> */}
+      {/* Top bar (breadcrumbs) */}
+      <div className="text-md breadcrumbs m-4">
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/courses">Courses</Link>
+          </li>
+          <li>
+            <strong>{course_name}</strong>
+          </li>
+        </ul>
+      </div>
 
-      {/* X button inside of the modal */}
-      {/* <label
-            htmlFor={modal_id}
-            className="btn btn-sm btn-circle absolute right-2 top-2"
-          >
-            ✕
-          </label> */}
-
-      {/* Table inside of the modal */}
-      {/* <div className="mb-3">
-            <h1 className="card-title">{tag}</h1>
+      {/* Sidebar with Labs, Students, and Virtual Machines tabs */}
+      <div className="grid grid-cols-5 gap-4 m-4 h-[80%]">
+        <div className="row-span-1 col-span-1">
+          <div className="rounded-box w-full h-full bg-base-100 shadow-xl">
+            <div className="sidebar-links">
+              <table className="table w-full">
+                <tbody className="w-full">
+                  {/* Display rows but highlight the one using selectedTab */}
+                  <tr
+                    className={
+                      selectedTab === "labs"
+                        ? "text-2xl text-base-900 hover"
+                        : "text-base-900"
+                    }
+                    onClick={() => set_selected_tab("labs")}
+                  >
+                    <td className="w-full">Labs</td>
+                  </tr>
+                  <tr
+                    className={
+                      selectedTab === "students"
+                        ? "text-2xl text-base-900"
+                        : "text-base-900"
+                    }
+                    onClick={() => set_selected_tab("students")}
+                  >
+                    <td className="w-full">Students</td>
+                  </tr>
+                  <tr
+                    className={
+                      selectedTab === "virtual_machines"
+                        ? "text-2xl text-base-900"
+                        : "text-base-900"
+                    }
+                    onClick={() => set_selected_tab("virtual_machines")}
+                  >
+                    <td className="w-full">Virtual Machines</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div className="overflow-x-auto w-full">
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>Lab#</th>
-                  <th>Lab Name</th>
-                  <th>Description</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                </tr>
-              </thead>
-              <tbody>{lab_html}</tbody>
-            </table>
+        </div>
+
+        {/* Page content */}
+        <div className="row-span-1 col-span-4">
+          <div className="rounded-box w-full h-full bg-base-100 shadow-xl">
+            <div className="course-content">
+              {/* Display the selected tab */}
+              {selectedTab === "labs" && (
+                <LabTable course_id={course_id} sub_tag={sub_tag} />
+              )}
+            </div>
           </div>
-        </label>
-        </label>*/}
+        </div>
+      </div>
     </div>
   );
 }

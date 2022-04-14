@@ -42,8 +42,8 @@ function App() {
 
   return (
     // Only return the theme provider if the page is not the login page and the token is set
-    <ThemeProvider theme={darkTheme}>
-      <div className="App bg-slate-800">
+    <div className="App bg-slate-800 fill-window">
+      <ThemeProvider theme={darkTheme}>
         <QueryClientProvider client={queryClient}>
           <Router>
             <Routes>
@@ -51,16 +51,16 @@ function App() {
               <Route path="/home" exact element={<Home />} />
               <Route path="/analysis" element={<Analysis />} />
               <Route path="/analysis/reports" element={<Analysis />} />
-              <Route path="/classes" element={<Courses />} />
-              <Route
-                path="lab_details/:lab_num"
-                element={<LabOverview />}
-              />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="lab_details/:lab_num" element={<LabOverview />} />
               <Route
                 path="lab_details/:lab_num/:student_name"
                 element={<LabDetails />}
               />
-              <Route path="course_details/:course_id" element={<CourseDetails />} />
+              <Route
+                path="course_details/:course_id"
+                element={<CourseDetails />}
+              />
               <Route path="vm_details/:vm_name" element={<VMDetails />} />
               <Route path="user_details/:user_name" element={<UserDetails />} />
               <Route path="/resources" element={<Resources />} />
@@ -73,8 +73,8 @@ function App() {
             </Routes>
           </Router>
         </QueryClientProvider>
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </div>
   );
 }
 

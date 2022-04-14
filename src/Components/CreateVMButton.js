@@ -132,8 +132,8 @@ export default function CreateVMDialog() {
 
   // Make a GET request to the server to get the list of templates
   // and map them to a dropdown menu
-  const get_classes = () => {
-    fetch("https://api.rellis.dev/get.php?q=get_classes")
+  const get_courses = () => {
+    fetch("https://api.rellis.dev/get.php?q=get_courses")
       .then((response) => response.json())
       .then((data) => {
         var course_list = data.map(function (class_obj) {
@@ -152,7 +152,7 @@ export default function CreateVMDialog() {
     get_templates();
     get_users();
     get_labs();
-    get_classes();
+    get_courses();
   }, []);
 
   // Make a POST request to the server to create a new VM

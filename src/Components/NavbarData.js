@@ -31,7 +31,7 @@ export const NavbarData = [
 
   {
     name: "Courses",
-    path: "/classes",
+    path: "/courses",
     icon: <ImLab />,
     current: false
   },

@@ -4,7 +4,7 @@ import Navbar from "../Components/Navbar";
 import { useQuery } from "react-query";
 import { getCourseList } from "../IronsightAPI";
 import LinearProgress from "@mui/material/LinearProgress";
-import CourseCard from "../Components/LabComponents/CourseCard";
+import CourseCard from "../Components/DetailPageComponents/CourseCard";
 import { Link } from "react-router-dom";
 
 function Courses() {
