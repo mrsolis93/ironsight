@@ -69,6 +69,12 @@ const StudentsTable = ({ course_id, sub_tag }) => {
     else {
         profile_pic_data = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
     }
+    var student_major = "";
+    for (let i = 0; i < student.tags.length; i++) {
+        if (student.tags[i]["type"] === "major") {
+            student_major = student.tags[i]["tag"];
+        }
+    }
     
     return (
       <tr key={student.user_name} className="hover">
@@ -91,7 +97,7 @@ const StudentsTable = ({ course_id, sub_tag }) => {
                   {first_name} {last_name}
                 </div>
                 <div className="text-sm opacity-50">
-                  Computer Information Systems
+                  {student_major}
                 </div>
               </Link>
             </div>
