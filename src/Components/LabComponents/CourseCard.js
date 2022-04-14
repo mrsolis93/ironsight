@@ -3,8 +3,10 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 const CourseCard = ({ tag, sub_tag, image_link }) => {
+  var course_id = sub_tag.replace(" ", "_").toLowerCase();
+
   return (
-    <div className="master">
+    <Link to={`/course_details/${course_id}`}>
       {/* Course Card */}
       <div className="card md:w-96 bg-base-100 shadow-xl">
         <figure>
@@ -18,7 +20,7 @@ const CourseCard = ({ tag, sub_tag, image_link }) => {
           <p>{sub_tag}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
