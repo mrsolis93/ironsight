@@ -28,19 +28,81 @@ const StudentsTable = ({ course_id, sub_tag }) => {
   //             "tag_id": 7
   //         }
   //     ],
-  //     "password": "$6$rounds=4096$BN9N/Istfglu2Ogc$eVjEb7G8ZfCZ/j7YGFVlqwnxISruvQacR1rdxgf7Pw85pWRhVr0qovCTrKC31qtzf/DPnj5OYs24su5U9uesK1",
   //     "profile_pic_data": null,
   //     "virtual_machines": []
   // }
 
   var raw_student_data = [];
-  for (var i = 0; i < data.length; i++) {
-    for (var j = 0; j < data[i]["tags"].length; j++) {
-      if (data[i]["tags"][j]["tag"] === sub_tag) {
-        raw_student_data.push(data[i]);
+
+  //   Filter the data to only include students in this class
+  // TODO: Implement this feature
+  //   for (var i = 0; i < data.length; i++) {
+  //     for (var j = 0; j < data[i]["tags"].length; j++) {
+  //       if (data[i]["tags"][j]["tag"] === sub_tag) {
+  //         raw_student_data.push(data[i]);
+  //       }
+  //     }
+  //   }
+
+  // Pull in all students and display them on the table
+  raw_student_data = data;
+  var table_html = raw_student_data.map(function (student) {
+    // Capitalize the first letter of the first name
+    var first_name =
+      student.first_name.charAt(0).toUpperCase() + student.first_name.slice(1);
+    // Capitalize the first letter of the last name
+    var last_name =
+      student.last_name.charAt(0).toUpperCase() + student.last_name.slice(1);
+    var student_email = student.user_name + "@leomail.tamuc.edu";
+    // Check the tags to see if the student is a student or a professor
+    var user_role = "";
+    for (let i = 0; i < student.tags.length; i++) {
+      if (student.tags[i]["type"] === "role") {
+        user_role = student.tags[i]["tag"];
       }
     }
-  }
+    // Check for a link to a profile picture
+    var profile_pic_data = "";
+    if (student.profile_pic_data !== null) {
+        profile_pic_data = student["profile_pic_data"];
+    }
+    else {
+        profile_pic_data = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
+    }
+    
+    return (
+      <tr key={student.user_name} className="hover">
+        <td>
+          <div class="flex items-center space-x-3">
+            <div class="avatar">
+              <div class="mask mask-squircle w-12 h-12">
+                <img
+                  src={profile_pic_data}
+                  alt="User Avatar"
+                />
+              </div>
+            </div>
+            <div>
+              <Link
+                to={"/user_details/" + student.user_name}
+                key={student.user_name + "_link"}
+              >
+                <div class="font-bold">
+                  {first_name} {last_name}
+                </div>
+                <div class="text-sm opacity-50">
+                  Computer Information Systems
+                </div>
+              </Link>
+            </div>
+          </div>
+        </td>
+        <td>{student_email}</td>
+        <td>********</td>
+        <td>{user_role}</td>
+      </tr>
+    );
+  });
 
   //   Take the raw JSON and turn it into the rows of the table
   var student_name = "";
@@ -57,37 +119,7 @@ const StudentsTable = ({ course_id, sub_tag }) => {
             <th>Role</th>
           </tr>
         </thead>
-        <tbody>
-          {/* <!-- row 1 --> */}
-          <tr className="hover">
-            <td>
-              <div class="flex items-center space-x-3">
-                <div class="avatar">
-                  <div class="mask mask-squircle w-12 h-12">
-                    <img
-                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png"
-                      alt="User Avatar"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Link
-                    to={"/user_details/" + "tyler_harrison"}
-                    key={"tyler_harrison"}
-                  >
-                    <div class="font-bold">Tyler Harrison</div>
-                    <div class="text-sm opacity-50">
-                      Computer Information Systems
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            </td>
-            <td><a href="mailto:tharrison12@leomail.tamuc.edu">tharrison12@leomail.tamuc.edu</a></td>
-            <td>********</td>
-            <td>Student</td>
-          </tr>
-        </tbody>
+        <tbody>{table_html}</tbody>
       </table>
     </div>
   );

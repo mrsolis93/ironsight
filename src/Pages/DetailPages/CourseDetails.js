@@ -8,6 +8,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { RiArrowRightSLine } from "react-icons/ri";
 import LabTable from "../../Components/DetailPageComponents/LabsTable";
 import StudentTable from "../../Components/DetailPageComponents/StudentsTable";
+import VirtualMachinesTable from "../../Components/DetailPageComponents/VirtualMachinesTable";
 
 function CourseDetails() {
   const { course_id } = useParams();
@@ -117,6 +118,9 @@ function CourseDetails() {
               )}
 
               {/* Virtual Machines */}
+              {selectedTab === "virtual_machines" && (
+                <VirtualMachinesTable />
+              )}
 
             </div>
           </div>
