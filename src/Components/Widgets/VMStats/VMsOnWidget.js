@@ -19,10 +19,10 @@ const VMsOnWidget = () => {
     }
   return (
     <div className="mb-4">
-    <div class="stats shadow">
-      <div class="stat">
-        <div class="stat-title">Running VMs</div>
-        <div class="stat-value">{data}</div>
+    <div className="stats shadow">
+      <div className="stat">
+        <div className="stat-title">Running VMs</div>
+        <div className="stat-value">{data}</div>
       </div>
     </div>
   </div>

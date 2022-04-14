@@ -24,8 +24,8 @@ export default function CreateVMDialog() {
   const [template_list, setTemplateList] = React.useState([]);
   const [lab_list, setLabList] = React.useState([]);
   const [lab_selection, setLabSelection] = React.useState("");
-  const [class_list, setClassList] = React.useState([]);
-  const [class_selection, setClassSelection] = React.useState("");
+  const [course_list, setCourseList] = React.useState([]);
+  const [course_selection, setCourseSelection] = React.useState("");
   const [vm_name, setVmName] = React.useState("");
   const [user_list, setUserList] = React.useState([]);
   const [user_selection, setUserSelection] = React.useState("");
@@ -136,14 +136,14 @@ export default function CreateVMDialog() {
     fetch("https://api.rellis.dev/get.php?q=get_classes")
       .then((response) => response.json())
       .then((data) => {
-        var class_list = data.map(function (class_obj) {
+        var course_list = data.map(function (class_obj) {
           return (
             <MenuItem key={class_obj.tag} value={class_obj.tag}>
               {class_obj.tag}
             </MenuItem>
           );
         });
-        setClassList(class_list);
+        setCourseList(course_list);
       });
   };
 
@@ -217,19 +217,19 @@ export default function CreateVMDialog() {
             onChange={set_vm_name}
           />
           <FormControl sx={{ m: 2, minWidth: "46%" }}>
-            <InputLabel htmlFor="class">Class</InputLabel>
+            <InputLabel htmlFor="course">Course</InputLabel>
             <Select
-              value={class_selection}
+              value={course_selection}
               onChange={(event) => {
-                setClassSelection(event.target.value);
+                setCourseSelection(event.target.value);
               }}
-              label="Class"
+              label="Course"
               inputProps={{
-                name: "class",
-                id: "class",
+                name: "course",
+                id: "course",
               }}
             >
-              {class_list}
+              {course_list}
             </Select>
           </FormControl>
           <FormControl sx={{ m: 2, minWidth: "46%" }}>

@@ -62,7 +62,7 @@ const OngoingLabs = () => {
           <tr>
             <th></th>
             <th>Name</th>
-            <th>Class</th>
+            <th>Course</th>
             <th>Time Left</th>
           </tr>
         </thead>

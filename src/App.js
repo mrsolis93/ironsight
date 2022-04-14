@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Analysis from "./Pages/Analysis";
-import Labs from "./Pages/Labs";
+import Courses from "./Pages/Courses";
 import Resources from "./Pages/Resources";
 import Sandbox from "./Pages/Sandbox";
 import Users from "./Pages/Users";
@@ -15,6 +15,7 @@ import LabOverview from "./Pages/DetailPages/LabOverview";
 import LabDetails from "./Pages/DetailPages/LabDetails";
 import UserDetails from "./Pages/DetailPages/UserDetails";
 import VMDetails from "./Pages/DetailPages/VMDetails";
+import CourseDetails from "./Pages/DetailPages/CourseDetails";
 
 const darkTheme = createTheme({
   palette: {
@@ -50,7 +51,7 @@ function App() {
               <Route path="/home" exact element={<Home />} />
               <Route path="/analysis" element={<Analysis />} />
               <Route path="/analysis/reports" element={<Analysis />} />
-              <Route path="/labs" element={<Labs />} />
+              <Route path="/classes" element={<Courses />} />
               <Route
                 path="lab_details/:lab_num"
                 element={<LabOverview />}
@@ -59,6 +60,7 @@ function App() {
                 path="lab_details/:lab_num/:student_name"
                 element={<LabDetails />}
               />
+              <Route path="course_details/:course_id" element={<CourseDetails />} />
               <Route path="vm_details/:vm_name" element={<VMDetails />} />
               <Route path="user_details/:user_name" element={<UserDetails />} />
               <Route path="/resources" element={<Resources />} />

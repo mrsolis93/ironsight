@@ -103,23 +103,23 @@ function LabOverview() {
     <div className="labs">
       <Navbar />
 
-      <div class="navbar bg-base-300 rounded-box">
-  <div class="flex-1 px-2 lg:flex-none">
-    <a class="text-lg font-bold">{data.lab_name}</a>
+      <div className="navbar bg-base-300 rounded-box">
+  <div className="flex-1 px-2 lg:flex-none">
+    <a className="text-lg font-bold">{data.lab_name}</a>
   </div> 
-  <div class="flex justify-end flex-1 px-2">
-    <div class="flex items-stretch">
+  <div className="flex justify-end flex-1 px-2">
+    <div className="flex items-stretch">
     <p className="w-60 mt-4">Date start: {data.date_start}</p>
       <p className="w-60 mt-4">Date end: {data.date_end}</p>
-      <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-ghost rounded-btn">Description</label>
-        <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+      <div className="dropdown dropdown-end">
+        <label tabindex="0" className="btn btn-ghost rounded-btn">Description</label>
+        <ul tabindex="0" className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
           <li><a>{data.lab_description}</a></li> 
         </ul>
       </div>
-        <div class="dropdown dropdown-end">
-        <label tabindex="1" class="btn btn-ghost rounded-btn">Tags</label>
-        <ul tabindex="1" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+        <div className="dropdown dropdown-end">
+        <label tabindex="1" className="btn btn-ghost rounded-btn">Tags</label>
+        <ul tabindex="1" className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
           <li>{get_tags()}</li>
         </ul>
         </div>
