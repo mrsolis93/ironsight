@@ -62,41 +62,40 @@ function CourseDetails() {
         <div className="row-span-1 col-span-5 lg:col-span-1">
           <div className="rounded-box w-full h-full bg-base-100 shadow-xl">
             <div className="sidebar-links">
-              <table className="table w-full">
-                <tbody className="w-full">
                   {/* Display rows but highlight the one using selectedTab */}
-                  <tr
+                  <div className="grid grid-cols-1 grid-flow-row gap-4 mx-4">
+
+                  <button
                     className={
                       selectedTab === "labs"
-                        ? "text-2xl text-base-900 hover cursor-pointer"
-                        : "text-base-900 hover cursor-pointer"
+                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mt-4"
+                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mt-4"
                     }
                     onClick={() => set_selected_tab("labs")}
-                  >
-                    <td className="w-full">Labs</td>
-                  </tr>
-                  <tr
+                    >
+                    Labs
+                  </button>
+                  <button
                     className={
                       selectedTab === "students"
-                        ? "text-2xl text-base-900 hover cursor-pointer"
-                        : "text-base-900 hover cursor-pointer"
+                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer"
+                      : "btn btn-outline w-full text-base-900 hover cursor-pointer"
                     }
                     onClick={() => set_selected_tab("students")}
-                  >
-                    <td className="w-full">Students</td>
-                  </tr>
-                  <tr
+                    >
+                    Students
+                  </button>
+                  <button
                     className={
                       selectedTab === "virtual_machines"
-                        ? "text-2xl text-base-900 hover cursor-pointer"
-                        : "text-base-900 hover cursor-pointer"
+                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer"
+                      : "btn btn-outline w-full text-base-900 hover cursor-pointer"
                     }
                     onClick={() => set_selected_tab("virtual_machines")}
-                  >
-                    <td className="w-full">Virtual Machines</td>
-                  </tr>
-                </tbody>
-              </table>
+                    >
+                    Virtual Machines
+                  </button>
+                    </div>
             </div>
           </div>
         </div>
