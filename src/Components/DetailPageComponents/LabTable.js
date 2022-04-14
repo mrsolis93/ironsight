@@ -52,7 +52,7 @@ const LabTable = ({ course_id, sub_tag }) => {
         </td>
         <td>
           <div>
-            <p className="w-96 md:w-full relative overflow-x-auto break-words whitespace-normal max-h-24">
+            <p className="w-48 xl:w-[500px] relative text-ellipsis overflow-hidden max-h-24">
               {lab.lab_description}
             </p>
           </div>

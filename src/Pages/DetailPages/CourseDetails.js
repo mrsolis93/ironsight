@@ -57,7 +57,7 @@ function CourseDetails() {
 
       {/* Sidebar with Labs, Students, and Virtual Machines tabs */}
       <div className="grid grid-cols-5 gap-4 m-4 h-[80%]">
-        <div className="row-span-1 col-span-1">
+        <div className="row-span-1 col-span-5 lg:col-span-1">
           <div className="rounded-box w-full h-full bg-base-100 shadow-xl">
             <div className="sidebar-links">
               <table className="table w-full">
@@ -66,8 +66,8 @@ function CourseDetails() {
                   <tr
                     className={
                       selectedTab === "labs"
-                        ? "text-2xl text-base-900 hover"
-                        : "text-base-900"
+                        ? "text-2xl text-base-900 hover cursor-pointer"
+                        : "text-base-900 hover cursor-pointer"
                     }
                     onClick={() => set_selected_tab("labs")}
                   >
@@ -76,8 +76,8 @@ function CourseDetails() {
                   <tr
                     className={
                       selectedTab === "students"
-                        ? "text-2xl text-base-900"
-                        : "text-base-900"
+                        ? "text-2xl text-base-900 hover cursor-pointer"
+                        : "text-base-900 hover cursor-pointer"
                     }
                     onClick={() => set_selected_tab("students")}
                   >
@@ -86,8 +86,8 @@ function CourseDetails() {
                   <tr
                     className={
                       selectedTab === "virtual_machines"
-                        ? "text-2xl text-base-900"
-                        : "text-base-900"
+                        ? "text-2xl text-base-900 hover cursor-pointer"
+                        : "text-base-900 hover cursor-pointer"
                     }
                     onClick={() => set_selected_tab("virtual_machines")}
                   >
@@ -100,7 +100,7 @@ function CourseDetails() {
         </div>
 
         {/* Page content */}
-        <div className="row-span-1 col-span-4">
+        <div className="row-span-1 col-span-5 lg:col-span-4">
           <div className="rounded-box w-full h-full bg-base-100 shadow-xl">
             <div className="course-content">
               {/* Display the selected tab */}
