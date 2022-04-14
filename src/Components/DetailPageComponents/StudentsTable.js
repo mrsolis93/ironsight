@@ -73,9 +73,9 @@ const StudentsTable = ({ course_id, sub_tag }) => {
     return (
       <tr key={student.user_name} className="hover">
         <td>
-          <div class="flex items-center space-x-3">
-            <div class="avatar">
-              <div class="mask mask-squircle w-12 h-12">
+          <div className="flex items-center space-x-3">
+            <div className="avatar">
+              <div className="mask mask-squircle w-12 h-12">
                 <img
                   src={profile_pic_data}
                   alt="User Avatar"
@@ -87,10 +87,10 @@ const StudentsTable = ({ course_id, sub_tag }) => {
                 to={"/user_details/" + student.user_name}
                 key={student.user_name + "_link"}
               >
-                <div class="font-bold">
+                <div className="font-bold">
                   {first_name} {last_name}
                 </div>
-                <div class="text-sm opacity-50">
+                <div className="text-sm opacity-50">
                   Computer Information Systems
                 </div>
               </Link>
@@ -108,8 +108,8 @@ const StudentsTable = ({ course_id, sub_tag }) => {
   var student_name = "";
 
   return (
-    <div class="overflow-x-auto w-full">
-      <table class="table w-full">
+    <div className="overflow-x-auto w-full">
+      <table className="table w-full">
         {/* <!-- head --> */}
         <thead>
           <tr>
