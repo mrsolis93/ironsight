@@ -102,8 +102,8 @@ function CourseDetails() {
         </div>
 
         {/* Page content */}
-        <div className="row-span-1 col-span-5 lg:col-span-4">
-          <div className="rounded-box w-full h-full bg-base-100 shadow-xl">
+        <div className="rounded-box row-span-1 col-span-5 lg:col-span-4 h-full overflow-auto">
+          <div className="w-full h-full bg-base-100 shadow-xl">
             <div className="course-content">
               {/* Display the selected tab */}
 
@@ -119,9 +119,8 @@ function CourseDetails() {
 
               {/* Virtual Machines */}
               {selectedTab === "virtual_machines" && (
-                <VirtualMachinesTable />
+                <VirtualMachinesTable course_id={course_id} sub_tag={sub_tag} />
               )}
-
             </div>
           </div>
         </div>

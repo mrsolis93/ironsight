@@ -119,7 +119,7 @@ function LabOverview() {
         <div className="flex flex-1 px-2">
           <div className="flex items-stretch">
             <div className="flex flex-col">
-              <div className="flex flex-row ml-4 text-xl text-md breadcrumbs m-4">
+              <div className="flex flex-row ml-4 text-md breadcrumbs m-4">
               
         <ul>
           <li>
