@@ -42,7 +42,7 @@ function Courses() {
       <div>
         {/* Course cards */}
         {/* If cards are going to off the screen, make them go into the next column */}
-        <div className="flex flex-wrap m-4 mx-8 gap-8">{course_cards}</div>
+        <div className="grid grid-cols-1 md:flex md:flex-wrap m-4 gap-4 md:gap-8">{course_cards}</div>
       </div>
     </div>
   );
