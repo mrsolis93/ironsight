@@ -126,7 +126,7 @@ function LabOverview() {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/labs">Labs</Link>
+            <Link to="/courses">Labs</Link>
           </li>
           <li>
             <strong>{data.lab_name}</strong>
