@@ -56,7 +56,7 @@ const OngoingLabs = () => {
   });
 
   return (
-    <div className="overflow-auto">
+    <div className="overflow-y-auto overflow-x-hidden">
       <table className="table w-full">
         <thead>
           <tr>
