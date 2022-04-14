@@ -35,8 +35,8 @@ const ActivityLog = () => {
   const activity_log_reversed = activity_log.reverse();
 
   return (
-    <div className="overflow-x-auto">
-      <table className="table">
+    <div className="overflow-auto max-h-72">
+      <table className="table w-full">
         <thead>
           <tr>
             <th></th>

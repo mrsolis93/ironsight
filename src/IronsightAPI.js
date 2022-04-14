@@ -122,12 +122,22 @@ export const getLabOverview = async ({ queryKey }) => {
   return response.json();
 };
 
-export const getClassList = async () => {
+export const getCourseList = async () => {
   const response = await fetch(
-    `${process.env.REACT_APP_API_SERVER}get.php?q=get_classes`
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_courses`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch class list");
+  }
+  return response.json();
+};
+
+export const getUsersList = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_users`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch user list");
   }
   return response.json();
 };

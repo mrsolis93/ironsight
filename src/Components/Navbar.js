@@ -8,6 +8,8 @@ import { NavbarData, userNavigation } from "./NavbarData";
 import styled from "styled-components";
 import "../App.css";
 import ThemeButton from "./ThemeButton";
+import { useQuery } from "react-query";
+import { getUsersList } from "../IronsightAPI";
 
 const DesktopLinks = styled.div`
   display: flex;
@@ -49,6 +51,23 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const { data, isLoading, isError } = useQuery("users_list", getUsersList);
+  const currentUser = localStorage.getItem("ironsight_username");
+  // Check for a link to a profile picture
+  var profile_pic_data =
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
+  // Check the users_list for the current user
+  if (!isLoading && !isError) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]["user_name"] === currentUser) {
+          console.log("Found user: " + data[i].user_name);
+        if (data[i]["profile_pic_data"] !== null) {
+          profile_pic_data = data[i]["profile_pic_data"];
+        }
+      }
+    }
+  }
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -110,7 +129,7 @@ export default function Navbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://tylerharrison.dev/images/user-3.jpg"
+                        src={profile_pic_data}
                         alt=""
                       />
                     </Menu.Button>

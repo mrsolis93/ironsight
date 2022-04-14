@@ -17,11 +17,11 @@ class Home extends Component {
       <>
         <Navbar />
         <div className="home">
+          <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 md:mx-3 max-h-[90%]">
           {/* Upper row */}
-          <div className="flex md:flex-row flex-col mt-3 md:mr-3 md:ml-3">
             {/* Ongoing Labs */}
-            <div className="max-h-96 md:w-1/4 rounded-box bg-base-100 shadow-xl m-3">
-              <div className="card-body p-4 md:p-8 max-h-96">
+            <div className="col-span-1 row-span-1 rounded-box bg-base-100 shadow-xl m-3">
+              <div className="card-body p-4 md:p-8">
                 <div className="flex flex-row">
                   <h2 className="card-title mr-3">Ongoing Labs</h2>
 
@@ -35,11 +35,11 @@ class Home extends Component {
             </div>
 
             {/* VM Overview */}
-            <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
-              <div className="flex flex-col max-h-96 card-body p-4 md:p-8">
+            <div className="md:col-span-2 row-span-1 rounded-box bg-base-100 shadow-xl m-3">
+              <div className="flex flex-col card-body p-4 md:p-8">
                 <h2 className="card-title">VM Overview</h2>
                 <div className="flex flex-col md:flex-row">
-                  <div className="hidden lg:flex max-h-10 w-3/4">
+                  <div className="hidden lg:flex max-h-10 w-10/12">
                     <ReAreaChart />
                   </div>
                   <div className="flex flex-row md:flex-col">
@@ -50,7 +50,7 @@ class Home extends Component {
             </div>
 
             {/* News Widget */}
-            <div className="md:w-1/4 rounded-box bg-base-100 shadow-xl m-3 max-h-96">
+            <div className="col-span-1 row-span-1 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body p-4 md:p-8 max-h-96">
                 <div className="flex flex-row">
                   <h2 className="card-title">News / Alerts</h2>
@@ -58,32 +58,29 @@ class Home extends Component {
                 <NewsWidget />
               </div>
             </div>
-          </div>
+
           {/* Lower Row */}
-          <div className="flex md:flex-row flex-col md:mr-3 md:ml-3">
             {/* Hypervisor Performance */}
-            <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
+            <div className="md:col-span-2 row-span-1 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body p-4 md:p-8">
                 <h2 className="card-title">Hypervisor Performance</h2>
                 <div className="flex flex-col md:flex-row">
                   <div className="flex flex-col md:w-1/2">
                     <HypervisorCPUWidget />
-                    <HypervisorNetworkWidget />
+                    {/* <HypervisorNetworkWidget /> */}
                   </div>
                   <div className="flex flex-col md:w-1/2">
                     <HypervisorMemoryWidget />
-                    <HypervisorDiskWidget />
+                    {/* <HypervisorDiskWidget /> */}
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Recent Activity */}
-            <div className="md:w-1/2 rounded-box bg-base-100 shadow-xl m-3">
+            <div className="md:col-span-2 row-span-1 rounded-box bg-base-100 shadow-xl m-3">
               <div className="card-body p-4 md:p-8">
-                <div className="flex flex-row">
                   <h2 className="card-title">Recent Activity</h2>
-                </div>
                 <ActivityLog />
               </div>
             </div>
