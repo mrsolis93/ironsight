@@ -88,8 +88,8 @@ function CourseDetails() {
                   <button
                     className={
                       selectedTab === "virtual_machines"
-                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer"
-                      : "btn btn-outline w-full text-base-900 hover cursor-pointer"
+                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4"
+                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4"
                     }
                     onClick={() => set_selected_tab("virtual_machines")}
                     >
