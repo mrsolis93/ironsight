@@ -11,6 +11,7 @@ npm install
 ```
 
 ## Usage
+
 If you are using this for development purposes, it is recommended to run using:
 
 ```bash
@@ -27,19 +28,37 @@ After building/compiling the project, it can be served just like any other web p
 
 ## UI/UX Design
 
-![Ironsight Homepage](frontPage.png)
+### Homepage
+
+![Ironsight Homepage](screenshots/Ironsight_home.png)
+
+### Virtual Machine Details
+
+![Ironsight Virtual Machine Details](screenshots/Ironsight_vm_details.png)
+
+### VM Creation
+
+![Ironsight VM Creation](screenshots/Ironsight_vm_create.png)
+
+### Course User Layout
+
+![Ironsight Course User Layout](screenshots/Ironsight_users.png)
 
 ## Contributing
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
 ## Credits
+
 This project was created by a group of students at Texas A&M-Commerce for Systems Analysis & Design (CSCI 359)
+
 - Truman Brown
 - Tyler Harrison
 - Sudip Koirala
 - Augustine Solis
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
