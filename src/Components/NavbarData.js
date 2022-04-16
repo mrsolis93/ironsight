@@ -43,13 +43,13 @@ export const NavbarData = [
     current: false
   },
 
-  {
-    name: "Analysis",
-    path: "/analysis",
-    icon: <MdTimeline />,
-    current: false
+  // {
+  //   name: "Analysis",
+  //   path: "/analysis",
+  //   icon: <MdTimeline />,
+  //   current: false
 
-  },
+  // },
 
   {
     name: "Sandbox",
