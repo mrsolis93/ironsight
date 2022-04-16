@@ -4,8 +4,14 @@ import Navbar from "../../Components/Navbar";
 import { Link, useParams } from "react-router-dom";
 import ReAreaChart from "../../Charts/ReAreaChart";
 import { BsPower } from "react-icons/bs";
-import { getHarvesterVMList, getBashHistory, getRunningProcesses, getFileMonitoring } from "../../IronsightAPI";
+import {
+  getHarvesterVMList,
+  getBashHistory,
+  getRunningProcesses,
+  getFileMonitoring,
+} from "../../IronsightAPI";
 import { useQuery } from "react-query";
+import LinearProgress from "@mui/material/LinearProgress";
 
 function VMDetails() {
   // Function to power on a VM with a GET request
@@ -92,7 +98,7 @@ function VMDetails() {
     } else {
       return (
         <tr>
-          <td>Loading...</td>
+          <td><LinearProgress /></td>
         </tr>
       );
     }
@@ -121,10 +127,15 @@ function VMDetails() {
         >
           <td>{running_process["_source"]["osquery"]["pid"]}</td>
           <td>{running_process["_source"]["osquery"]["name"]}</td>
-          <td>{
-            (parseFloat(running_process["_source"]["osquery"]["memory_used"]) / 102.4).toString().split(".")[0] + " MB"
-          }</td>
-          </tr>
+          <td>
+            {(
+              parseFloat(running_process["_source"]["osquery"]["memory_used"]) /
+              102.4
+            )
+              .toString()
+              .split(".")[0] + " MB"}
+          </td>
+        </tr>
       ));
       if (running_processes_rows.length === 0) {
         running_processes_rows = (
@@ -137,7 +148,7 @@ function VMDetails() {
     } else {
       return (
         <tr>
-          <td>Loading...</td>
+          <td><LinearProgress /></td>
         </tr>
       );
     }
@@ -156,16 +167,17 @@ function VMDetails() {
     if (!modified_isLoading && !modified_isError) {
       modified_files = modified_files_data.hits.hits;
       var modified_files_rows = modified_files.map((modified_file) => (
-        <tr
-          key={modified_file["_source"]["osquery"]["path"]}
-          className="hover"
-        >
-          <td className="break-normal whitespace-normal">{modified_file["_source"]["osquery"]["path"]}</td>
+        <tr key={modified_file["_source"]["osquery"]["path"]} className="hover">
+          <td className="break-normal whitespace-normal">
+            {modified_file["_source"]["osquery"]["path"]}
+          </td>
           <td>{modified_file["_source"]["osquery"]["owner"]}</td>
           <td>{modified_file["_source"]["osquery"]["last_mod"]}</td>
-          <td>{
-            modified_file["_source"]["osquery"]["size_mb"].toString().split(".")[0] + " MB"
-          }</td>
+          <td>
+            {modified_file["_source"]["osquery"]["size_mb"]
+              .toString()
+              .split(".")[0] + " MB"}
+          </td>
           <td>{modified_file["_source"]["osquery"]["created"]}</td>
         </tr>
       ));
@@ -180,7 +192,7 @@ function VMDetails() {
     } else {
       return (
         <tr>
-          <td>Loading...</td>
+          <td><LinearProgress /></td>
         </tr>
       );
     }
@@ -234,16 +246,16 @@ function VMDetails() {
             {/* Performance Header */}
             <div className="grid grid-cols-3 mb-4">
               {/* Performance Graph title */}
-              <div className="col-span-1">
+              <div className="col-span-1 mb-4">
                 <h2 className="card-title">Performance Graph</h2>
               </div>
 
               {/* Pagination widget */}
-              <div className="tabs tabs-boxed col-span-2 justify-self-end">
+              {/* <div className="tabs tabs-boxed col-span-2 justify-self-end">
                 <a className="tab tab-active">CPU</a>
                 <a className="tab">RAM</a>
                 <a className="tab">Network</a>
-              </div>
+              </div> */}
             </div>
             <ReAreaChart />
           </div>
@@ -360,9 +372,7 @@ function VMDetails() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="w-full">
-                  {get_running_processes()}
-                </tbody>
+                <tbody className="w-full">{get_running_processes()}</tbody>
               </table>
             </div>
           </div>
@@ -414,9 +424,7 @@ function VMDetails() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="w-full">
-                  {get_modified_files()}
-                </tbody>
+                <tbody className="w-full">{get_modified_files()}</tbody>
               </table>
             </div>
           </div>
