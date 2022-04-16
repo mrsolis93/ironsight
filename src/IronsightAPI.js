@@ -82,6 +82,26 @@ export const getDiskUsage = async () => {
   return response.json();
 };
 
+export const getVMCPUUsage = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vm_cpu_usage&step=5`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch VM CPU usage");
+  }
+  return response.json();
+};
+
+export const getVMMemoryUsage = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vm_memory_usage&step=5`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch VM memory usage");
+  }
+  return response.json();
+};
+
 export const getNumVMsOn = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms_on`

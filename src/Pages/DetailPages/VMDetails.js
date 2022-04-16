@@ -12,6 +12,8 @@ import {
 } from "../../IronsightAPI";
 import { useQuery } from "react-query";
 import LinearProgress from "@mui/material/LinearProgress";
+import VMCPUWidget from "../../Components/Widgets/VMStats/VMCPUWidget";
+import VMMemoryWidget from "../../Components/Widgets/VMStats/VMMemoryWidget";
 
 function VMDetails() {
   // Function to power on a VM with a GET request
@@ -246,7 +248,7 @@ function VMDetails() {
       {/* VM details contents */}
       <div className="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-4 mx-4">
         <div className="row-span-4 md:col-span-2 rounded-box bg-base-100 shadow-xl">
-          <div className="mx-4 my-6">
+          <div className="mx-4 my-6 h-full">
             {/* Performance Header */}
             <div className="grid grid-cols-3 mb-4">
               {/* Performance Graph title */}
@@ -261,7 +263,7 @@ function VMDetails() {
                 <a className="tab">Network</a>
               </div>
             </div>
-            {/* <ReAreaChart /> */}
+            <VMCPUWidget vm_name={vm_name}/>
           </div>
         </div>
         <div className="col-span-1 row-span-1 rounded-box bg-base-100 shadow-xl">
