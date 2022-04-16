@@ -180,6 +180,24 @@ export const getBashHistory = async ({queryKey}) => {
   return response.json();
 };
 
+export const getRunningProcesses = async ({queryKey}) => {
+  // End_time is in this format: 2022-01-15T12:37:25.294Z
+  // Start time is 15 minutes ago
+  const start_time = Date.now() - 15 * 60 * 1000;
+  const end_time = Date.now();
+  // Convert to ISO 8601 (Zulu time)
+  const start_time_iso = new Date(start_time).toISOString();
+  const end_time_iso = new Date(end_time).toISOString();
+  console.log("Date: ", start_time_iso, end_time_iso);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_Processes"}}],"should": [],"must_not": []}}}'&i=.ds-logs-osquery_manager.result-default-2022.04.02-000001`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch running processes");
+  }
+  return response.json();
+};
+
 export const postActivityLog = (username, activity) => {
   return fetch(`${process.env.REACT_APP_API_SERVER}log_data.php`, {
     method: "POST",

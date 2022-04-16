@@ -4,7 +4,7 @@ import Navbar from "../../Components/Navbar";
 import { Link, useParams } from "react-router-dom";
 import ReAreaChart from "../../Charts/ReAreaChart";
 import { BsPower } from "react-icons/bs";
-import { getHarvesterVMList, getBashHistory } from "../../IronsightAPI";
+import { getHarvesterVMList, getBashHistory, getRunningProcesses } from "../../IronsightAPI";
 import { useQuery } from "react-query";
 
 function VMDetails() {
@@ -89,6 +89,51 @@ function VMDetails() {
         );
       }
       return bash_history_rows;
+    } else {
+      return (
+        <tr>
+          <td>Loading...</td>
+        </tr>
+      );
+    }
+  };
+
+  // Get the VM's running processes
+  const {
+    data: running_processes_data,
+    isLoading: running_isLoading,
+    isError: running_isError,
+  } = useQuery(["running_processes" + vm_name, vm_name], getRunningProcesses);
+  var running_processes = [];
+
+  // Map the process to table rows
+  const get_running_processes = () => {
+    if (!running_isLoading && !running_isError) {
+      running_processes = running_processes_data.hits.hits;
+      // Sort the processes by highest memory usage
+      running_processes.sort((a, b) => {
+        return b._source.memory_usage - a._source.osquery.memory_used;
+      });
+      var running_processes_rows = running_processes.map((running_process) => (
+        <tr
+          key={running_process["_source"]["osquery"]["pid"]}
+          className="hover break-normal whitespace-normal"
+        >
+          <td>{running_process["_source"]["osquery"]["pid"]}</td>
+          <td>{running_process["_source"]["osquery"]["name"]}</td>
+          <td>{
+            (parseFloat(running_process["_source"]["osquery"]["memory_used"]) / 102.4).toString().split(".")[0] + " MB"
+          }</td>
+          </tr>
+      ));
+      if (running_processes_rows.length === 0) {
+        running_processes_rows = (
+          <tr>
+            <td>No running processes found</td>
+          </tr>
+        );
+      }
+      return running_processes_rows;
     } else {
       return (
         <tr>
@@ -262,13 +307,10 @@ function VMDetails() {
                 <thead>
                   <tr>
                     <th>
-                      <span>Process</span>
+                      <span>PID</span>
                     </th>
                     <th>
-                      <span>User</span>
-                    </th>
-                    <th>
-                      <span>CPU</span>
+                      <span>Name</span>
                     </th>
                     <th>
                       <span>Memory</span>
@@ -276,30 +318,7 @@ function VMDetails() {
                   </tr>
                 </thead>
                 <tbody className="w-full">
-                  <tr>
-                    <td>free-robux-generator</td>
-                    <td>root</td>
-                    <td>90.10%</td>
-                    <td>68.90%</td>
-                  </tr>
-                  <tr>
-                    <td>bash</td>
-                    <td>tyler</td>
-                    <td>1.20%</td>
-                    <td>0.10%</td>
-                  </tr>
-                  <tr>
-                    <td>cloud-initd</td>
-                    <td>root</td>
-                    <td>0.10%</td>
-                    <td>1.70%</td>
-                  </tr>
-                  <tr>
-                    <td>firefox</td>
-                    <td>tyler</td>
-                    <td>8.70%</td>
-                    <td>40.80%</td>
-                  </tr>
+                  {get_running_processes()}
                 </tbody>
               </table>
             </div>
