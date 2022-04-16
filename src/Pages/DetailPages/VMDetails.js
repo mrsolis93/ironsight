@@ -98,7 +98,9 @@ function VMDetails() {
     } else {
       return (
         <tr>
-          <td><LinearProgress /></td>
+          <td>
+            <LinearProgress />
+          </td>
         </tr>
       );
     }
@@ -148,7 +150,9 @@ function VMDetails() {
     } else {
       return (
         <tr>
-          <td><LinearProgress /></td>
+          <td>
+            <LinearProgress />
+          </td>
         </tr>
       );
     }
@@ -192,7 +196,9 @@ function VMDetails() {
     } else {
       return (
         <tr>
-          <td><LinearProgress /></td>
+          <td>
+            <LinearProgress />
+          </td>
         </tr>
       );
     }
@@ -361,9 +367,9 @@ function VMDetails() {
               <table className="table table-compact w-full">
                 <thead>
                   <tr>
-                    <th>
+                    <td>
                       <span>PID</span>
-                    </th>
+                    </td>
                     <th>
                       <span>Name</span>
                     </th>
@@ -384,9 +390,9 @@ function VMDetails() {
               <table className="table table-compact w-full">
                 <thead>
                   <tr>
-                    <th>
+                    <td>
                       <span>Timestamp</span>
-                    </th>
+                    </td>
                     <th>
                       <span>Command</span>
                     </th>
@@ -407,9 +413,7 @@ function VMDetails() {
               <table className="overflow-auto table table-compact w-full">
                 <thead>
                   <tr>
-                    <th>
-                      <span>Path</span>
-                    </th>
+                    <td>Path</td>
                     <th>
                       <span>Owner</span>
                     </th>
