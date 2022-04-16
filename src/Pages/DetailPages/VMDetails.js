@@ -41,11 +41,15 @@ function VMDetails() {
       console.log("[Ironsight] Cancelled power on VM: " + hostname);
     }
   };
+  const [refetchInterval, setRefetchInterval] = React.useState(15000);
   const {
     data: harvester_data,
     isLoading: harvester_isLoading,
     isError: harvester_isError,
-  } = useQuery("harvester_vms", getHarvesterVMList);
+  } = useQuery("harvester_vms", getHarvesterVMList, {
+    // Refetch the data every 15 seconds
+    refetchInterval: refetchInterval,
+  });
 
   const { vm_name } = useParams();
   var vm_status = "";
@@ -95,7 +99,10 @@ function VMDetails() {
     data: bash_history_data,
     isLoading: bash_isLoading,
     isError: bash_isError,
-  } = useQuery(["bash_history" + vm_name, vm_name], getBashHistory);
+  } = useQuery(["bash_history" + vm_name, vm_name], getBashHistory, {
+    // Refetch the data every 15 seconds
+    refetchInterval: refetchInterval,
+  });
   var bash_history = [];
 
   if (!bash_isLoading && !bash_isError) {
@@ -147,7 +154,10 @@ function VMDetails() {
     data: running_processes_data,
     isLoading: running_isLoading,
     isError: running_isError,
-  } = useQuery(["running_processes" + vm_name, vm_name], getRunningProcesses);
+  } = useQuery(["running_processes" + vm_name, vm_name], getRunningProcesses, {
+    // Refetch the data every 15 seconds
+    refetchInterval: refetchInterval,
+  });
   var running_processes = [];
 
   // Map the process to table rows
@@ -199,7 +209,10 @@ function VMDetails() {
     data: modified_files_data,
     isLoading: modified_isLoading,
     isError: modified_isError,
-  } = useQuery(["modified_files" + vm_name, vm_name], getFileMonitoring);
+  } = useQuery(["modified_files" + vm_name, vm_name], getFileMonitoring, {
+    // Refetch the data every 15 seconds
+    refetchInterval: refetchInterval,
+  });
   var modified_files = [];
 
   // Map the file modifications to table rows
@@ -297,9 +310,7 @@ function VMDetails() {
                 {/* When clicked, changed selected_graph between CPU, RAM, and Network */}
                 <button
                   className={
-                    selected_graph === "CPU"
-                      ? "tab tab-active"
-                      : "tab"
+                    selected_graph === "CPU" ? "tab tab-active" : "tab"
                   }
                   onClick={() => setSelectedGraph("CPU")}
                 >
@@ -307,9 +318,7 @@ function VMDetails() {
                 </button>
                 <button
                   className={
-                    selected_graph === "RAM"
-                      ? "tab tab-active"
-                      : "tab"
+                    selected_graph === "RAM" ? "tab tab-active" : "tab"
                   }
                   onClick={() => setSelectedGraph("RAM")}
                 >
@@ -317,9 +326,7 @@ function VMDetails() {
                 </button>
                 <button
                   className={
-                    selected_graph === "Network"
-                    ? "tab tab-active"
-                    : "tab"
+                    selected_graph === "Network" ? "tab tab-active" : "tab"
                   }
                   onClick={() => setSelectedGraph("Network")}
                 >
@@ -354,33 +361,36 @@ function VMDetails() {
                 </span>
               </button>
             ) : vm_status === "Starting" ? (
-              <button className="btn btn-info btn-outline btn-lg col-span-1 text-2xl">
+              <button
+                className="btn btn-info btn-outline btn-lg col-span-1 text-2xl"
+                onClick={() => {
+                  toggleVMPower(vm_name);
+                }}
+              >
                 <span>
-                  <BsPower
-                    onClick={() => {
-                      toggleVMPower(vm_name);
-                    }}
-                  />
+                  <BsPower />
                 </span>
               </button>
             ) : vm_status === "Stopped" ? (
-              <button className="btn btn-error btn-outline btn-lg col-span-1 text-2xl">
+              <button
+                className="btn btn-error btn-outline btn-lg col-span-1 text-2xl"
+                onClick={() => {
+                  toggleVMPower(vm_name);
+                }}
+              >
                 <span>
-                  <BsPower
-                    onClick={() => {
-                      toggleVMPower(vm_name);
-                    }}
-                  />
+                  <BsPower />
                 </span>
               </button>
             ) : (
-              <button className="btn btn-warning btn-outline btn-lg col-span-1 text-2xl">
+              <button
+                className="btn btn-warning btn-outline btn-lg col-span-1 text-2xl"
+                onClick={() => {
+                  toggleVMPower(vm_name);
+                }}
+              >
                 <span>
-                  <BsPower
-                    onClick={() => {
-                      toggleVMPower(vm_name);
-                    }}
-                  />
+                  <BsPower />
                 </span>
               </button>
             )}
