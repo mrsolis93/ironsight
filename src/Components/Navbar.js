@@ -60,7 +60,6 @@ export default function Navbar() {
   if (!isLoading && !isError) {
     for (let i = 0; i < data.length; i++) {
       if (data[i]["user_name"] === currentUser) {
-          console.log("Found user: " + data[i].user_name);
         if (data[i]["profile_pic_data"] !== null) {
           profile_pic_data = data[i]["profile_pic_data"];
         }

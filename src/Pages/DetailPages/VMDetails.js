@@ -50,7 +50,6 @@ function VMDetails() {
     for (let i = 0; i < harvester_data.length; i++) {
       if (harvester_data[i]["metadata"]["name"] === vm_name) {
         vm_status = harvester_data[i]["status"]["printableStatus"];
-        console.log(vm_status);
       }
     }
   }
