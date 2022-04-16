@@ -82,6 +82,26 @@ export const getDiskUsage = async () => {
   return response.json();
 };
 
+export const getVMCPUUsage = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vm_cpu_usage&step=5`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch VM CPU usage");
+  }
+  return response.json();
+};
+
+export const getVMMemoryUsage = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vm_memory_usage&step=5`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch VM memory usage");
+  }
+  return response.json();
+};
+
 export const getNumVMsOn = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms_on`
@@ -158,6 +178,57 @@ export const getActivityLog = async () => {
   );
   if (!response.ok) {
     throw new Error("Failed to fetch activity log");
+  }
+  return response.json();
+};
+
+export const getBashHistory = async ({queryKey}) => {
+  // End_time is in this format: 2022-01-15T12:37:25.294Z
+  // Start time is 15 minutes ago
+  const start_time = Date.now() - 15 * 60 * 1000;
+  const end_time = Date.now();
+  // Convert to ISO 8601 (Zulu time)
+  const start_time_iso = new Date(start_time).toISOString();
+  const end_time_iso = new Date(end_time).toISOString();
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_bash_history"}}]}}}'&i=.ds-logs-osquery_manager.result-default-2022.04.02-000001`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch bash history");
+  }
+  return response.json();
+};
+
+export const getRunningProcesses = async ({queryKey}) => {
+  // End_time is in this format: 2022-01-15T12:37:25.294Z
+  // Start time is 15 minutes ago
+  const start_time = Date.now() - 15 * 60 * 1000;
+  const end_time = Date.now();
+  // Convert to ISO 8601 (Zulu time)
+  const start_time_iso = new Date(start_time).toISOString();
+  const end_time_iso = new Date(end_time).toISOString();
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_Processes"}}],"should": [],"must_not": []}}}'&i=.ds-logs-osquery_manager.result-default-2022.04.02-000001`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch running processes");
+  }
+  return response.json();
+};
+
+export const getFileMonitoring = async ({queryKey}) => {
+  // End_time is in this format: 2022-01-15T12:37:25.294Z
+  // Start time is 15 minutes ago
+  const start_time = Date.now() - 15 * 60 * 1000;
+  const end_time = Date.now();
+  // Convert to ISO 8601 (Zulu time)
+  const start_time_iso = new Date(start_time).toISOString();
+  const end_time_iso = new Date(end_time).toISOString();
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_file_monitoring"}}],"should": [],"must_not": []}}}'&i=.ds-logs-osquery_manager.result-default-2022.04.02-000001`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch file monitoring");
   }
   return response.json();
 };

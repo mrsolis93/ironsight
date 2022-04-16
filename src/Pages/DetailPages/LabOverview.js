@@ -158,7 +158,7 @@ function LabOverview() {
                   <table className="table w-full">
           <thead>
             <tr>
-              <th>Users</th>
+              <td>Users</td>
             </tr>
           </thead>
           <tbody>{get_users()}</tbody>

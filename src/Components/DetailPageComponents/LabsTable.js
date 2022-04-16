@@ -69,7 +69,7 @@ const LabTable = ({ course_id, sub_tag }) => {
         <table className="table w-full">
           <thead>
             <tr>
-              <th>Lab#</th>
+              <td>Lab#</td>
               <th>Lab Name</th>
               <th>Description</th>
               <th>Start Date</th>

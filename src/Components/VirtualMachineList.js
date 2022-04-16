@@ -171,7 +171,7 @@ export const VirtualMachineList = () => {
         <table className="table w-full">
           <thead>
             <tr>
-              <th>Name</th>
+              <td>Name</td>
               <th>Labs</th>
               <th>Users</th>
               <th>Port</th>

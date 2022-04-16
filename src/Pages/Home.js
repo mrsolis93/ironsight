@@ -7,7 +7,7 @@ import HypervisorDiskWidget from "../Components/Widgets/Hypervisor/HypervisorDis
 import OngoingLabs from "../Components/Widgets/OngoingLabs";
 import NewsWidget from "../Components/Widgets/NewsWidget";
 import Navbar from "../Components/Navbar";
-import ReAreaChart from "../Charts/ReAreaChart";
+import VMCPUWidgetOld from "../Components/Widgets/VMStats/VMCPUWidgetOld";
 import MiniVMStatsWidget from "../Components/Widgets/VMStats/MiniVMStatsWidget";
 import ActivityLog from "../Components/Widgets/ActivityLog";
 
@@ -39,8 +39,8 @@ class Home extends Component {
               <div className="flex flex-col card-body p-4 md:p-8">
                 <h2 className="card-title">VM Overview</h2>
                 <div className="flex flex-col md:flex-row">
-                  <div className="hidden lg:flex max-h-10 w-10/12">
-                    <ReAreaChart />
+                  <div className="hidden lg:flex max-h-10 w-full">
+                    <VMCPUWidgetOld />
                   </div>
                   <div className="flex flex-row md:flex-col">
                     <MiniVMStatsWidget />

@@ -119,7 +119,7 @@ const StudentsTable = ({ course_id, sub_tag }) => {
         {/* <!-- head --> */}
         <thead>
           <tr>
-            <th>Name</th>
+            <td>Name</td>
             <th>Email</th>
             <th>Student ID</th>
             <th>Role</th>
