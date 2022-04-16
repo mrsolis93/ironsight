@@ -53,8 +53,6 @@ function VMDetails() {
     }
   }
 
-  // Refresh every 65 seconds, Osquery packs are every 60 seconds
-  const [intervalMs, setIntervalMs] = React.useState(65000);
   const {
     data: bash_history_data,
     isLoading: bash_isLoading,
@@ -252,18 +250,18 @@ function VMDetails() {
             {/* Performance Header */}
             <div className="grid grid-cols-3 mb-4">
               {/* Performance Graph title */}
-              <div className="col-span-1 mb-4">
+              <div className="col-span-1">
                 <h2 className="card-title">Performance Graph</h2>
               </div>
 
               {/* Pagination widget */}
-              {/* <div className="tabs tabs-boxed col-span-2 justify-self-end">
+              <div className="tabs tabs-boxed col-span-2 justify-self-end">
                 <a className="tab tab-active">CPU</a>
                 <a className="tab">RAM</a>
                 <a className="tab">Network</a>
-              </div> */}
+              </div>
             </div>
-            <ReAreaChart />
+            {/* <ReAreaChart /> */}
           </div>
         </div>
         <div className="col-span-1 row-span-1 rounded-box bg-base-100 shadow-xl">
