@@ -8,6 +8,7 @@ import {
   getBashHistory,
   getRunningProcesses,
   getFileMonitoring,
+  getVMList,
 } from "../../IronsightAPI";
 import { useQuery } from "react-query";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -15,6 +16,9 @@ import VMCPUWidget from "../../Components/Widgets/VMStats/VMCPUWidget";
 import VMMemoryWidget from "../../Components/Widgets/VMStats/VMMemoryWidget";
 
 function VMDetails() {
+  // State for selector between CPU, RAM and Network
+  const [selected_graph, setSelectedGraph] = React.useState("CPU");
+
   // Function to power on a VM with a GET request
   const toggleVMPower = (hostname) => {
     if (localStorage.getItem("ironsight_username") === "demo_user") {
@@ -52,6 +56,40 @@ function VMDetails() {
       }
     }
   }
+
+  const {
+    data: sql_vms,
+    isLoading: sql_isLoading,
+    isError: sql_isError,
+  } = useQuery("virtual_machines", getVMList);
+
+  // Function to get users
+  const get_user_list = () => {
+    var users_rows = [];
+    if (!sql_isLoading && !sql_isError) {
+      var vm_users = [];
+      for (var vm in sql_vms) {
+        if (sql_vms[vm].vm_name === vm_name) {
+          for (var user in sql_vms[vm].users) {
+            vm_users.push(sql_vms[vm].users[user]);
+          }
+        }
+      }
+      users_rows = vm_users.map((user) => {
+        var link = "/user_details/" + user;
+        return (
+          <tr key={user} className="hover w-full">
+            <td>
+              <Link to={link}>{user}</Link>
+            </td>
+          </tr>
+        );
+      });
+    } else {
+      users_rows = <LinearProgress />;
+    }
+    return users_rows;
+  };
 
   const {
     data: bash_history_data,
@@ -256,12 +294,50 @@ function VMDetails() {
 
               {/* Pagination widget */}
               <div className="tabs tabs-boxed col-span-2 justify-self-end">
-                <a className="tab tab-active">CPU</a>
-                <a className="tab">RAM</a>
-                <a className="tab">Network</a>
+                {/* When clicked, changed selected_graph between CPU, RAM, and Network */}
+                <button
+                  className={
+                    selected_graph === "CPU"
+                      ? "tab tab-active"
+                      : "tab"
+                  }
+                  onClick={() => setSelectedGraph("CPU")}
+                >
+                  CPU
+                </button>
+                <button
+                  className={
+                    selected_graph === "RAM"
+                      ? "tab tab-active"
+                      : "tab"
+                  }
+                  onClick={() => setSelectedGraph("RAM")}
+                >
+                  RAM
+                </button>
+                <button
+                  className={
+                    selected_graph === "Network"
+                    ? "tab tab-active"
+                    : "tab"
+                  }
+                  onClick={() => setSelectedGraph("Network")}
+                >
+                  Network
+                </button>
               </div>
             </div>
-            <VMCPUWidget vm_name={vm_name}/>
+            {/* VMCPUWidget if selected_graph is CPU, VMRAMWidget if selected_graph is RAM */}
+            {selected_graph === "CPU" ? (
+              <VMCPUWidget vm_name={vm_name} />
+            ) : selected_graph === "RAM" ? (
+              <VMMemoryWidget vm_name={vm_name} />
+            ) : selected_graph === "Network" ? (
+              // <VMNetworkWidget vm_name={vm_name} />
+              <div>Network Graph</div>
+            ) : (
+              <LinearProgress />
+            )}
           </div>
         </div>
         <div className="col-span-1 row-span-1 rounded-box bg-base-100 shadow-xl">
@@ -324,36 +400,7 @@ function VMDetails() {
             <h2 className="card-title">Users</h2>
             <div className="overflow-auto mt-2 max-h-44">
               <table className="table w-full">
-                <tbody className="w-full">
-                  <tr className="hover">
-                    <td>
-                      <Link to="/user_details/tyler_harrison">
-                        tyler_harrison
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr className="hover">
-                    <td>
-                      <Link to="/user_details/tyler_harrison">
-                        sudip_koirala
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr className="hover">
-                    <td>
-                      <Link to="/user_details/tyler_harrison">
-                        augustine_solis
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr className="hover">
-                    <td>
-                      <Link to="/user_details/tyler_harrison">
-                        truman_brown
-                      </Link>
-                    </td>
-                  </tr>
-                </tbody>
+                <tbody className="w-full">{get_user_list()}</tbody>
               </table>
             </div>
           </div>
