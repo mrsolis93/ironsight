@@ -40,8 +40,10 @@ const HypervisorWidget = () => {
   var labels = [];
 
   for (var i = 0; i < results_list.length; i++) {
+
     var result = results_list[i];
     var hostname = result.metric.instance;
+
     var chart_data_keys = result.values.map(function (bucket) {
       //   Convert the epoch time to a human readable date
       var date = new Date(bucket[0] * 1000);
@@ -49,12 +51,14 @@ const HypervisorWidget = () => {
       var minutes = "0" + date.getMinutes();
       var seconds = "0" + date.getSeconds();
       var formattedTime =
-        hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
+        hours + ":" + minutes.substr(-2);
       return formattedTime;
     });
+
     var chart_data_values = result.values.map(function (bucket) {
       return bucket[1] * 100;
     });
+    
     datasets.push({
       label: hostname,
       data: chart_data_values,
