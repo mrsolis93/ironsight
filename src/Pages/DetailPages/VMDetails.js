@@ -4,7 +4,7 @@ import Navbar from "../../Components/Navbar";
 import { Link, useParams } from "react-router-dom";
 import ReAreaChart from "../../Charts/ReAreaChart";
 import { BsPower } from "react-icons/bs";
-import { getHarvesterVMList, getBashHistory, getRunningProcesses } from "../../IronsightAPI";
+import { getHarvesterVMList, getBashHistory, getRunningProcesses, getFileMonitoring } from "../../IronsightAPI";
 import { useQuery } from "react-query";
 
 function VMDetails() {
@@ -134,6 +134,58 @@ function VMDetails() {
         );
       }
       return running_processes_rows;
+    } else {
+      return (
+        <tr>
+          <td>Loading...</td>
+        </tr>
+      );
+    }
+  };
+
+  // Get the VM's files modified
+  const {
+    data: modified_files_data,
+    isLoading: modified_isLoading,
+    isError: modified_isError,
+  } = useQuery(["modified_files" + vm_name, vm_name], getFileMonitoring);
+  var modified_files = [];
+
+  // Map the file to table rows
+  // Format:
+//   "osquery": {
+//     "owner": "root",
+//     "last_mod": "2016-07-30 08:37:51",
+//     "path": "/etc/fonts/conf.d/20-unhint-small-dejavu-sans-mono.conf",
+//     "size_mb": "0.00089999999999999998",
+//     "created": "1970-01-01 00:00:00",
+//     "groups": "root"
+// }
+  const get_modified_files = () => {
+    if (!modified_isLoading && !modified_isError) {
+      modified_files = modified_files_data.hits.hits;
+      var modified_files_rows = modified_files.map((modified_file) => (
+        <tr
+          key={modified_file["_source"]["osquery"]["path"]}
+          className="hover break-normal whitespace-normal"
+        >
+          <td>{modified_file["_source"]["osquery"]["path"]}</td>
+          <td>{modified_file["_source"]["osquery"]["owner"]}</td>
+          <td>{modified_file["_source"]["osquery"]["last_mod"]}</td>
+          <td>{
+            modified_file["_source"]["osquery"]["size_mb"].toString().split(".")[0] + " MB"
+          }</td>
+          <td>{modified_file["_source"]["osquery"]["created"]}</td>
+        </tr>
+      ));
+      if (modified_files_rows.length === 0) {
+        modified_files_rows = (
+          <tr>
+            <td>No modified files found</td>
+          </tr>
+        );
+      }
+      return modified_files_rows;
     } else {
       return (
         <tr>
@@ -349,51 +401,30 @@ function VMDetails() {
         </div>
         <div className="col-span-1 rounded-box bg-base-100 shadow-xl">
           <div className="mx-4 my-6">
-            <h2 className="card-title">Files Created</h2>
+            <h2 className="card-title">Files Modified</h2>
             <div className="overflow-auto mt-2 max-h-44">
-              <table className="table table-compact w-full">
+              <table className="overflow-auto table table-compact w-full">
                 <thead>
                   <tr>
                     <th>
-                      <span>Timestamp</span>
+                      <span>Path</span>
                     </th>
                     <th>
-                      <span>Filename</span>
+                      <span>Owner</span>
                     </th>
                     <th>
-                      <span>User</span>
+                      <span>Last Modified</span>
+                    </th>
+                    <th>
+                      <span>Size</span>
+                    </th>
+                    <th>
+                      <span>Created</span>
                     </th>
                   </tr>
                 </thead>
                 <tbody className="w-full">
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      /home/tyler_harrison/.bashrc
-                    </td>
-                    <td>tyler</td>
-                  </tr>
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      /home/tyler_harrison/Downloads/Hunger-Games-The-Mockingjay-Part-1-2015-1080p-BluRay-HDRip-x264-AC3-10bit-YIFY.mkv
-                    </td>
-                    <td>tyler</td>
-                  </tr>
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      /tmp/apache/logs/access.log
-                    </td>
-                    <td>apache</td>
-                  </tr>
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      /tmp/apache/logs/error.log
-                    </td>
-                    <td>apache</td>
-                  </tr>
+                  {get_modified_files()}
                 </tbody>
               </table>
             </div>
