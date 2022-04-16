@@ -65,11 +65,13 @@ class Home extends Component {
               <div className="card-body p-4 md:p-8">
                 <h2 className="card-title">Hypervisor Performance</h2>
                 <div className="flex flex-col md:flex-row">
-                  <div className="flex flex-col md:w-1/2">
+                  <div className="flex flex-col md:w-1/2 text-center text-sm">
+                    CPU Usage
                     <HypervisorCPUWidget />
                     {/* <HypervisorNetworkWidget /> */}
                   </div>
-                  <div className="flex flex-col md:w-1/2">
+                  <div className="flex flex-col md:w-1/2 text-center text-sm">
+                    Memory Usage
                     <HypervisorMemoryWidget />
                     {/* <HypervisorDiskWidget /> */}
                   </div>
