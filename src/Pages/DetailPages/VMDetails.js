@@ -151,25 +151,16 @@ function VMDetails() {
   } = useQuery(["modified_files" + vm_name, vm_name], getFileMonitoring);
   var modified_files = [];
 
-  // Map the file to table rows
-  // Format:
-//   "osquery": {
-//     "owner": "root",
-//     "last_mod": "2016-07-30 08:37:51",
-//     "path": "/etc/fonts/conf.d/20-unhint-small-dejavu-sans-mono.conf",
-//     "size_mb": "0.00089999999999999998",
-//     "created": "1970-01-01 00:00:00",
-//     "groups": "root"
-// }
+  // Map the file modifications to table rows
   const get_modified_files = () => {
     if (!modified_isLoading && !modified_isError) {
       modified_files = modified_files_data.hits.hits;
       var modified_files_rows = modified_files.map((modified_file) => (
         <tr
           key={modified_file["_source"]["osquery"]["path"]}
-          className="hover break-normal whitespace-normal"
+          className="hover"
         >
-          <td>{modified_file["_source"]["osquery"]["path"]}</td>
+          <td className="break-normal whitespace-normal">{modified_file["_source"]["osquery"]["path"]}</td>
           <td>{modified_file["_source"]["osquery"]["owner"]}</td>
           <td>{modified_file["_source"]["osquery"]["last_mod"]}</td>
           <td>{
