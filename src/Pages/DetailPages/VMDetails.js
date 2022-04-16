@@ -2,7 +2,6 @@ import React from "react";
 import "../../App.css";
 import Navbar from "../../Components/Navbar";
 import { Link, useParams } from "react-router-dom";
-import ReAreaChart from "../../Charts/ReAreaChart";
 import { BsPower } from "react-icons/bs";
 import {
   getHarvesterVMList,
