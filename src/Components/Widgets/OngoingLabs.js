@@ -38,7 +38,6 @@ const OngoingLabs = () => {
     if (today >= date_start && today <= date_end) {
       return (
         <tr key={lab.lab_num} className="hover">
-          <td>{lab.lab_num}</td>
           <td>
             <Link
               className="w-full"
@@ -60,7 +59,6 @@ const OngoingLabs = () => {
       <table className="table w-full">
         <thead>
           <tr>
-            <th></th>
             <th>Name</th>
             <th>Course</th>
             <th>Time Left</th>
