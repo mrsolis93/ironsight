@@ -4,7 +4,7 @@ import Navbar from "../../Components/Navbar";
 import { Link, useParams } from "react-router-dom";
 import ReAreaChart from "../../Charts/ReAreaChart";
 import { BsPower } from "react-icons/bs";
-import { getHarvesterVMList } from "../../IronsightAPI";
+import { getHarvesterVMList, getBashHistory } from "../../IronsightAPI";
 import { useQuery } from "react-query";
 
 function VMDetails() {
@@ -30,14 +30,11 @@ function VMDetails() {
       console.log("[Ironsight] Cancelled power on VM: " + hostname);
     }
   };
-  const [intervalMs, setIntervalMs] = React.useState(5000);
   const {
     data: harvester_data,
     isLoading: harvester_isLoading,
     isError: harvester_isError,
-  } = useQuery("harvester_vms", getHarvesterVMList, {
-    refetchInterval: intervalMs,
-  });
+  } = useQuery("harvester_vms", getHarvesterVMList);
 
   const { vm_name } = useParams();
   var vm_status = "";
@@ -49,6 +46,57 @@ function VMDetails() {
       }
     }
   }
+
+  // Refresh every 65 seconds, Osquery packs are every 60 seconds
+  const [intervalMs, setIntervalMs] = React.useState(65000);
+  const {
+    data: bash_history_data,
+    isLoading: bash_isLoading,
+    isError: bash_isError,
+  } = useQuery(["bash_history" + vm_name, vm_name], getBashHistory);
+  var bash_history = [];
+
+  if (!bash_isLoading && !bash_isError) {
+    // Extract bash_history_data.hits.hits[0]._source.osquery
+    for (let i = 0; i < bash_history_data.hits.hits.length; i++) {
+      bash_history.push(bash_history_data.hits.hits[i]._source);
+    }
+  }
+
+  // Map the timestamp, osquery command, and osquery username to table rows
+  const get_bash_history = () => {
+    if (!bash_isLoading && !bash_isError) {
+      // Reverse bash_history so that the most recent is at the top
+      bash_history.reverse();
+      var bash_history_rows = bash_history.map((bash_history_row) => (
+        <tr
+          key={bash_history_row["@timestamp"]}
+          className="hover break-normal whitespace-normal"
+        >
+          {/* Need to remove everything after the dot in the timestamp */}
+          <td>
+            {bash_history_row["@timestamp"].split(".")[0].replace("T", " ")}
+          </td>
+          <td>{bash_history_row["osquery"]["command"]}</td>
+          <td>{bash_history_row["osquery"]["username"]}</td>
+        </tr>
+      ));
+      if (bash_history_rows.length === 0) {
+        bash_history_rows = (
+          <tr>
+            <td>No bash history found</td>
+          </tr>
+        );
+      }
+      return bash_history_rows;
+    } else {
+      return (
+        <tr>
+          <td>Loading...</td>
+        </tr>
+      );
+    }
+  };
 
   return (
     <div className="virtual_machines">
@@ -275,50 +323,7 @@ function VMDetails() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="w-full">
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      firefox %u https://google.com/
-                    </td>
-                    <td>tyler</td>
-                  </tr>
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      cd /home/tyler_harrison/Downloads/elasticsearch-8.1.0/bin
-                    </td>
-                    <td>cloud-init</td>
-                  </tr>
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      ./elastic-setup.sh --install-dir /usr/local/elasticsearch
-                    </td>
-                    <td>cloud-init</td>
-                  </tr>
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      sudo systemctl start elasticsearch
-                    </td>
-                    <td>cloud-init</td>
-                  </tr>
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      sudo systemctl start kibana
-                    </td>
-                    <td>cloud-init</td>
-                  </tr>
-                  <tr>
-                    <td>2022-04-11 13:04:10</td>
-                    <td className="break-normal whitespace-normal">
-                      sudo systemctl start nginx
-                    </td>
-                    <td>cloud-init</td>
-                  </tr>
-                </tbody>
+                <tbody className="w-full">{get_bash_history()}</tbody>
               </table>
             </div>
           </div>
