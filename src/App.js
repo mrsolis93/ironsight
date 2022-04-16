@@ -42,7 +42,7 @@ function App() {
 
   return (
     // Only return the theme provider if the page is not the login page and the token is set
-    <div className="App bg-slate-800 fill-window">
+    <div className="App bg-slate-800">
       <ThemeProvider theme={darkTheme}>
         <QueryClientProvider client={queryClient}>
           <Router>

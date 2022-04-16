@@ -261,7 +261,7 @@ function VMDetails() {
 
       {/* VM tags */}
       <div className="flex flex-col md:flex-row">
-        <div className="flex flex-row mx-4 md:m-4 md:mt-0">
+        <div className="flex flex-row mx-4 md:m-4 md:mt-0 overflow-x-auto">
           Tags:
           <div className="badge badge-info gap-2 mx-1">cryptography</div>
           <div className="badge badge-success mx-1">networking</div>
@@ -286,7 +286,7 @@ function VMDetails() {
         <div className="row-span-4 md:col-span-2 rounded-box bg-base-100 shadow-xl">
           <div className="mx-4 my-6 h-full">
             {/* Performance Header */}
-            <div className="grid grid-cols-3 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 mb-4">
               {/* Performance Graph title */}
               <div className="col-span-1">
                 <h2 className="card-title">Performance Graph</h2>

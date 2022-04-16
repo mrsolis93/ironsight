@@ -38,13 +38,13 @@ class Home extends Component {
             <div className="md:col-span-2 row-span-1 rounded-box bg-base-100 shadow-xl m-3">
               <div className="flex flex-col card-body p-4 md:p-8">
                 <h2 className="card-title">VM Overview</h2>
-                <div className="flex flex-col md:flex-row">
-                  <div className="hidden lg:flex max-h-10 w-full">
+                <div className="grid grid-flow-col grid-rows-4 md:grid-rows-1">
+                  <div className="col-span-1 row-span-3">
                     <VMCPUWidgetOld />
                   </div>
-                  <div className="flex flex-row md:flex-col">
+                  <div className="col-span-1 row-span-1">
                     <MiniVMStatsWidget />
-                  </div>
+                    </div>
                 </div>
               </div>
             </div>
