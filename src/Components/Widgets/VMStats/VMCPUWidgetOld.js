@@ -11,10 +11,11 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { useQuery } from "react-query";
 import { getVMCPUUsage } from "../../../IronsightAPI";
 import { BsZoomIn } from "react-icons/bs";
+import { ResponsiveContainer } from "recharts";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement);
 
-const VMCPUWidget = ({vm_name}) => {
+const VMCPUWidget = ({ vm_name }) => {
   const [intervalMs, setIntervalMs] = React.useState(15000);
   const [isZoomed, setIsZoomed] = React.useState(true);
   const { data, isLoading, isError } = useQuery("vm_cpu_usage", getVMCPUUsage, {
@@ -63,22 +64,26 @@ const VMCPUWidget = ({vm_name}) => {
       label: hostname,
       data: chart_data_values,
       // If vm_name is specified, only use one color
-      backgroundColor: vm_name ? "rgba(100, 25, 230, 0.2)" : [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
-      ],
-      borderColor: vm_name ? "rgba(100, 25, 230, 1)" : [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
-      ],
+      backgroundColor: vm_name
+        ? "rgba(100, 25, 230, 0.2)"
+        : [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+          ],
+      borderColor: vm_name
+        ? "rgba(100, 25, 230, 1)"
+        : [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+          ],
       borderWidth: 3,
       elements: {
         point: {
@@ -116,17 +121,22 @@ const VMCPUWidget = ({vm_name}) => {
   };
 
   return (
-    <div className="w-full">
-      <div>
-        <Line data={chart_data} height={280} options={options} />
-      </div>
+    <ResponsiveContainer>
+      <div className="w-full">
+        <div>
+          <Line data={chart_data} height={280} options={options} />
+        </div>
 
-      <div className="flex justify-end">
-        <button className="zoom-button" onClick={() => setIsZoomed(!isZoomed)}>
-          <BsZoomIn />
-        </button>
+        <div className="flex justify-end">
+          <button
+            className="zoom-button"
+            onClick={() => setIsZoomed(!isZoomed)}
+          >
+            <BsZoomIn />
+          </button>
+        </div>
       </div>
-    </div>
+    </ResponsiveContainer>
   );
 };
 
