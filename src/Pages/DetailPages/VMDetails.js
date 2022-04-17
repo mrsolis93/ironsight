@@ -53,13 +53,17 @@ function VMDetails() {
 
   const { vm_name } = useParams();
   var vm_status = "";
+  var vm_uid = "";
   if (!harvester_isLoading && !harvester_isError) {
     for (let i = 0; i < harvester_data.length; i++) {
       if (harvester_data[i]["metadata"]["name"] === vm_name) {
         vm_status = harvester_data[i]["status"]["printableStatus"];
+        vm_uid = harvester_data[i]["metadata"]["uid"];
       }
     }
   }
+
+  var vm_vnc_address = `${process.env.REACT_APP_HARVESTER_SERVER}dashboard/c/local/harvester/console/${vm_uid}/vnc`;
 
   const {
     data: sql_vms,
@@ -397,8 +401,15 @@ function VMDetails() {
             <button className="btn btn-lg btn-success btn-outline col-span-1">
               <span>Elastic Agent</span>
             </button>
-            <button className="btn btn-lg btn-error btn-outline col-span-1">
-              <span>VNC Proxy</span>
+            {/* When this button is clicked, visit the vm_vnc_addres */}
+
+            <button
+              className="btn btn-lg btn-success btn-outline col-span-1"
+              onClick={() => {
+                window.open(vm_vnc_address, "_blank");
+              }}
+            >
+              <span>Remote VNC</span>
             </button>
             <button className="btn btn-lg btn-success btn-outline col-span-1">
               <span>SQL</span>
