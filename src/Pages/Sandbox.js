@@ -8,6 +8,7 @@ import LineChart from "../Charts/LineChart";
 import PieChart from "../Charts/PieChart";
 import Navbar from "../Components/Navbar";
 import ReAreaChartCPU from "../Charts/ReAreaChartCPU";
+import ReAreaChartMultiple from "../Charts/ReAreaChartMultiple";
 
 function Sandbox() {
   return (
@@ -40,7 +41,7 @@ function Sandbox() {
         {/* Widget Card */}
         <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center">
           <div className="card-body">
-            <PieChart />
+            <ReAreaChartMultiple />
             
           </div>
         </div>
