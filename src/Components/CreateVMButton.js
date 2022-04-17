@@ -24,8 +24,8 @@ export default function CreateVMDialog() {
   const [template_list, setTemplateList] = React.useState([]);
   const [lab_list, setLabList] = React.useState([]);
   const [lab_selection, setLabSelection] = React.useState("");
-  const [class_list, setClassList] = React.useState([]);
-  const [class_selection, setClassSelection] = React.useState("");
+  const [course_list, setCourseList] = React.useState([]);
+  const [course_selection, setCourseSelection] = React.useState("");
   const [vm_name, setVmName] = React.useState("");
   const [user_list, setUserList] = React.useState([]);
   const [user_selection, setUserSelection] = React.useState("");
@@ -36,8 +36,8 @@ export default function CreateVMDialog() {
     if (localStorage.getItem("ironsight_username") === "demo_user") {
       alert("You are not authorized to manage VMs");
       return;
-    }
-    else {
+    } else {
+      setVmName("");
       setOpen(true);
     }
   };
@@ -60,7 +60,15 @@ export default function CreateVMDialog() {
   };
 
   const set_vm_name = (event) => {
-    setVmName(event.target.value);
+    {/* Name field can only be alphanumeric and dashes, fail otherwise */}
+    var vm_name_input = event.target.value;
+    // Replace all non-alphanumeric characters with dashes (allow dashes in the middle)
+    vm_name_input = vm_name_input.replace(/[^a-zA-Z0-9-]/g, "-");
+    // Replace all dashes with one dash
+    vm_name_input = vm_name_input.replace(/-+/g, "-");
+    // Make it lowercase
+    vm_name_input = vm_name_input.toLowerCase();
+    setVmName(vm_name_input);
   };
 
   const set_is_elastic = (event) => {
@@ -74,7 +82,7 @@ export default function CreateVMDialog() {
 
   const set_lab_selection = (event) => {
     setLabSelection(event.target.value);
-  }
+  };
 
   // Make a GET request to the server to get the list of templates
   // and map them to a dropdown menu
@@ -132,18 +140,18 @@ export default function CreateVMDialog() {
 
   // Make a GET request to the server to get the list of templates
   // and map them to a dropdown menu
-  const get_classes = () => {
-    fetch("https://api.rellis.dev/get.php?q=get_classes")
+  const get_courses = () => {
+    fetch("https://api.rellis.dev/get.php?q=get_courses")
       .then((response) => response.json())
       .then((data) => {
-        var class_list = data.map(function (class_obj) {
+        var course_list = data.map(function (class_obj) {
           return (
             <MenuItem key={class_obj.tag} value={class_obj.tag}>
               {class_obj.tag}
             </MenuItem>
           );
         });
-        setClassList(class_list);
+        setCourseList(course_list);
       });
   };
 
@@ -152,7 +160,7 @@ export default function CreateVMDialog() {
     get_templates();
     get_users();
     get_labs();
-    get_classes();
+    get_courses();
   }, []);
 
   // Make a POST request to the server to create a new VM
@@ -213,25 +221,27 @@ export default function CreateVMDialog() {
             variant="filled"
             autoComplete="off"
             InputLabelProps={{ required: true }}
+            value={vm_name}
             // On change, set the value of the vm_name variable
             onChange={set_vm_name}
           />
-          <FormControl sx={{ m: 2, minWidth: "46%" }}>
-            <InputLabel htmlFor="class">Class</InputLabel>
+          <FormControl sx={{ m: 2, minWidth: "94%" }}>
+            <InputLabel htmlFor="course">Course</InputLabel>
             <Select
-              value={class_selection}
+              value={course_selection}
               onChange={(event) => {
-                setClassSelection(event.target.value);
+                setCourseSelection(event.target.value);
               }}
-              label="Class"
+              label="Course"
               inputProps={{
-                name: "class",
-                id: "class",
+                name: "course",
+                id: "course",
               }}
             >
-              {class_list}
+              {course_list}
             </Select>
           </FormControl>
+
           <FormControl sx={{ m: 2, minWidth: "46%" }}>
             <InputLabel htmlFor="lab">Lab</InputLabel>
             <Select
@@ -290,12 +300,14 @@ export default function CreateVMDialog() {
           {/* If customize toggle is true, open submenu to customize CPU cores and memory */}
           {is_customize_open ? (
             <div>
-              <FormControl sx={{ m: 2, minWidth: "46%" }}>
+              <FormControl sx={{ m: 2, minWidth: "94%" }}>
                 <InputLabel htmlFor="template">Template</InputLabel>
                 <Select
                   value={template_selection}
-                  label="template"
-                  onChange={change_template}
+                  onChange={(event) => {
+                    change_template(event);
+                  }}
+                  label="Template"
                   inputProps={{
                     name: "template",
                     id: "template",
@@ -304,13 +316,31 @@ export default function CreateVMDialog() {
                   {template_list}
                 </Select>
               </FormControl>
-              <FormControl sx={{ mt: 2, minWidth: "46%" }}>
-                <InputLabel htmlFor="cpu_cores">CPU Cores</InputLabel>
-                <TextField id="cpu_cores" type="number" />
+              <FormControl sx={{ m: 2, minWidth: "46%" }}>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="CPU Cores"
+                  type="number"
+                  fullWidth
+                  autoComplete="off"
+                  defaultValue={2}
+                  InputLabelProps={{ required: false }}
+                />
               </FormControl>
               <FormControl sx={{ mt: 2, minWidth: "46%" }}>
-                <InputLabel htmlFor="memory">Memory</InputLabel>
-                <TextField id="memory" type="number" />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="Memory (GB)"
+                  type="number"
+                  fullWidth
+                  autoComplete="off"
+                  defaultValue={4}
+                  InputLabelProps={{ required: false }}
+                />
               </FormControl>
             </div>
           ) : null}

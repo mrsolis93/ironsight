@@ -23,7 +23,7 @@ const ActivityLog = () => {
   const get_activity_log = () => {
     return data.map(({ log_id, log_timestamp, log_username, log_activity }) => (
       <tr key={log_id}>
-        <th>.</th>
+        <td>.</td>
         <td className="break-normal whitespace-normal">{log_timestamp}</td>
         <td className="break-normal whitespace-normal">{log_username}</td>
         <td className="break-normal whitespace-normal">{log_activity}</td>
@@ -35,11 +35,11 @@ const ActivityLog = () => {
   const activity_log_reversed = activity_log.reverse();
 
   return (
-    <div className="overflow-x-auto">
-      <table className="table">
+    <div className="overflow-auto max-h-72">
+      <table className="table w-full">
         <thead>
           <tr>
-            <th></th>
+            <td></td>
             <th>Timestamp</th>
             <th>User</th>
             <th>Activity</th>

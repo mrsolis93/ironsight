@@ -1,62 +1,46 @@
 import React from "react";
 import "../App.css";
-import "../Components/Widgets/UsersWidget";
-import "../Charts/DoughnutChart";
-import DoughnutChart from "../Charts/DoughnutChart";
-import BarChart from "../Charts/BarChart";
-import LineChart from "../Charts/LineChart";
-import PieChart from "../Charts/PieChart";
 import Navbar from "../Components/Navbar";
-import ReAreaChartCPU from "../Charts/ReAreaChartCPU";
+import LinearProgress from "@mui/material/LinearProgress";
+import { useQuery } from "react-query";
+import { getVMCPUUsage, getVMMemoryUsage } from "../IronsightAPI";
 import ReAreaChartMultiple from "../Charts/ReAreaChartMultiple";
+import VMCPUWidgetOld from "../Components/Widgets/VMStats/VMCPUWidgetOld";
 
 function Sandbox() {
+  const [intervalMs, setIntervalMs] = React.useState(15000);
+  const { data, isLoading, isError } = useQuery("vm_cpu_usage", getVMCPUUsage, {
+    // Refetch the data every 15 seconds
+    refetchInterval: intervalMs,
+  });
+  const {
+    data: memory_data,
+    isLoading: memory_isLoading,
+    isError: memory_isError,
+  } = useQuery("vm_memory_usage", getVMMemoryUsage, {
+    // Refetch the data every 15 seconds
+    refetchInterval: intervalMs,
+  });
+
+  if (isLoading || memory_isLoading) {
+    return <LinearProgress />;
+  }
+
+  if (isError || memory_isError) {
+    return <p>Error!</p>;
+  }
   return (
     <div className="sandbox">
-    <Navbar />
-      {/* Upper row */}
-      <div className="flex md:flex-row flex-col mt-3 mr-3 ml-3">
-        {/* Widget Card */}
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center">
-          <div className="card-body">
-            <DoughnutChart />
-            
-          </div>
-        </div>
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center">
-          <div className="card-body">
-            <LineChart />
-            
-          </div>
-        </div>
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center">
-          <div className="card-body">
-            <BarChart />
-            
-          </div>
-        </div>
-      </div>
-      {/* Lower Row */}
-      <div className="flex md:flex-row flex-col mr-3 ml-3">
-        {/* Widget Card */}
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center">
-          <div className="card-body">
+      <Navbar />
+      <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-4 m-4">
+        <div className="col-span-1">
+          <div className="flex justify-center rounded-box bg-base-100 shadow-2xl">
             <ReAreaChartMultiple />
-            
           </div>
         </div>
-        {/* Widget Card */}
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center">
-          <div className="card-body">
-            <ReAreaChartCPU />
-            
-          </div>
-        </div>
-        {/* Widget Card */}
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center">
-          <div className="card-body">
-            {/* Content Here */}
-            
+        <div className="col-span-1">
+          <div className="flex justify-center rounded-box bg-base-100 shadow-2xl h-full items-center">
+            <VMCPUWidgetOld />
           </div>
         </div>
       </div>

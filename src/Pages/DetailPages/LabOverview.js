@@ -119,14 +119,14 @@ function LabOverview() {
         <div className="flex flex-1 px-2">
           <div className="flex items-stretch">
             <div className="flex flex-col">
-              <div className="flex flex-row ml-4 text-xl text-md breadcrumbs m-4">
+              <div className="flex flex-row ml-4 text-md breadcrumbs m-4">
               
         <ul>
           <li>
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/labs">Labs</Link>
+            <Link to="/courses">Labs</Link>
           </li>
           <li>
             <strong>{data.lab_name}</strong>
@@ -158,7 +158,7 @@ function LabOverview() {
                   <table className="table w-full">
           <thead>
             <tr>
-              <th>Users</th>
+              <td>Users</td>
             </tr>
           </thead>
           <tbody>{get_users()}</tbody>

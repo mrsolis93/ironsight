@@ -1,12 +1,12 @@
 import React from "react";
+import "../../App.css";
 import { useQuery } from "react-query";
-import { getVMList, getHarvesterVMList, getLabList } from "../IronsightAPI";
-import LinearProgress from "@mui/material/LinearProgress";
-import CreateVMButton from "./CreateVMButton";
-import { BsPower } from "react-icons/bs";
+import { getVMList, getHarvesterVMList, getLabList } from "../../IronsightAPI";
 import { Link } from "react-router-dom";
+import LinearProgress from "@mui/material/LinearProgress";
+import { BsPower } from "react-icons/bs";
 
-export const VirtualMachineList = () => {
+const VirtualMachinesTable = ({ course_id, sub_tag }) => {
   const [intervalMs, setIntervalMs] = React.useState(5000);
   const { data, isLoading, isError } = useQuery("virtual_machines", getVMList);
   const {
@@ -107,7 +107,11 @@ export const VirtualMachineList = () => {
     return harvester_data.map(
       ({ metadata, status, port_number, users, labs }) => (
         <tr key={metadata.name} className="hover">
-          <td><Link key={metadata.name} to={"/vm_details/" + metadata.name}>{metadata.name}</Link></td>
+          <td>
+            <Link key={metadata.name} to={"/vm_details/" + metadata.name}>
+              {metadata.name}
+            </Link>
+          </td>
           <td>
             {
               // If users is undefined or an empty list, display ---. Otherwise, display the users list
@@ -163,27 +167,22 @@ export const VirtualMachineList = () => {
   const harvester_vm_list = get_harvester_vm_list();
 
   return (
-    <div className="w-full overflow-auto">
-      <div className="flex justify-end m-4 xl:mr-48">
-        <CreateVMButton />
-      </div>
-      <div className="overflow-auto m-4 xl:mx-48">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <td>Name</td>
-              <th>Labs</th>
-              <th>Users</th>
-              <th>Port</th>
-              <th>Status</th>
-              <th>Power</th>
-            </tr>
-          </thead>
-          <tbody>{harvester_vm_list}</tbody>
-        </table>
-      </div>
+    <div className="overflow-x-auto w-full">
+      <table className="table w-full">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <th>Labs</th>
+            <th>Users</th>
+            <th>Port</th>
+            <th>Status</th>
+            <th>Power</th>
+          </tr>
+        </thead>
+        <tbody>{harvester_vm_list}</tbody>
+      </table>
     </div>
   );
 };
 
-export default VirtualMachineList;
+export default VirtualMachinesTable;

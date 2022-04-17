@@ -30,8 +30,8 @@ export const NavbarData = [
   },
 
   {
-    name: "Labs",
-    path: "/labs",
+    name: "Courses",
+    path: "/courses",
     icon: <ImLab />,
     current: false
   },
@@ -43,13 +43,13 @@ export const NavbarData = [
     current: false
   },
 
-  {
-    name: "Analysis",
-    path: "/analysis",
-    icon: <MdTimeline />,
-    current: false
+  // {
+  //   name: "Analysis",
+  //   path: "/analysis",
+  //   icon: <MdTimeline />,
+  //   current: false
 
-  },
+  // },
 
   {
     name: "Sandbox",
