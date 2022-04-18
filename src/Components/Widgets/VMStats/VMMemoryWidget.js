@@ -18,7 +18,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     ram_usage = ram_usage.toFixed(2);
     return (
       <div className="custom-tooltip">
-        <div style={{ color: "#666568" }}>
+        <div style={{ color: "white" }}>
           {" "}
           Usage: {` ${ram_usage}`}{"%"}
         </div>

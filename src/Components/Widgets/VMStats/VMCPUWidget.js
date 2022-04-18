@@ -18,7 +18,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     var cpu_usage = cpu_usage.toFixed(2);
     return (
       <div className="custom-tooltip">
-        <div style={{ color: "#666568" }}>
+        <div style={{ color: "white" }}>
           {" "}
           CPU Usage: {` ${cpu_usage}`}{"%"}
         </div>

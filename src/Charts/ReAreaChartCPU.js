@@ -19,7 +19,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     var value = payload[0].value.toFixed(2);
     return (
       <div className="custom-tooltip">
-        <div style={{ color: "#666568" }}>
+        <div style={{ color: "white" }}>
           {" "}
           CPU Usage: {` ${value}`}{"%"}
         </div>
