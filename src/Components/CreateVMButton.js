@@ -49,7 +49,7 @@ export default function CreateVMDialog() {
 
   const change_template = (event) => {
     setTemplateSelection(event.target.value);
-    // console.log(event.target.value);
+    console.log(event.target.value);
     setIsElastic(Boolean(event.target.value.elastic_enrolled));
     // console.log(is_elastic);
   };
@@ -82,6 +82,20 @@ export default function CreateVMDialog() {
 
   const set_lab_selection = (event) => {
     setLabSelection(event.target.value);
+    var template_name = event.target.value.templates[0]
+    console.log("Looking for template: " + template_name);
+    // Find the template name in the template list
+    for (var i = 0; i < template_list.length; i++) {
+      console.log("Checking template:");
+      console.log(template_list[i].key);
+      if (template_list[i].key === template_name) {
+        console.log("Found template: ");
+        console.log(template_list[i].props.value);
+        setTemplateSelection(template_list[i].props.value);
+        break;
+      }
+    }
+    setIsElastic(Boolean(template_list[i].props.value.elastic_enrolled));
   };
 
   // Make a GET request to the server to get the list of templates
