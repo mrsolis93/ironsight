@@ -24,8 +24,7 @@ const StudentsTable = ({ course_id, sub_tag }) => {
   //     "tags": [
   //         {
   //             "tag": "user",
-  //             "type": "role",
-  //             "tag_id": 7
+  //             "type": "role"
   //         }
   //     ],
   //     "profile_pic_data": null,

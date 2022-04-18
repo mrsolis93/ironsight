@@ -16,7 +16,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="custom-tooltip">
-        <div style={{ color: "#666568" }}>
+        <div style={{ color: "white" }}>
           {" "}
           CPU Usage: {` ${payload[0].value}` + "%"}{" "}
         </div>

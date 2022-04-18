@@ -2,6 +2,7 @@ import React from "react";
 import "../App.css";
 import ThemeButton from "../Components/ThemeButton";
 import { authenticate, postActivityLog } from "../IronsightAPI";
+import CircularProgress from "@mui/material/CircularProgress";
 
 //   Get clients remote IP address and log to console
 const get_client_ip = () => {
@@ -32,13 +33,19 @@ function submitLogin() {
           // Parse JSON string to object from client_ip
           const client_ip_obj = JSON.parse(client_ip);
           // Log client IP address to activity log
-          postActivityLog(username, "[Ironsight] Logged in from " + client_ip_obj.ip);
+          postActivityLog(
+            username,
+            "[Ironsight] Logged in from " + client_ip_obj.ip
+          );
         } catch (error) {
           console.log(error);
         }
-        window.location.href = "/";
         localStorage.setItem("ironsight_token", "test");
         localStorage.setItem("ironsight_username", username);
+        // Wait until the promise is resolved
+        setTimeout(function () {
+          window.location.href = "/";
+        }, 1000);
       }
       if (data === "wrong_password") {
         console.log("Wrong password!");
@@ -47,7 +54,12 @@ function submitLogin() {
           // Parse JSON string to object from client_ip
           const client_ip_obj = JSON.parse(client_ip);
           // Log client IP address to activity log
-          postActivityLog(username, "[Ironsight] Failed login from " + client_ip_obj.ip + ", Reason: Wrong Password");
+          postActivityLog(
+            username,
+            "[Ironsight] Failed login from " +
+              client_ip_obj.ip +
+              ", Reason: Wrong Password"
+          );
         } catch (error) {
           console.log(error);
         }
@@ -60,7 +72,12 @@ function submitLogin() {
           // Parse JSON string to object from client_ip
           const client_ip_obj = JSON.parse(client_ip);
           // Log client IP address to activity log
-          postActivityLog(username, "[Ironsight] Failed login from " + client_ip_obj.ip +", Reason: User not found");
+          postActivityLog(
+            username,
+            "[Ironsight] Failed login from " +
+              client_ip_obj.ip +
+              ", Reason: User not found"
+          );
         } catch (error) {
           console.log(error);
         }
@@ -75,6 +92,8 @@ function submitLogin() {
 }
 
 const Login = () => {
+  // State for isLoggingIn
+  const [isLoggingIn, setIsLoggingIn] = React.useState(false);
   return (
     <div className="login min-w-max fill-window h-screen bg-slate-800">
       <div className="flex justify-end m-4">
@@ -109,13 +128,21 @@ const Login = () => {
               </label>
               <div className="card-actions justify-end mt-4">
                 <button className="btn btn-ghost">Forgot Password</button>
-                <button
-                  onClick={() => submitLogin()}
-                  className="btn btn-primary"
-                >
-                  {" "}
-                  Login{" "}
-                </button>
+                {/* If isLoading, load a MUI spinner, otherwise do login button */}
+                {isLoggingIn ? (
+                  <CircularProgress />
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsLoggingIn(true);
+                      submitLogin();
+                    }
+                    }
+                    className="btn btn-primary"
+                  >
+                    Login
+                  </button>
+                )}
               </div>
             </div>
           </div>
