@@ -270,6 +270,7 @@ export const postActivityLog = (username, activity) => {
     if (!response.ok) {
       throw new Error("Failed to post activity log");
     }
+    console.log(response.json());
     return response.json();
   });
 };
