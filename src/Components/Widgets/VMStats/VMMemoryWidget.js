@@ -14,13 +14,15 @@ import { BsZoomIn } from "react-icons/bs";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
+    var ram_usage = payload[0].value;
+    ram_usage = ram_usage.toFixed(2);
     return (
       <div className="custom-tooltip">
         <div style={{ color: "#666568" }}>
           {" "}
-          Usage: {` ${payload[0].value}`}{" "}
+          Usage: {` ${ram_usage}`}{"%"}
         </div>
-        <div style={{ color: "#8142FF" }}> VM: {label} </div>
+        <div style={{ color: "#36d399" }}> Time: {label} </div>
       </div>
     );
   }
@@ -30,7 +32,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const VMMemoryWidget = ({ vm_name }) => {
   const [intervalMs, setIntervalMs] = React.useState(15000);
-  const [isZoomed, setIsZoomed] = React.useState(true);
+  const [isZoomed, setIsZoomed] = React.useState(false);
   const { data, isLoading, isError } = useQuery("vm_memory_usage", getVMMemoryUsage, {
     // Refetch the data every 15 seconds
     refetchInterval: intervalMs,
@@ -89,9 +91,9 @@ const VMMemoryWidget = ({ vm_name }) => {
             }}
           >
             <defs>
-              <linearGradient id="colorValues" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8142FF" stopOpacity={0.5} />
-                <stop offset="80%" stopColor="#8142FF" stopOpacity={0} />
+              <linearGradient id="colorValues3" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#36d399" stopOpacity={0.5} />
+                <stop offset="80%" stopColor="#36d399" stopOpacity={0} />
               </linearGradient>
             </defs>
 
@@ -116,9 +118,9 @@ const VMMemoryWidget = ({ vm_name }) => {
             <Area
               type="monotone"
               dataKey="values"
-              stroke="#8142FF"
+              stroke="#36d399"
               fillOpacity={1}
-              fill="url(#colorValues)"
+              fill="url(#colorValues3)"
             />
           </AreaChart>
         </ResponsiveContainer>

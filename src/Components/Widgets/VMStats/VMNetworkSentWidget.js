@@ -9,18 +9,16 @@ import {
 } from "recharts";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useQuery } from "react-query";
-import { getVMCPUUsage } from "../../../IronsightAPI";
+import { getVMNetworkPacketsSent } from "../../../IronsightAPI";
 import { BsZoomIn } from "react-icons/bs";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
-    var cpu_usage = payload[0].value;
-    var cpu_usage = cpu_usage.toFixed(2);
     return (
       <div className="custom-tooltip">
         <div style={{ color: "#666568" }}>
           {" "}
-          CPU Usage: {` ${cpu_usage}`}{"%"}
+          Packets Sent: {` ${payload[0].value}`}
         </div>
         <div style={{ color: "#8142FF" }}> Time: {label} </div>
       </div>
@@ -30,16 +28,16 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const VMCPUWidget = ({ vm_name }) => {
+const VMNetworkSentWidget = ({ vm_name }) => {
   const [intervalMs, setIntervalMs] = React.useState(15000);
   const [isZoomed, setIsZoomed] = React.useState(true);
-  const { data, isLoading, isError } = useQuery("vm_cpu_usage", getVMCPUUsage, {
+  const { data, isLoading, isError } = useQuery("vm_network_packets_sent", getVMNetworkPacketsSent, {
     // Refetch the data every 15 seconds
     refetchInterval: intervalMs,
   });
 
   if (isLoading) {
-    console.log("[Ironsight] Fetching VM CPU Data...");
+    console.log("[Ironsight] Fetching VM Network Packets Data...");
     return <LinearProgress />;
   }
 
@@ -80,6 +78,9 @@ const VMCPUWidget = ({ vm_name }) => {
   return (
     <div className="w-full">
       <div style={{ width: "100%", height: 290 }}>
+        <div className="text-center text-sm mb-4">
+        Packets Sent
+        </div>
         <ResponsiveContainer>
           <AreaChart
             data={chart_data}
@@ -99,7 +100,7 @@ const VMCPUWidget = ({ vm_name }) => {
 
             <XAxis
               dataKey="labels"
-              interval={10}
+              interval={20}
               angle={-30}
               height={150}
               dy={16}
@@ -112,7 +113,7 @@ const VMCPUWidget = ({ vm_name }) => {
               domain={isZoomed ? [0, "dataMax + 0.5"] : [0, 100]}
               scale="linear"
               // Add % to the Y axis
-              tickFormatter={(value) => `${value}%`}
+              tickFormatter={(value) => `${value}`}
             />
             <Tooltip content={<CustomTooltip data={chart_data} />} />
             <Area
@@ -125,13 +126,13 @@ const VMCPUWidget = ({ vm_name }) => {
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         <button className="zoom-button" onClick={() => setIsZoomed(!isZoomed)}>
           <BsZoomIn />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export default VMCPUWidget;
+export default VMNetworkSentWidget;

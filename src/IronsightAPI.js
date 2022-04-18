@@ -102,6 +102,27 @@ export const getVMMemoryUsage = async () => {
   return response.json();
 };
 
+export const getVMNetworkPacketsReceived = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vm_network_packets_received&step=5`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch VM network packets received");
+  }
+  return response.json();
+
+};
+
+export const getVMNetworkPacketsSent = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vm_network_packets_sent&step=5`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch VM network packets sent");
+  }
+  return response.json();
+};
+
 export const getNumVMsOn = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_num_vms_on`
