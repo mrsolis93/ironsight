@@ -13,7 +13,7 @@ import VirtualMachinesTable from "../../Components/DetailPageComponents/VirtualM
 function CourseDetails() {
   const { course_id } = useParams();
   const { data, isLoading, isError } = useQuery("course_list", getCourseList);
-  const [selectedTab, setSelectedTab] = React.useState("labs");
+  const [ selectedTab, setSelectedTab] = React.useState("labs");
 
   if (isLoading) {
     console.log("[Ironsight] Fetching Course Data...");
