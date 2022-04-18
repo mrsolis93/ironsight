@@ -10,30 +10,36 @@ function UserTable() {
     () => [
       {
         Header: "User",
-        accessor: "user",
+        accessor: "first_name",
       },
       {
         Header: "Role",
-        accessor: "role",
+        accessor: "last_name",
       },
       {
         Header: "Class",
-        accessor: "class",
+        accessor: "user_name",
       },
       {
         Header: "# of Labs",
-        accessor: "labs",
+        accessor: "profile_pic_data",
       },
 
       {
         Header: "# of VMs",
-        accessor: "vms",
+        accessor: "student_major",
+      }, 
+      {
+        Header: "roles",
+        accessor: "user_role",
       },
     ],
     []
   );
 
-  const [data, setData] = useState([]);
+  const user_data = useUserData();
+
+  const [data, setData] = useState(React.useMemo(() => user_data, []))
   const [skipPageReset, setSkipPageReset] = React.useState(false);
 
   // We need to keep the table from resetting the pageIndex when we
@@ -43,10 +49,6 @@ function UserTable() {
   // the rowIndex, columnId and new value to update the
   // original data
 
-  const user_data = useUserData();
-
-  // //set user data to data
-  // setData(user_data);
 
   if (user_data) {
   console.log("UserData: ", user_data);
