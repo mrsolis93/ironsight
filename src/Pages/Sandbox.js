@@ -5,7 +5,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { useQuery } from "react-query";
 import { getVMCPUUsage, getVMMemoryUsage } from "../IronsightAPI";
 import ReAreaChartMultiple from "../Charts/ReAreaChartMultiple";
-import VMCPUWidgetOld from "../Components/Widgets/VMStats/VMCPUWidgetOld";
+import VMCPUWidgetHome from "../Components/Widgets/VMStats/VMCPUWidgetHome";
 
 function Sandbox() {
   const [intervalMs, setIntervalMs] = React.useState(15000);
@@ -40,7 +40,7 @@ function Sandbox() {
         </div>
         <div className="col-span-1">
           <div className="flex justify-center rounded-box bg-base-100 shadow-2xl h-full items-center">
-            <VMCPUWidgetOld />
+            <VMCPUWidgetHome />
           </div>
         </div>
       </div>

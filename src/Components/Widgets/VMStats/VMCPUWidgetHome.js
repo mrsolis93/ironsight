@@ -15,7 +15,7 @@ import { ResponsiveContainer } from "recharts";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement);
 
-const VMCPUWidget = ({ vm_name }) => {
+const VMCPUWidgetHome = ({ vm_name }) => {
   const [intervalMs, setIntervalMs] = React.useState(15000);
   const [isZoomed, setIsZoomed] = React.useState(true);
   const { data, isLoading, isError } = useQuery("vm_cpu_usage", getVMCPUUsage, {
@@ -39,6 +39,11 @@ const VMCPUWidget = ({ vm_name }) => {
   var results_list = data.data.result;
   var datasets = [];
   var labels = [];
+
+  // Limit the results list to 5 items
+  if (results_list.length > 5) {
+    results_list = results_list.slice(0, 5);
+  }
 
   for (var i = 0; i < results_list.length; i++) {
     var result = results_list[i];
@@ -69,9 +74,9 @@ const VMCPUWidget = ({ vm_name }) => {
         : [
             "rgba(255, 99, 132, 0.2)",
             "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
             "rgba(255, 159, 64, 1)",
           ],
       borderColor: vm_name
@@ -140,4 +145,4 @@ const VMCPUWidget = ({ vm_name }) => {
   );
 };
 
-export default VMCPUWidget;
+export default VMCPUWidgetHome;
