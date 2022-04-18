@@ -132,7 +132,7 @@ export default function ReAreaChartMultiple2() {
 
             {
               this.props.regions.map((region) => {
-                  return (<Line  name={region.name} key={`line_${region.name}`} stroke={region.color} dataKey={`${region.name}_value`} />)
+                  return (<Area  name={region.name} key={`line_${region.name}`} stroke={region.color} dataKey={`${region.name}_value`} />)
                })
             }
 

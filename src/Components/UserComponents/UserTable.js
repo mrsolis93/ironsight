@@ -1,25 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import EnhancedTable from '.EnhancedTable'
+import EnhancedTable from './EnhancedTable'
+import useUserData, {table_html} from './UserData'
+
 
 
 function UserTable() {
 
     const columns = React.useMemo(
         () => [
+          
           {
             Header: 'User',
             accessor: 'user',
+
+          },
+          {
+            Header: 'Role',
+            accessor: 'role',
           },
           {
             Header: 'Class',
             accessor: 'class',
           },
           {
-            Header: 'Labs',
+            Header: '# of Labs',
             accessor: 'labs',
           },
+       
           {
             Header: '# of VMs',
             accessor: 'vms',
@@ -28,7 +37,7 @@ function UserTable() {
         []
       )
 
-      const [data, setData] = React.useState(React.useMemo(() => userData(20), []))
+      const [data, setData] = useState([]);
       const [skipPageReset, setSkipPageReset] = React.useState(false)
     
       // We need to keep the table from resetting the pageIndex when we
@@ -37,6 +46,15 @@ function UserTable() {
       // When our cell renderer calls updateMyData, we'll use
       // the rowIndex, columnId and new value to update the
       // original data
+      
+
+      
+      // const user_data = useUserData();
+
+      // //set user data to data
+      // setData(user_data);
+
+      // console.log("UserData: ", user_data);
 
       const updateMyData = (rowIndex, columnId, value) => 
       
@@ -83,13 +101,7 @@ function UserTable() {
     //         </tr>
     //       </thead>
     //       <tbody>
-    //         {products.map(product => (
-    //         <tr key={product.id}>
-    //             <td>{product.name}</td>
-    //             <td>{product.price}</td>
-    //             <td>{product.stock}</td>
-    //         </tr>
-    //         ))}
+    //         \\
     //       </tbody>
     //     </table>
     // </div>

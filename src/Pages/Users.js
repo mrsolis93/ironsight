@@ -13,7 +13,7 @@ function Users() {
       <Navbar />
       
         <div>
-        <ReAreaChartMultiple />
+        <UserTable />
           
         </div>
 
