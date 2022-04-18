@@ -33,16 +33,26 @@ const VirtualMachinesTable = ({ course_id, sub_tag }) => {
     return <p>Error!</p>;
   }
 
-  const get_vm_list = () => {
-    return data.map(({ vm_name, template_name, port_number }) => (
-      <tr key={vm_name} className="hover">
-        <td>{vm_name}</td>
-        <td>{template_name}</td>
-        <td>{port_number}</td>
-      </tr>
-    ));
-  };
-  const vm_list = get_vm_list();
+  var filtered_vm_list = [];
+  // TODO: Better way to do this chaos
+  // If sub_tag is specified, filter the list to only include VMs in that course
+  if (sub_tag) {
+    for (let i = 0; i < data.length; i++) {
+      // If data[i] has a tags field
+      if (data[i].tags) {
+        for (let j = 0; j < data[i].tags.length; j++) {
+          if (
+            data[i].tags[j].tag === sub_tag &&
+            data[i].tags[j].type === "class"
+          ) {
+            filtered_vm_list.push(data[i]);
+          }
+        }
+      }
+    }
+  } else {
+    filtered_vm_list = data;
+  }
 
   const get_labs_list = () => {
     // Find lab by lab num and store in lab_mapping
@@ -103,8 +113,31 @@ const VirtualMachinesTable = ({ course_id, sub_tag }) => {
     }
   }
 
+  var filtered_harvester_vm_list = [];
+  // If harvester VM metadata.name matches any of the VM names in the filtered_vm_list, add it to the filtered_harvester_vm_list
+  for (var i = 0; i < harvester_data.length; i++) {
+    var harvester_vm = harvester_data[i];
+    var harvester_vm_name = harvester_vm.metadata.name;
+    for (var j = 0; j < filtered_vm_list.length; j++) {
+      if (harvester_vm_name === filtered_vm_list[j].vm_name) {
+        filtered_harvester_vm_list.push(harvester_vm);
+      }
+    }
+  }
+
   const get_harvester_vm_list = () => {
-    return harvester_data.map(
+    // If the filtered_harvester_vm_list is empty, return a placeholder
+    if (filtered_harvester_vm_list.length === 0) {
+      return (
+        <tr>
+          <td colSpan="6">
+            <p>No virtual machines enrolled in this course</p>
+          </td>
+        </tr>
+      );
+    }
+
+    return filtered_harvester_vm_list.map(
       ({ metadata, status, port_number, users, labs }) => (
         <tr key={metadata.name} className="hover">
           <td>
@@ -164,6 +197,7 @@ const VirtualMachinesTable = ({ course_id, sub_tag }) => {
       )
     );
   };
+
   const harvester_vm_list = get_harvester_vm_list();
 
   return (
