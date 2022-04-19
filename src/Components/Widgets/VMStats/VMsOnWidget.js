@@ -18,7 +18,7 @@ const VMsOnWidget = () => {
       return <p>Error!</p>;
     }
   return (
-    <div className="mb-4">
+    <div className="mb-1">
     <div className="stats shadow">
       <div className="stat">
         <div className="stat-title">Running VMs</div>

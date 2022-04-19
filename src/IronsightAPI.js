@@ -72,6 +72,16 @@ export const getMemoryUsage = async () => {
   return response.json();
 };
 
+export const getMetrics = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_metrics`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch metrics");
+  }
+  return response.json();
+};
+
 export const getDiskUsage = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_disk_usage&step=5`
