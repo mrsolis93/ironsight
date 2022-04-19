@@ -3,7 +3,7 @@ import "../../App.css";
 import Navbar from "../../Components/Navbar";
 import { useParams } from "react-router-dom";
 
-function LabDetails() {
+function StudentLabDetails() {
   const { lab_num, student_name } = useParams();
   console.log("lab_num: " + lab_num);
   console.log("student_name: " + student_name);
@@ -16,4 +16,4 @@ function LabDetails() {
   );
 }
 
-export default LabDetails;
+export default StudentLabDetails;
