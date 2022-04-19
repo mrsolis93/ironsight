@@ -110,7 +110,7 @@ function StudentCourseDetails() {
           </li>
         </ul>
       </div>
-      <div className="grid grid-cols-4 grid-flow-row m-4 gap-4 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-4 grid-flow-row m-4 gap-4 h-full">
         <div className="col-span-1 w-full">
           <div className="rounded-box bg-base-100 h-full">
             {/* Profile picture, firstname lastname, etc */}
@@ -130,7 +130,7 @@ function StudentCourseDetails() {
               </div>
               <div className="sidebar-links w-full">
                 {/* Display rows but highlight the one using selectedTab */}
-                <div className="grid grid-cols-3 lg:grid-cols-1 grid-flow-row gap-4 mx-4">
+                <div className="grid grid-cols-2 lg:grid-cols-1 grid-flow-row gap-4 mx-4">
                   <button
                     className={
                       selectedTab === "labs"
@@ -156,7 +156,7 @@ function StudentCourseDetails() {
             </div>
           </div>
         </div>
-        <div className="col-span-3">
+        <div className="col-span-1 lg:col-span-3">
           <div className="rounded-box bg-base-100 h-full">
             {/* Lab overview */}
             <div className="page-content">
