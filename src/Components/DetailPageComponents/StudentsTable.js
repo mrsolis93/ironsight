@@ -89,7 +89,7 @@ const StudentsTable = ({ course_id, sub_tag }) => {
             </div>
             <div>
               <Link
-                to={"/user_details/" + student.user_name}
+                to={"/course_details/" + course_id + "/" + student.user_name}
                 key={student.user_name + "_link"}
               >
                 <div className="font-bold">

@@ -63,13 +63,13 @@ function CourseDetails() {
           <div className="rounded-box w-full h-full bg-base-100 shadow-xl">
             <div className="sidebar-links">
                   {/* Display rows but highlight the one using selectedTab */}
-                  <div className="grid grid-cols-1 grid-flow-row gap-4 mx-4">
+                  <div className="grid grid-cols-3 lg:grid-cols-1 grid-flow-row gap-4 mx-4">
 
                   <button
                     className={
                       selectedTab === "labs"
-                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mt-4"
-                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mt-4"
+                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mt-4 mb-4 lg:mb-0"
+                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mt-4 mb-4 md:mb-0"
                     }
                     onClick={() => set_selected_tab("labs")}
                     >
@@ -78,8 +78,8 @@ function CourseDetails() {
                   <button
                     className={
                       selectedTab === "students"
-                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer"
-                      : "btn btn-outline w-full text-base-900 hover cursor-pointer"
+                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mt-4 lg:mt-0"
+                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mt-4 lg:mt-0"
                     }
                     onClick={() => set_selected_tab("students")}
                     >
@@ -88,8 +88,8 @@ function CourseDetails() {
                   <button
                     className={
                       selectedTab === "virtual_machines"
-                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4"
-                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4"
+                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
                     }
                     onClick={() => set_selected_tab("virtual_machines")}
                     >

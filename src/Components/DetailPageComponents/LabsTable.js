@@ -5,7 +5,7 @@ import { getLabList } from "../../IronsightAPI";
 import { Link } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 
-const LabTable = ({ course_id, sub_tag }) => {
+const LabTable = ({ course_id, sub_tag, student_name }) => {
   const { data, isLoading, isError } = useQuery("lab_list", getLabList);
 
   if (isLoading) {
@@ -34,13 +34,17 @@ const LabTable = ({ course_id, sub_tag }) => {
         real_lab_num = lab.tags[i]["sub_tag"];
       }
     }
+    var lab_link = "/lab_details/" + lab.lab_num;
+    if (student_name !== undefined) {
+      lab_link += "/" + student_name;
+    }
     return (
       <tr key={lab.lab_num} className="hover">
         <td>{real_lab_num}</td>
         <td>
           <Link
             className="w-full"
-            to={"/lab_details/" + lab.lab_num}
+            to={lab_link}
             key={lab.lab_num}
           >
             <div className="flex items-center space-x-3">
