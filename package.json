@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^7.0.0-alpha.0",
-    "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
@@ -12,6 +11,7 @@
     "@material-ui/icons": "^4.11.3",
     "@mui/material": "^5.5.3",
     "@mui/utils": "^5.5.3",
+    "@table-library/react-table-library": "^2.0.32",
     "@tanstack/react-table": "^8.0.0-alpha.26",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^13.0.0",
@@ -59,7 +59,7 @@
     ]
   },
   "devDependencies": {
-    "@emotion/react": "^11.8.2",
+    "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.5.3",
