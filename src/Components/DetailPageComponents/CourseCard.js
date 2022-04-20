@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CourseCard = ({ tag, sub_tag, image_link }) => {
-  var course_id = sub_tag.replace(" ", "_").toLowerCase();
+const CourseCard = ({ course_id, course_name, course_thumbnail }) => {
+  var course_id_friendly = course_name.split(" -")[0];
 
   return (
     <Link to={`/course_details/${course_id}`}>
@@ -11,12 +11,12 @@ const CourseCard = ({ tag, sub_tag, image_link }) => {
         <figure>
           <img
             className="object-cover h-48 min-w-full"
-            src={image_link}
+            src={course_thumbnail}
           />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">{tag}</h2>
-          <p>{sub_tag}</p>
+          <h2 className="card-title">{course_name}</h2>
+          <p>{course_id_friendly}</p>
         </div>
       </div>
     </Link>

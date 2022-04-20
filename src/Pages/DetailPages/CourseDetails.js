@@ -5,7 +5,6 @@ import { useQuery } from "react-query";
 import { useParams, Link } from "react-router-dom";
 import { getCourseList } from "../../IronsightAPI";
 import LinearProgress from "@mui/material/LinearProgress";
-import { RiArrowRightSLine } from "react-icons/ri";
 import LabTable from "../../Components/DetailPageComponents/LabsTable";
 import StudentTable from "../../Components/DetailPageComponents/StudentsTable";
 import VirtualMachinesTable from "../../Components/DetailPageComponents/VirtualMachinesTable";
@@ -28,15 +27,7 @@ function CourseDetails() {
     setSelectedTab(tab);
   };
 
-  // Retrieve friendly name for course rather than the course id
-  var course_name = "";
-  var sub_tag = "";
-  for (var i = 0; i < data.length; i++) {
-    if (data[i].sub_tag.replace(" ", "_").toLowerCase() === course_id) {
-      course_name = data[i].tag;
-      sub_tag = data[i].sub_tag;
-    }
-  }
+  var course_data = data.find((course) => course.course_id === course_id);
 
   return (
     <div className="courses">
@@ -52,7 +43,7 @@ function CourseDetails() {
             <Link to="/courses">Courses</Link>
           </li>
           <li>
-            <strong>{course_name}</strong>
+            <strong>{course_data.course_name}</strong>
           </li>
         </ul>
       </div>
@@ -108,17 +99,17 @@ function CourseDetails() {
 
               {/* Labs */}
               {selectedTab === "labs" && (
-                <LabTable course_id={course_id} sub_tag={sub_tag} />
+                <LabTable course_id={course_id} />
               )}
 
               {/* Students */}
               {selectedTab === "students" && (
-                <StudentTable course_id={course_id} sub_tag={sub_tag} />
+                <StudentTable course_id={course_id} sub_tag={course_id} />
               )}
 
               {/* Virtual Machines */}
               {selectedTab === "virtual_machines" && (
-                <VirtualMachinesTable course_id={course_id} sub_tag={sub_tag} />
+                <VirtualMachinesTable course_id={course_id} />
               )}
             </div>
           </div>

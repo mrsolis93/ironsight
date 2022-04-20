@@ -95,11 +95,9 @@ function LabOverview() {
   const tags = [];
   for (let i = 0; i < data.tags.length; i++) {
     // Capitalize the first letter of the tag
-    const tag = data.tags[i]["tag"];
+    const tag = data.tags[i];
     const capitalized_tag = tag.charAt(0).toUpperCase() + tag.slice(1);
-    if (data.tags[i]["type"] != "image_link") {
       tags.push(capitalized_tag);
-    }
   }
 
   // Map the tags to a table

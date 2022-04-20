@@ -13,14 +13,16 @@ function StudentCourseDetails() {
   const { course_id, student_name } = useParams();
   const {
     data: user_data,
-    isLoading_user,
-    isError_user,
+    isLoading: isLoading_user,
+    isError: isError_user,
   } = useQuery("users_list", getUsersList);
+
   const {
     data: course_data,
-    isLoading_course,
-    isError_course,
+    isLoading: isLoading_course,
+    isError: isError_course,
   } = useQuery("course_list", getCourseList);
+
   var [selectedTab, setSelectedTab] = React.useState("labs");
 
   if (isLoading_user || isLoading_course) {
@@ -29,6 +31,10 @@ function StudentCourseDetails() {
 
   if (isError_user || isError_course) {
     return <p>Error!</p>;
+  }
+
+  if (!user_data || !course_data) {
+    return;
   }
 
   var raw_student_data = user_data.map(function (student) {
@@ -40,12 +46,8 @@ function StudentCourseDetails() {
       student.last_name.charAt(0).toUpperCase() + student.last_name.slice(1);
     var student_email = student.user_name + "@leomail.tamuc.edu";
     // Check the tags to see if the student is a student or a professor
-    var user_role = "";
-    for (let i = 0; i < student.tags.length; i++) {
-      if (student.tags[i]["type"] === "role") {
-        user_role = student.tags[i]["tag"];
-      }
-    }
+    var user_role = student.roles[0].toUpperCase();
+
     // Check for a link to a profile picture
     var profile_pic_data = "";
     if (student.profile_pic_data !== null) {
@@ -59,6 +61,9 @@ function StudentCourseDetails() {
       if (student.tags[i]["type"] === "major") {
         student_major = student.tags[i]["tag"];
       }
+    }
+    if (student_major === "") {
+      student_major = "N/A";
     }
     // Return a list of student data
     return {
@@ -81,11 +86,9 @@ function StudentCourseDetails() {
 
   // Retrieve friendly name for course rather than the course id
   var course_name = "";
-  var sub_tag = "";
   for (var i = 0; i < course_data.length; i++) {
-    if (course_data[i].sub_tag.replace(" ", "_").toLowerCase() === course_id) {
-      course_name = course_data[i].tag;
-      sub_tag = course_data[i].sub_tag;
+    if (course_data[i].course_id === course_id) {
+      course_name = course_data[i].course_name;
     }
   }
 
@@ -161,9 +164,12 @@ function StudentCourseDetails() {
             {/* Lab overview */}
             <div className="page-content">
               {selectedTab === "labs" ? (
-              <LabTable sub_tag={sub_tag} student_name={student_name} />
+                <LabTable course_id={course_id} student_name={student_name} />
               ) : (
-                <VirtualMachineTable sub_tag={sub_tag} student_name={student_name} />
+                <VirtualMachineTable
+                  course_id={course_id}
+                  student_name={student_name}
+                />
               )}
             </div>
           </div>
