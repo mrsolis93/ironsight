@@ -196,7 +196,7 @@ function LabOverview() {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 grid-flow-row m-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 grid-flow-row m-4 gap-4">
         {/* Users table */}
         <div className="col-span-1 rounded-box bg-base-100 shadow-xl">
           <div className="card-body p-4 md:p-8 max-h-96">
