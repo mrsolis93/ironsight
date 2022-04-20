@@ -14,13 +14,15 @@ import { BsZoomIn } from "react-icons/bs";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
+    var cpu_usage = payload[0].value;
+    var cpu_usage = cpu_usage.toFixed(2);
     return (
       <div className="custom-tooltip">
-        <div style={{ color: "#666568" }}>
+        <div style={{ color: "white" }}>
           {" "}
-          Usage: {` ${payload[0].value}`}{" "}
+          CPU Usage: {` ${cpu_usage}`}{"%"}
         </div>
-        <div style={{ color: "#8142FF" }}> VM: {label} </div>
+        <div style={{ color: "#8142FF" }}> Time: {label} </div>
       </div>
     );
   }

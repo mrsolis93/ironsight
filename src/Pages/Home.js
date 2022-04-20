@@ -7,7 +7,7 @@ import HypervisorDiskWidget from "../Components/Widgets/Hypervisor/HypervisorDis
 import OngoingLabs from "../Components/Widgets/OngoingLabs";
 import NewsWidget from "../Components/Widgets/NewsWidget";
 import Navbar from "../Components/Navbar";
-import VMCPUWidgetOld from "../Components/Widgets/VMStats/VMCPUWidgetOld";
+import VMCPUWidgetHome from "../Components/Widgets/VMStats/VMCPUWidgetHome";
 import MiniVMStatsWidget from "../Components/Widgets/VMStats/MiniVMStatsWidget";
 import ActivityLog from "../Components/Widgets/ActivityLog";
 
@@ -40,7 +40,7 @@ class Home extends Component {
                 <h2 className="card-title">VM Overview</h2>
                 <div className="grid grid-flow-col grid-rows-4 md:grid-rows-1">
                   <div className="col-span-1 row-span-3">
-                    <VMCPUWidgetOld />
+                    <VMCPUWidgetHome />
                   </div>
                   <div className="col-span-1 row-span-1">
                     <MiniVMStatsWidget />

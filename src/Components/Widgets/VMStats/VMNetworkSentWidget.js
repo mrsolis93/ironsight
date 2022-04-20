@@ -9,20 +9,18 @@ import {
 } from "recharts";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useQuery } from "react-query";
-import { getVMMemoryUsage } from "../../../IronsightAPI";
+import { getVMNetworkPacketsSent } from "../../../IronsightAPI";
 import { BsZoomIn } from "react-icons/bs";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
-    var ram_usage = payload[0].value;
-    ram_usage = ram_usage.toFixed(2);
     return (
       <div className="custom-tooltip">
         <div style={{ color: "white" }}>
           {" "}
-          Usage: {` ${ram_usage}`}{"%"}
+          Packets Sent: {` ${payload[0].value}`}
         </div>
-        <div style={{ color: "#36d399" }}> Time: {label} </div>
+        <div style={{ color: "#8142FF" }}> Time: {label} </div>
       </div>
     );
   }
@@ -30,16 +28,16 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const VMMemoryWidget = ({ vm_name }) => {
+const VMNetworkSentWidget = ({ vm_name }) => {
   const [intervalMs, setIntervalMs] = React.useState(15000);
-  const [isZoomed, setIsZoomed] = React.useState(false);
-  const { data, isLoading, isError } = useQuery("vm_memory_usage", getVMMemoryUsage, {
+  const [isZoomed, setIsZoomed] = React.useState(true);
+  const { data, isLoading, isError } = useQuery("vm_network_packets_sent", getVMNetworkPacketsSent, {
     // Refetch the data every 15 seconds
     refetchInterval: intervalMs,
   });
 
   if (isLoading) {
-    console.log("[Ironsight] Fetching VM Memory Data...");
+    console.log("[Ironsight] Fetching VM Network Packets Data...");
     return <LinearProgress />;
   }
 
@@ -80,6 +78,9 @@ const VMMemoryWidget = ({ vm_name }) => {
   return (
     <div className="w-full">
       <div style={{ width: "100%", height: 290 }}>
+        <div className="text-center text-sm mb-4">
+        Packets Sent
+        </div>
         <ResponsiveContainer>
           <AreaChart
             data={chart_data}
@@ -91,15 +92,15 @@ const VMMemoryWidget = ({ vm_name }) => {
             }}
           >
             <defs>
-              <linearGradient id="colorValues3" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#36d399" stopOpacity={0.5} />
-                <stop offset="80%" stopColor="#36d399" stopOpacity={0} />
+              <linearGradient id="colorValues" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8142FF" stopOpacity={0.5} />
+                <stop offset="80%" stopColor="#8142FF" stopOpacity={0} />
               </linearGradient>
             </defs>
 
             <XAxis
               dataKey="labels"
-              interval={10}
+              interval={20}
               angle={-30}
               height={150}
               dy={16}
@@ -112,26 +113,26 @@ const VMMemoryWidget = ({ vm_name }) => {
               domain={isZoomed ? [0, "dataMax + 0.5"] : [0, 100]}
               scale="linear"
               // Add % to the Y axis
-              tickFormatter={(value) => `${value}%`}
+              tickFormatter={(value) => `${value}`}
             />
             <Tooltip content={<CustomTooltip data={chart_data} />} />
             <Area
               type="monotone"
               dataKey="values"
-              stroke="#36d399"
+              stroke="#8142FF"
               fillOpacity={1}
-              fill="url(#colorValues3)"
+              fill="url(#colorValues)"
             />
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         <button className="zoom-button" onClick={() => setIsZoomed(!isZoomed)}>
           <BsZoomIn />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export default VMMemoryWidget;
+export default VMNetworkSentWidget;

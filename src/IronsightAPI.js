@@ -72,6 +72,16 @@ export const getMemoryUsage = async () => {
   return response.json();
 };
 
+export const getMetrics = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_metrics`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch metrics");
+  }
+  return response.json();
+};
+
 export const getDiskUsage = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_disk_usage&step=5`
@@ -98,6 +108,27 @@ export const getVMMemoryUsage = async () => {
   );
   if (!response.ok) {
     throw new Error("Failed to fetch VM memory usage");
+  }
+  return response.json();
+};
+
+export const getVMNetworkPacketsReceived = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vm_network_packets_received&step=5`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch VM network packets received");
+  }
+  return response.json();
+
+};
+
+export const getVMNetworkPacketsSent = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_vm_network_packets_sent&step=5`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch VM network packets sent");
   }
   return response.json();
 };
@@ -148,6 +179,16 @@ export const getCourseList = async () => {
   );
   if (!response.ok) {
     throw new Error("Failed to fetch class list");
+  }
+  return response.json();
+};
+
+export const getTags = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_tags`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch tags");
   }
   return response.json();
 };
@@ -249,6 +290,7 @@ export const postActivityLog = (username, activity) => {
     if (!response.ok) {
       throw new Error("Failed to post activity log");
     }
+    console.log(response.json());
     return response.json();
   });
 };

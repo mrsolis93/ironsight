@@ -1,14 +1,20 @@
 import React from "react";
 import "../../App.css";
 import { useQuery } from "react-query";
-import { getVMList, getHarvesterVMList, getLabList } from "../../IronsightAPI";
+import {
+  getVMList,
+  getHarvesterVMList,
+  getLabList,
+  getCourseList,
+} from "../../IronsightAPI";
 import { Link } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 import { BsPower } from "react-icons/bs";
 
-const VirtualMachinesTable = ({ course_id, sub_tag }) => {
+const VirtualMachinesTable = ({ course_id, student_name }) => {
   const [intervalMs, setIntervalMs] = React.useState(5000);
-  const { data, isLoading, isError } = useQuery("virtual_machines", getVMList);
+  const { data: data_vms, isLoading: isLoading_vms, isError: isLoading_error } = useQuery("virtual_machines", getVMList);
+
   const {
     data: harvester_data,
     isLoading: harvester_isLoading,
@@ -18,31 +24,56 @@ const VirtualMachinesTable = ({ course_id, sub_tag }) => {
   });
 
   const {
+    data: course_data,
+    isLoading: course_isLoading,
+    isError: course_isError,
+  } = useQuery("course_data", getCourseList);
+
+  const {
     data: lab_data,
     isLoading: lab_isLoading,
     isError: lab_isError,
-  } = useQuery("labs", getLabList, {
-    refetchInterval: intervalMs,
-  });
+  } = useQuery("labs", getLabList);
 
-  if (isLoading || harvester_isLoading || lab_isLoading) {
+  if (isLoading_vms || harvester_isLoading || lab_isLoading || course_isLoading) {
     return <LinearProgress />;
   }
 
-  if (isError || harvester_isError || lab_isError) {
+  if (isLoading_error || harvester_isError || lab_isError || course_isError) {
     return <p>Error!</p>;
   }
 
-  const get_vm_list = () => {
-    return data.map(({ vm_name, template_name, port_number }) => (
-      <tr key={vm_name} className="hover">
-        <td>{vm_name}</td>
-        <td>{template_name}</td>
-        <td>{port_number}</td>
-      </tr>
-    ));
-  };
-  const vm_list = get_vm_list();
+  var filtered_vm_list = [];
+  if (course_id) {
+    var course_vms = [];
+    for (let i = 0; i < course_data.length; i++) {
+      if (course_data[i]["course_id"] === course_id) {
+        course_vms = course_data[i]["virtual_machines"];
+      }
+    }
+    for (let i = 0; i < data_vms.length; i++) {
+      for (let j = 0; j < course_vms.length; j++) {
+        if (data_vms[i]["vm_name"] === course_vms[j]) {
+          filtered_vm_list.push(data_vms[i]);
+        }
+      }
+    }
+  } else {
+    filtered_vm_list = data_vms;
+  }
+
+  // If student_name is specified, filter the list to only include VMs for that student
+  if (student_name) {
+    var filtered_vm_list_2 = [];
+    for (let i = 0; i < filtered_vm_list.length; i++) {
+      for (let j = 0; j < filtered_vm_list[i].users.length; j++) {
+        if (filtered_vm_list[i].users[j] === student_name) {
+          filtered_vm_list_2.push(filtered_vm_list[i]);
+        }
+      }
+    }
+    filtered_vm_list = filtered_vm_list_2;
+  }
 
   const get_labs_list = () => {
     // Find lab by lab num and store in lab_mapping
@@ -81,11 +112,11 @@ const VirtualMachinesTable = ({ course_id, sub_tag }) => {
   for (var i = 0; i < harvester_data.length; i++) {
     var harvester_vm = harvester_data[i];
     var harvester_vm_name = harvester_vm.metadata.name;
-    for (var j = 0; j < data.length; j++) {
-      if (harvester_vm_name === data[j].vm_name) {
-        harvester_data[i].port_number = data[j].port_number;
-        harvester_data[i].users = data[j].users;
-        harvester_data[i].labs = data[j].labs;
+    for (var j = 0; j < data_vms.length; j++) {
+      if (harvester_vm_name === data_vms[j].vm_name) {
+        harvester_data[i].port_number = data_vms[j].port_number;
+        harvester_data[i].users = data_vms[j].users;
+        harvester_data[i].labs = data_vms[j].labs;
       }
     }
   }
@@ -103,8 +134,31 @@ const VirtualMachinesTable = ({ course_id, sub_tag }) => {
     }
   }
 
+  var filtered_harvester_vm_list = [];
+  // If harvester VM metadata.name matches any of the VM names in the filtered_vm_list, add it to the filtered_harvester_vm_list
+  for (var i = 0; i < harvester_data.length; i++) {
+    var harvester_vm = harvester_data[i];
+    var harvester_vm_name = harvester_vm.metadata.name;
+    for (var j = 0; j < filtered_vm_list.length; j++) {
+      if (harvester_vm_name === filtered_vm_list[j].vm_name) {
+        filtered_harvester_vm_list.push(harvester_vm);
+      }
+    }
+  }
+
   const get_harvester_vm_list = () => {
-    return harvester_data.map(
+    // If the filtered_harvester_vm_list is empty, return a placeholder
+    if (filtered_harvester_vm_list.length === 0) {
+      return (
+        <tr>
+          <td colSpan="6">
+            <p>No virtual machines enrolled in this course</p>
+          </td>
+        </tr>
+      );
+    }
+
+    return filtered_harvester_vm_list.map(
       ({ metadata, status, port_number, users, labs }) => (
         <tr key={metadata.name} className="hover">
           <td>
@@ -164,6 +218,7 @@ const VirtualMachinesTable = ({ course_id, sub_tag }) => {
       )
     );
   };
+
   const harvester_vm_list = get_harvester_vm_list();
 
   return (

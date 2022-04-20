@@ -19,8 +19,8 @@ function Courses() {
     return <p>Error!</p>;
   }
 
-  var course_cards = data.map(({ tag, sub_tag, image_link }) => (
-    <CourseCard key={sub_tag} tag={tag} sub_tag={sub_tag} image_link={image_link}/>
+  var course_cards = data.map(({ course_id, course_name, course_thumbnail }) => (
+    <CourseCard key={course_id} course_name={course_name} course_id={course_id} course_thumbnail={course_thumbnail}/>
   ));
 
   return (

@@ -12,10 +12,11 @@ import SignOut from "./Pages/SignOut";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { QueryClientProvider, QueryClient } from "react-query";
 import LabOverview from "./Pages/DetailPages/LabOverview";
-import LabDetails from "./Pages/DetailPages/LabDetails";
+import StudentLabDetails from "./Pages/DetailPages/StudentLabDetails";
 import UserDetails from "./Pages/DetailPages/UserDetails";
 import VMDetails from "./Pages/DetailPages/VMDetails";
 import CourseDetails from "./Pages/DetailPages/CourseDetails";
+import StudentCourseDetails from "./Pages/DetailPages/StudentCourseDetails";
 
 const darkTheme = createTheme({
   palette: {
@@ -55,11 +56,15 @@ function App() {
               <Route path="lab_details/:lab_num" element={<LabOverview />} />
               <Route
                 path="lab_details/:lab_num/:student_name"
-                element={<LabDetails />}
+                element={<StudentLabDetails />}
               />
               <Route
                 path="course_details/:course_id"
                 element={<CourseDetails />}
+              />
+              <Route
+                path="course_details/:course_id/:student_name"
+                element={<StudentCourseDetails />}
               />
               <Route path="vm_details/:vm_name" element={<VMDetails />} />
               <Route path="user_details/:user_name" element={<UserDetails />} />

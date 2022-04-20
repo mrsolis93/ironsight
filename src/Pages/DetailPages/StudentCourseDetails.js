@@ -9,8 +9,8 @@ import { getUsersList, getCourseList } from "../../IronsightAPI";
 import LabTable from "../../Components/DetailPageComponents/LabsTable";
 import VirtualMachineTable from "../../Components/DetailPageComponents/VirtualMachinesTable";
 
-function UserDetails() {
-  const { user_name } = useParams();
+function StudentCourseDetails() {
+  const { course_id, student_name } = useParams();
   const {
     data: user_data,
     isLoading: isLoading_user,
@@ -79,8 +79,16 @@ function UserDetails() {
   // Filter the data to only include this student
   var student_data = {};
   for (var i = 0; i < raw_student_data.length; i++) {
-    if (raw_student_data[i]["user_name"] === user_name) {
+    if (raw_student_data[i]["user_name"] === student_name) {
       student_data = raw_student_data[i];
+    }
+  }
+
+  // Retrieve friendly name for course rather than the course id
+  var course_name = "";
+  for (var i = 0; i < course_data.length; i++) {
+    if (course_data[i].course_id === course_id) {
+      course_name = course_data[i].course_name;
     }
   }
 
@@ -93,7 +101,10 @@ function UserDetails() {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/users">Users</Link>
+            <Link to="/courses">Courses</Link>
+          </li>
+          <li>
+            <Link to={`/course_details/${course_id}`}>{course_name}</Link>
           </li>
           <li>
             <strong>
@@ -153,10 +164,11 @@ function UserDetails() {
             {/* Lab overview */}
             <div className="page-content">
               {selectedTab === "labs" ? (
-                <LabTable student_name={user_name} />
+                <LabTable course_id={course_id} student_name={student_name} />
               ) : (
                 <VirtualMachineTable
-                  user_name={user_name}
+                  course_id={course_id}
+                  student_name={student_name}
                 />
               )}
             </div>
@@ -167,4 +179,4 @@ function UserDetails() {
   );
 }
 
-export default UserDetails;
+export default StudentCourseDetails;

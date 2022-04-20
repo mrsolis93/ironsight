@@ -14,6 +14,8 @@ import { useQuery } from "react-query";
 import LinearProgress from "@mui/material/LinearProgress";
 import VMCPUWidget from "../../Components/Widgets/VMStats/VMCPUWidget";
 import VMMemoryWidget from "../../Components/Widgets/VMStats/VMMemoryWidget";
+import VMNetworkSentWidget from "../../Components/Widgets/VMStats/VMNetworkSentWidget";
+import VMNetworkReceivedWidget from "../../Components/Widgets/VMStats/VMNetworkReceivedWidget";
 
 function VMDetails() {
   // State for selector between CPU, RAM and Network
@@ -344,8 +346,14 @@ function VMDetails() {
             ) : selected_graph === "RAM" ? (
               <VMMemoryWidget vm_name={vm_name} />
             ) : selected_graph === "Network" ? (
-              // <VMNetworkWidget vm_name={vm_name} />
-              <div>Network Graph</div>
+              <div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2">
+                <div className="col-span-1">
+                  <VMNetworkSentWidget vm_name={vm_name} />
+                </div>
+                <div className="col-span-1">
+                  <VMNetworkReceivedWidget vm_name={vm_name} />
+                </div>
+              </div>
             ) : (
               <LinearProgress />
             )}

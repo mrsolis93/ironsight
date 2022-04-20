@@ -1,49 +1,34 @@
 import React from "react";
 import "../../App.css";
 import { useQuery } from "react-query";
-import { getUsersList } from "../../IronsightAPI";
+import { getUsersList, getTags } from "../../IronsightAPI";
 import { Link } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 
-const StudentsTable = ({ course_id, sub_tag }) => {
+const StudentsTable = ({ course_id }) => {
   const { data, isLoading, isError } = useQuery("users_list", getUsersList);
+  const {
+    data: tags_data,
+    isLoading: isLoading_tags,
+    isError: isError_tags,
+  } = useQuery("tags_list", getTags);
 
-  if (isLoading) {
+  if (isLoading || isLoading_tags) {
     return <LinearProgress />;
   }
 
-  if (isError) {
+  if (isError || isError_tags) {
     return <p>Error!</p>;
   }
 
-  // User data comes back like this:
-  // {
-  //     "user_name": "augustine_solis",
-  //     "first_name": "augustine",
-  //     "last_name": "solis",
-  //     "tags": [
-  //         {
-  //             "tag": "user",
-  //             "type": "role",
-  //             "tag_id": 7
-  //         }
-  //     ],
-  //     "profile_pic_data": null,
-  //     "virtual_machines": []
-  // }
+  var majors = [];
+  for (let i = 0; i < tags_data.length; i++) {
+    if (tags_data[i].type === "major") {
+      majors.push(tags_data[i].tag);
+    }
+  }
 
   var raw_student_data = [];
-
-  //   Filter the data to only include students in this class
-  // TODO: Implement this feature
-  //   for (var i = 0; i < data.length; i++) {
-  //     for (var j = 0; j < data[i]["tags"].length; j++) {
-  //       if (data[i]["tags"][j]["tag"] === sub_tag) {
-  //         raw_student_data.push(data[i]);
-  //       }
-  //     }
-  //   }
-
   // Pull in all students and display them on the table
   raw_student_data = data;
   var table_html = raw_student_data.map(function (student) {
@@ -55,50 +40,52 @@ const StudentsTable = ({ course_id, sub_tag }) => {
       student.last_name.charAt(0).toUpperCase() + student.last_name.slice(1);
     var student_email = student.user_name + "@leomail.tamuc.edu";
     // Check the tags to see if the student is a student or a professor
-    var user_role = "";
-    for (let i = 0; i < student.tags.length; i++) {
-      if (student.tags[i]["type"] === "role") {
-        user_role = student.tags[i]["tag"];
-      }
-    }
+    var user_role = student.roles[0];
     // Check for a link to a profile picture
     var profile_pic_data = "";
     if (student.profile_pic_data !== null) {
-        profile_pic_data = student["profile_pic_data"];
+      profile_pic_data = student["profile_pic_data"];
+    } else {
+      profile_pic_data =
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
     }
-    else {
-        profile_pic_data = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
-    }
+
     var student_major = "";
     for (let i = 0; i < student.tags.length; i++) {
-        if (student.tags[i]["type"] === "major") {
-            student_major = student.tags[i]["tag"];
+      for (let j = 0; j < majors.length; j++) {
+        if (student.tags[i] === majors[j]) {
+          student_major = majors[j];
+          // Capitalize the first letter of each word in the major
+          var major_words = student_major.split(" ");
+          var capitalized_major_words = [];
+          for (let k = 0; k < major_words.length; k++) {
+            capitalized_major_words.push(
+              major_words[k].charAt(0).toUpperCase() + major_words[k].slice(1)
+            );
+          }
+          student_major = capitalized_major_words.join(" ");
         }
+      }
     }
-    
+
     return (
       <tr key={student.user_name} className="hover">
         <td>
           <div className="flex items-center space-x-3">
             <div className="avatar">
               <div className="mask mask-squircle w-12 h-12">
-                <img
-                  src={profile_pic_data}
-                  alt="User Avatar"
-                />
+                <img src={profile_pic_data} alt="User Avatar" />
               </div>
             </div>
             <div>
               <Link
-                to={"/user_details/" + student.user_name}
+                to={"/course_details/" + course_id + "/" + student.user_name}
                 key={student.user_name + "_link"}
               >
                 <div className="font-bold">
                   {first_name} {last_name}
                 </div>
-                <div className="text-sm opacity-50">
-                  {student_major}
-                </div>
+                <div className="text-sm opacity-50">{student_major}</div>
               </Link>
             </div>
           </div>

@@ -49,7 +49,7 @@ export default function CreateVMDialog() {
 
   const change_template = (event) => {
     setTemplateSelection(event.target.value);
-    // console.log(event.target.value);
+    console.log(event.target.value);
     setIsElastic(Boolean(event.target.value.elastic_enrolled));
     // console.log(is_elastic);
   };
@@ -60,7 +60,9 @@ export default function CreateVMDialog() {
   };
 
   const set_vm_name = (event) => {
-    {/* Name field can only be alphanumeric and dashes, fail otherwise */}
+    {
+      /* Name field can only be alphanumeric and dashes, fail otherwise */
+    }
     var vm_name_input = event.target.value;
     // Replace all non-alphanumeric characters with dashes (allow dashes in the middle)
     vm_name_input = vm_name_input.replace(/[^a-zA-Z0-9-]/g, "-");
@@ -82,6 +84,15 @@ export default function CreateVMDialog() {
 
   const set_lab_selection = (event) => {
     setLabSelection(event.target.value);
+    var template_name = event.target.value.templates[0];
+    // Find the template name in the template list
+    for (var i = 0; i < template_list.length; i++) {
+      if (template_list[i].key === template_name) {
+        setTemplateSelection(template_list[i].props.value);
+        break;
+      }
+    }
+    setIsElastic(Boolean(template_list[i].props.value.elastic_enrolled));
   };
 
   // Make a GET request to the server to get the list of templates
@@ -146,7 +157,7 @@ export default function CreateVMDialog() {
       .then((data) => {
         var course_list = data.map(function (class_obj) {
           return (
-            <MenuItem key={class_obj.tag} value={class_obj.tag}>
+            <MenuItem key={class_obj.sub_tag} value={class_obj.sub_tag}>
               {class_obj.tag}
             </MenuItem>
           );
@@ -165,6 +176,27 @@ export default function CreateVMDialog() {
 
   // Make a POST request to the server to create a new VM
   const create_vm = () => {
+    var template_override_obj = {
+        elastic_enrolled: is_elastic.toString(),
+        tags: [
+          {
+            tag: { course_selection }.course_selection,
+            type: "class",
+          },
+          {
+            tag: lab_selection.lab_num.toString(),
+            type: "lab",
+          },
+        ],
+    };
+
+    // Output: {"tags":[{"tag":"CSCI 359","type":"class"},{"tag":1,"type":"lab"}]}
+    // Desired output: "{\"tags\":[{\"tag\":\"test1\",\"type\":\"test\",\"tag_id\":1},{\"tag\":\"test2\",\"type\":\"test2type\",\"tag_id\":12}],\"cpu_cores\":\"12\",\"memory\":\"8\"}"
+    
+    var template_override_str = JSON.stringify(template_override_obj);
+    // Put double quotes around the entire string
+    template_override_str = '"' + template_override_str + '"';
+
     fetch("https://api.rellis.dev/create_vm.php", {
       method: "POST",
       headers: {
@@ -174,7 +206,7 @@ export default function CreateVMDialog() {
         template_name: template_selection.template_name,
         user_name: user_selection,
         vm_name: vm_name,
-        is_elastic: is_elastic,
+        // template_override: template_override_str,
       }),
     })
       .then((response) => response.json())
