@@ -27,13 +27,10 @@ const OngoingLabs = () => {
     // Convert to human readable format (days, hours, minutes)
     var time_left_readable = { days: 0, hours: 0, minutes: 0 };
     time_left_readable.days = Math.floor(time_left / (1000 * 60 * 60 * 24));
-    var class_name = "";
-    // Iterate through the tags to find type class
-    for (let i = 0; i < lab.tags.length; i++) {
-      if (lab.tags[i]["type"] === "class") {
-        class_name = lab.tags[i]["tag"];
-      }
-    }
+    var class_name = lab.course_id;
+    // Remove the underscore in class_name and Capitalize all letters
+    class_name = class_name.replace("_", " ");
+    class_name = class_name.toUpperCase();
 
     if (today >= date_start && today <= date_end) {
       return (
