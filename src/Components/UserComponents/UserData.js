@@ -1,26 +1,24 @@
 import React from "react";
 import { useQuery } from "react-query";
+
 import {
   getHarvesterVMList,
   getLabList,
   getUsersList,
+  getTags,
 } from "../../IronsightAPI";
+
 import LinearProgress from "@mui/material/LinearProgress";
 import { Link } from "react-router-dom";
 
-// const newUser = () => {
-
-//   return {
-//     user: namor.generate({ words: 1, numbers: 0 }),
-//     classes: namor.generate({ words: 1, numbers: 0 }),
-//     labs: Math.floor(Math.random() * 30),
-//     vms: Math.floor(Math.random() * 30),
-
-//   }
-// }
-
 const useUserData = () => {
-  const { data, isLoading, isError } = useQuery("harvester_vms", getHarvesterVMList);
+  // State for holding final data
+
+  const { data, isLoading, isError } = useQuery(
+    "harvester_vms",
+    getHarvesterVMList
+  );
+
   const {
     data: harvester_data,
     isLoading: harvester_isLoading,
@@ -34,16 +32,38 @@ const useUserData = () => {
   } = useQuery("labs", getLabList);
 
   const {
+    data: tags_data,
+    isLoading: isLoading_tags,
+    isError: isError_tags,
+  } = useQuery("tags_list", getTags);
+
+  const {
     data: users_data,
     isLoading: users_isLoading,
     isError: users_isError,
-  } = useQuery("users", getUsersList);
+  } = useQuery("users_list", getUsersList);
 
-  if (isLoading || harvester_isLoading || lab_isLoading || users_isLoading) {
+  if (
+    isLoading ||
+    harvester_isLoading ||
+    lab_isLoading ||
+    users_isLoading ||
+    isLoading_tags
+  ) {
     return;
   }
 
-  if (isError || harvester_isError || lab_isError || users_isError) {
+  if (
+    isError ||
+    harvester_isError ||
+    lab_isError ||
+    users_isError ||
+    isError_tags
+  ) {
+    return;
+  }
+
+  if (!users_data) {
     return;
   }
 
@@ -57,11 +77,18 @@ const useUserData = () => {
   };
   const labs_length = get_labs_list_length();
 
-  var raw_student_data = [];
+  var majors = [];
+  for (let i = 0; i < tags_data.length; i++) {
+    if (tags_data[i].type === "major") {
+      majors.push(tags_data[i].tag);
+    }
+  }
 
-  raw_student_data = users_data;
-  // console.log(raw_student_data);
-  var table_html = raw_student_data.map(function (student) {
+  var raw_student_data = users_data;
+  var student_major = "";
+  // Pull in all students and display them on the table
+
+  var table_data = raw_student_data.map(function (student) {
     // Capitalize the first letter of the first name
     var first_name =
       student.first_name.charAt(0).toUpperCase() + student.first_name.slice(1);
@@ -71,13 +98,9 @@ const useUserData = () => {
       student.last_name.charAt(0).toUpperCase() + student.last_name.slice(1);
 
     var student_email = student.user_name + "@leomail.tamuc.edu";
+
     // Check the tags to see if the student is a student or a professor
-    var user_role = "";
-    for (let i = 0; i < student.tags.length; i++) {
-      if (student.tags[i]["type"] === "role") {
-        user_role = student.tags[i]["tag"];
-      }
-    }
+    var user_role = student.roles[0];
 
     // Check for a link to a profile picture
     var profile_pic_data = "";
@@ -88,28 +111,39 @@ const useUserData = () => {
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
     }
 
-    var student_major = "";
-
     for (let i = 0; i < student.tags.length; i++) {
-      if (student.tags[i]["type"] === "major") {
-        student_major = student.tags[i]["tag"];
+      for (let j = 0; j < majors.length; j++) {
+        if (student.tags[i] === majors[j]) {
+          student_major = majors[j];
+          // Capitalize the first letter of each word in the major
+          var major_words = student_major.split(" ");
+          var capitalized_major_words = [];
+          for (let k = 0; k < major_words.length; k++) {
+            capitalized_major_words.push(
+              major_words[k].charAt(0).toUpperCase() + major_words[k].slice(1)
+            );
+          }
+          student_major = capitalized_major_words.join(" ");
+        }
       }
     }
+
+    return {
+
+      first_name: first_name,
+      last_name: last_name,
+      user_name: student.user_name,
+      student_email: student_email,
+      student_major: student_major,
+      user_role: user_role,
+      profile_pic_data: profile_pic_data,
+    };
   });
 
   //TEST push data from the API to an array for the table
 
-  var table_data = [];
-  for (let i = 0; i < raw_student_data.length; i++) {
-    table_data.push({
-      first_name: raw_student_data[i]["first_name"],
-      last_name: raw_student_data[i]["last_name"],
-      user_name: raw_student_data[i]["user_name"],
-      profile_pic_data: raw_student_data[i]["profile_pic_data"],
-      student_major: raw_student_data[i]["tags"][1]["tag"],
-      user_role: raw_student_data[i]["tags"][0]["tag"],
-    });
-  }
+  console.log("UD Table Data: ");
+  console.log(table_data);
 
   // return useUserData in the form of an table_data array
   return table_data;
