@@ -1,7 +1,6 @@
 import React from "react";
 import "../App.css";
 import Navbar from "../Components/Navbar";
-
 import HypervisorCPUWidget from "../Components/Widgets/Hypervisor/HypervisorNetworkWidget";
 import HypervisorNetworkWidget from "../Components/Widgets/Hypervisor/HypervisorNetworkWidget";
 import HypervisorMemoryWidget from "../Components/Widgets/Hypervisor/HypervisorMemoryWidget";
@@ -13,146 +12,80 @@ import CPUProgress from "../Charts/CPUProgress";
 import ReAreaChartMultiple from "../Charts/ReAreaChartMultiple";
 
 function Resources() {
-   
-
   return (
-    
- 
     <div className="resources">
-    <Navbar />
-    
+      <Navbar />
 
-    
-  
-    <div className="flex md:flex-row flex-col mt-3 mr-3 ml-3">
-        {/* Widget Card */}
-        
-
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-md m-3 self-center" >
-        <legend className="text-xl font-bold text-white-800 mr-4 mt-4 ml-4" >
-           <a href="#">Virtual machine</a>
-    </legend>
-         <div className="card-body">
-             <div className="card-title">
-             <VMsOnWidget />
-             <VMsTotalWidget />
-             </div>
-          </div>
-       </div>
-
-
-
-
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center" >
-         
-          <legend className="text-xl font-bold text-white-800 mr-4 mt-4 ml-4" >
-            <a href="#">Memory Usage</a>
+      <div className="grid grid-cols-1 md:grid-cols-3 grid-flow-row mx-4 mt-6 gap-6">
+        <div className="col-span-1 rounded-box bg-base-100 shadow-md self-center">
+          <legend className="text-xl font-bold text-white-800 m-4">
+            <a href="#">Virtual Machines</a>
           </legend>
-              <div className="card-body">
+          <div className="card-body">
+            <div className="card-title mb-5">
+              <VMsOnWidget />
+              <VMsTotalWidget />
+            </div>
+          </div>
+          </div>
+
+          <div className="col-span-1 rounded-box bg-base-100 shadow-xl self-center">
+            <legend className="text-xl font-bold text-white-800 mr-4 mt-4 ml-4">
+              <a href="#">Memory Usage</a>
+            </legend>
+            <div className="card-body">
               <MemoryProgress />
-              </div>
+            </div>
         </div>
-        
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center" >
-        <legend className="text-xl font-bold text-white-800 mr-4 mt-4 ml-4" >
-            <a href="#">CPU Usage</a>
-          </legend>
-          <div className="card-body">
-           
-            <CPUProgress />
-            
+
+          <div className="col-span-1 rounded-box bg-base-100 shadow-xl self-center">
+            <legend className="text-xl font-bold text-white-800 mr-4 mt-4 ml-4">
+              <a href="#">CPU Usage</a>
+            </legend>
+            <div className="card-body">
+              <CPUProgress />
+            </div>
+          </div>
+
+        <div className="col-span-1 md:col-span-3">
+          <div className="md:w-full rounded-box bg-base-100 shadow-xl self-center">
+            <div className="card-body">
+              CPU Usage:
+              <ReAreaChartMultiple />
+            </div>
           </div>
         </div>
-        
-        
-        
-      </div>
 
-
-
-    
-    
-
-    
-    <div className="flex md:flex-row flex-col mt-4 mr-4 ml-4"> 
-
-     
-        
-        
-        <div className="md:w-full rounded-box bg-base-100 shadow-xl m-3 self-center" >
-          
-          <div className="card-body">
-          CPU Usage:
-          <ReAreaChartMultiple />
-            
-          </div>
-        </div>
-        
-        
-
-        
-      </div>
-    
-      {/* Upper row */}
-      <div className="flex md:flex-row flex-col mt-3 mr-3 ml-3">
-        {/* Widget Card */}
-        
-        
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center" >
+        <div className="col-span-1 rounded-box bg-base-100 shadow-xl self-center">
           <div className="card-body">
             CPU(I/O) Usage:
             <HypervisorCPUWidget />
-            
           </div>
         </div>
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center" >
+        <div className="col-span-1 rounded-box bg-base-100 shadow-xl self-center">
           <div className="card-body">
             Memory
             <HypervisorMemoryWidget />
-            
           </div>
         </div>
-        <div className="md:w-1/3 rounded-box bg-base-100 shadow-xl m-3 self-center" >
+        <div className="col-span-1 rounded-box bg-base-100 shadow-xl self-center">
           <div className="card-body">
             Network(I/O):
             <HypervisorNetworkWidget />
-            
           </div>
         </div>
-        
-        
-      </div>
-      {/* Lower Row */}
-      
 
-
-      <div className="flex md:flex-row flex-col mr-3 ml-3">
-        {/* Widget Card */}
-        <div className="md:w-full rounded-box bg-base-100 shadow-xl m-3 self-center">
-          <div className="card-body">
-            Disk Utilization(I/O):
-            <HypervisorDiskWidget />
+        <div className="col-span-1 md:col-span-3">
+          <div className="md:w-full rounded-box bg-base-100 shadow-xl mb-6 self-center">
+            <div className="card-body">
+              Disk Utilization(I/O):
+              <HypervisorDiskWidget />
+            </div>
           </div>
         </div>
-        {/* Widget Card */}
-     
-        {/* Widget Card */}
-        
       </div>
-
-      
     </div>
-
-
-
-    
   );
-};
-
-
-
-
-
-
+}
 
 export default Resources;

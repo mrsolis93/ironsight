@@ -10,7 +10,8 @@ import {
 
 import LinearProgress from "@mui/material/LinearProgress";
 import { useQuery } from "react-query";
-import { getCPUUsage, getNetworkUsage, getVMCPUUsage } from "../IronsightAPI";
+import { getCPUUsage } from "../IronsightAPI";
+import { BsZoomIn } from "react-icons/bs";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
@@ -31,7 +32,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 export default function ReAreaChartMultiple() {
   const [intervalMs, setIntervalMs] = React.useState(15000);
   const [isZoomed, setIsZoomed] = React.useState(true);
-  const { data, isLoading, isError } = useQuery("vm_cpu_usage", getVMCPUUsage, {
+  const { data, isLoading, isError } = useQuery("cpu_usage", getCPUUsage, {
     // Refetch the data every 15 seconds
     refetchInterval: intervalMs,
   });
@@ -106,64 +107,71 @@ export default function ReAreaChartMultiple() {
   console.log("[Ironsight] Chart Data:", chart_data);
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <AreaChart
-        width={800}
-        height={500}
-        data={chart_data}
-        margin={{
-          top: 10,
-          right: 30,
-          left: 0,
-          bottom: 0,
-        }}
-      >
-        <defs>
-          <linearGradient id="colorValue1" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#8142FF" stopOpacity={0.5} />
-            <stop offset="95%" stopColor="#8142FF" stopOpacity={0} />
-          </linearGradient>
+    <div>
+      <ResponsiveContainer width="100%" height={400}>
+        <AreaChart
+          width={800}
+          height={500}
+          data={chart_data}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 0,
+            bottom: 0,
+          }}
+        >
+          <defs>
+            <linearGradient id="colorValue1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#8142FF" stopOpacity={0.5} />
+              <stop offset="95%" stopColor="#8142FF" stopOpacity={0} />
+            </linearGradient>
 
-          <linearGradient id="colorValue2" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#359EE5" stopOpacity={0.4} />
-            <stop offset="95%" stopColor="#359EE5" stopOpacity={0} />
-          </linearGradient>
-        </defs>
+            <linearGradient id="colorValue2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#359EE5" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#359EE5" stopOpacity={0} />
+            </linearGradient>
+          </defs>
 
-        <XAxis
-          dataKey="labels"
-          type="category"
-          interval={"preserveStartEnd" | "10"}
-          tickCount={15}
-          angle={-30}
-          height={150}
-          dy={30}
-          dx={0}
-        />
-        <YAxis
-          dataKey="value1"
-          type="number"
-          unit="%"
-          domain={[0, max_value]}
-          scale="linear"
-        />
-        <Tooltip content={<CustomTooltip data={chart_data} />} />
+          <XAxis
+            dataKey="labels"
+            type="category"
+            interval={"preserveStartEnd" | "10"}
+            tickCount={15}
+            angle={-30}
+            height={150}
+            dy={30}
+            dx={0}
+          />
+          <YAxis
+            dataKey="value1"
+            type="number"
+            unit="%"
+            domain={isZoomed ? [0, "dataMax + 2"] : [0, 100]}
+            scale="linear"
+          />
+          <Tooltip content={<CustomTooltip data={chart_data} />} />
 
-        <Area
-          type="monotone"
-          dataKey="value1"
-          stroke="#8142FF"
-          fillOpacity={1}
-          fill="url(#colorValue1)"
-        />
-        <Area
-          type="monotone"
-          dataKey="value2"
-          stroke="#359EE5"
-          fillOpacity={1}
-          fill="url(#colorValue2)"
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+          <Area
+            type="monotone"
+            dataKey="value1"
+            stroke="#8142FF"
+            fillOpacity={1}
+            fill="url(#colorValue1)"
+          />
+          <Area
+            type="monotone"
+            dataKey="value2"
+            stroke="#359EE5"
+            fillOpacity={1}
+            fill="url(#colorValue2)"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+      <div className="flex justify-end">
+        <button className="zoom-button" onClick={() => setIsZoomed(!isZoomed)}>
+          <BsZoomIn />
+        </button>
+      </div>
+    </div>
   );
 }
