@@ -76,7 +76,14 @@ function StudentLabDetails() {
     student_data.last_name.charAt(0).toUpperCase() +
     student_data.last_name.slice(1);
 
-  var course_details_link = "/course_details/" + course_id + "/";
+  // Get the lab name out of lab_data
+  var lab_name = "";
+  for (let i = 0; i < lab_data.length; i++) {
+    if (lab_data[i].lab_num.toString() === lab_num) {
+      lab_name = lab_data[i].lab_name;
+    }
+  }
+
   return (
     <div className="labs">
       <Navbar />
@@ -89,7 +96,10 @@ function StudentLabDetails() {
             <Link to="/courses">Courses</Link>
           </li>
           <li>
-            <Link to={course_details_link}>{course_name}</Link>
+            <Link to={`/course_details/${course_id}/`}>{course_name}</Link>
+          </li>
+          <li>
+            <Link to={`/lab_details/${lab_num}/`}>{lab_name}</Link>
           </li>
           <li>
             <strong>
