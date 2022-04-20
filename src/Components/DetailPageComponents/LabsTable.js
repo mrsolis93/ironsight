@@ -19,7 +19,12 @@ const LabTable = ({ course_id, student_name }) => {
   //   Pull in JSON data and add to array if the lab belongs in this class (using sub_tag matching)
   var lab_data = [];
   data.forEach((lab) => {
-    if (lab.course_id === course_id) {
+    // If course_id is not null
+    if (course_id != null) {
+      if (lab.course_id === course_id) {
+        lab_data.push(lab);
+      }
+    } else {
       lab_data.push(lab);
     }
   });
@@ -33,11 +38,7 @@ const LabTable = ({ course_id, student_name }) => {
     return (
       <tr key={lab.lab_num} className="hover">
         <td>
-          <Link
-            className="w-full"
-            to={lab_link}
-            key={lab.lab_num}
-          >
+          <Link className="w-full" to={lab_link} key={lab.lab_num}>
             <div className="flex items-center space-x-3">
               <div>
                 <div className="font-bold">{lab.lab_name}</div>
