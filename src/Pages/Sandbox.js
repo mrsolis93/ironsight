@@ -33,16 +33,6 @@ function Sandbox() {
     <div className="sandbox">
       <Navbar />
       <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-4 m-4">
-        <div className="col-span-1">
-          <div className="flex justify-center rounded-box bg-base-100 shadow-2xl">
-            <ReAreaChartMultiple />
-          </div>
-        </div>
-        <div className="col-span-1">
-          <div className="flex justify-center rounded-box bg-base-100 shadow-2xl h-full items-center">
-            <VMCPUWidgetHome />
-          </div>
-        </div>
       </div>
     </div>
   );

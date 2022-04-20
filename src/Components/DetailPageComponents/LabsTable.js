@@ -5,7 +5,7 @@ import { getLabList } from "../../IronsightAPI";
 import { Link } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 
-const LabTable = ({ course_id, sub_tag, student_name }) => {
+const LabTable = ({ course_id, student_name }) => {
   const { data, isLoading, isError } = useQuery("lab_list", getLabList);
 
   if (isLoading) {
@@ -17,30 +17,21 @@ const LabTable = ({ course_id, sub_tag, student_name }) => {
   }
 
   //   Pull in JSON data and add to array if the lab belongs in this class (using sub_tag matching)
-  var raw_lab_data = [];
-  for (var i = 0; i < data.length; i++) {
-    for (var j = 0; j < data[i]["tags"].length; j++) {
-      if (data[i]["tags"][j]["tag"] === sub_tag) {
-        raw_lab_data.push(data[i]);
-      }
+  var lab_data = [];
+  data.forEach((lab) => {
+    if (lab.course_id === course_id) {
+      lab_data.push(lab);
     }
-  }
+  });
 
   //   Take the raw JSON and turn it into the rows of the table
-  var real_lab_num = "";
-  var lab_html = raw_lab_data.map(function (lab) {
-    for (let i = 0; i < lab.tags.length; i++) {
-      if (lab.tags[i]["type"] === "lab") {
-        real_lab_num = lab.tags[i]["sub_tag"];
-      }
-    }
+  var lab_html = lab_data.map(function (lab) {
     var lab_link = "/lab_details/" + lab.lab_num;
     if (student_name !== undefined) {
       lab_link += "/" + student_name;
     }
     return (
       <tr key={lab.lab_num} className="hover">
-        <td>{real_lab_num}</td>
         <td>
           <Link
             className="w-full"
@@ -73,7 +64,6 @@ const LabTable = ({ course_id, sub_tag, student_name }) => {
         <table className="table w-full">
           <thead>
             <tr>
-              <td>Lab#</td>
               <th>Lab Name</th>
               <th>Description</th>
               <th>Start Date</th>

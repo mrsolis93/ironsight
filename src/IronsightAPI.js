@@ -183,6 +183,16 @@ export const getCourseList = async () => {
   return response.json();
 };
 
+export const getTags = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_tags`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch tags");
+  }
+  return response.json();
+};
+
 export const getUsersList = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_users`
