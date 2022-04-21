@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import { handleEvent } from "../IronsightAPI";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function CreateVMDialog() {
   const [open, setOpen] = React.useState(false);
@@ -49,7 +51,6 @@ export default function CreateVMDialog() {
 
   const change_template = (event) => {
     setTemplateSelection(event.target.value);
-    console.log(event.target.value);
     setIsElastic(Boolean(event.target.value.elastic_enrolled));
     // console.log(is_elastic);
   };
@@ -83,6 +84,7 @@ export default function CreateVMDialog() {
   };
 
   const set_lab_selection = (event) => {
+    console.log(event);
     setLabSelection(event.target.value);
     var template_name = event.target.value.templates[0];
     // Find the template name in the template list
@@ -157,8 +159,8 @@ export default function CreateVMDialog() {
       .then((data) => {
         var course_list = data.map(function (class_obj) {
           return (
-            <MenuItem key={class_obj.sub_tag} value={class_obj.sub_tag}>
-              {class_obj.tag}
+            <MenuItem key={class_obj.course_id} value={class_obj.course_id}>
+              {class_obj.course_name}
             </MenuItem>
           );
         });
@@ -174,46 +176,67 @@ export default function CreateVMDialog() {
     get_courses();
   }, []);
 
-  // Make a POST request to the server to create a new VM
-  const create_vm = () => {
-    var template_override_obj = {
-        elastic_enrolled: is_elastic.toString(),
-        tags: [
-          {
-            tag: { course_selection }.course_selection,
-            type: "class",
-          },
-          {
-            tag: lab_selection.lab_num.toString(),
-            type: "lab",
-          },
-        ],
+  const [submitStatus, setSubmitStatus] = React.useState("");
+
+  // Filter labs based on the course selection
+  var filtered_labs = [];
+  const filter_labs = () => {
+    for (var i = 0; i < lab_list.length; i++) {
+      if (lab_list[i].props.value.course_id === course_selection) {
+        filtered_labs.push(lab_list[i].props.value);
+      }
+      }
     };
+  filter_labs();
 
-    // Output: {"tags":[{"tag":"CSCI 359","type":"class"},{"tag":1,"type":"lab"}]}
-    // Desired output: "{\"tags\":[{\"tag\":\"test1\",\"type\":\"test\",\"tag_id\":1},{\"tag\":\"test2\",\"type\":\"test2type\",\"tag_id\":12}],\"cpu_cores\":\"12\",\"memory\":\"8\"}"
-    
-    var template_override_str = JSON.stringify(template_override_obj);
-    // Put double quotes around the entire string
-    template_override_str = '"' + template_override_str + '"';
-
-    fetch("https://api.rellis.dev/create_vm.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        template_name: template_selection.template_name,
-        user_name: user_selection,
+// Map labs to HTML
+const lab_list_html = filtered_labs.map((lab) => {
+  return (
+    <MenuItem key={lab.lab_name} value={lab}>
+      {lab.lab_name}
+    </MenuItem>
+  );
+});
+  
+  // Make a POST request to the server to create a new VM
+  // Function to print out JSON of selected courses and roles, firstname, lastname, etc.
+  const get_vm_data = () => {
+    setSubmitStatus("submitting");
+    // Create a JSON object to hold the course data
+    var event_data = {
+      action: "create",
+      type: "vm",
+      data: {
         vm_name: vm_name,
-        // template_override: template_override_str,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+        user_name: user_selection,
+        template_name: template_selection.template_name,
+        course_id: course_selection,
+        lab_num: lab_selection.lab_num.toString(),
+        template_override: "",
+      },
+    };
+    console.log(event_data);
+
+    // Submit the event to the API and get the response
+    handleEvent(event_data).then((response) => {
+      // If the response is successful, set the submit status to success
+      if (response.status === "success") {
+        setSubmitStatus("success");
+        // Alert the course that the course was created
+        alert("Success");
         handleClose();
-      });
+      }
+      // If the response is not successful, set the submit status to error
+      else {
+        setSubmitStatus(response.status);
+      }
+      console.log(response);
+    });
+  };
+
+
+  const handleSubmit = () => {
+    get_vm_data();
   };
 
   return (
@@ -287,7 +310,7 @@ export default function CreateVMDialog() {
                 id: "lab",
               }}
             >
-              {lab_list}
+              {lab_list_html}
             </Select>
           </FormControl>
 
@@ -379,7 +402,13 @@ export default function CreateVMDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={create_vm}>Create</Button>
+          {submitStatus === "submitting" ? (
+            <div className="m-4">
+              <CircularProgress />
+            </div>
+          ) : (
+            <Button onClick={handleSubmit}>Create</Button>
+          )}
         </DialogActions>
       </Dialog>
     </div>
