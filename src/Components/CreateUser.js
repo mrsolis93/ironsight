@@ -1,6 +1,5 @@
 import React from "react";
 import "../App.css";
-import Navbar from "../Components/Navbar";
 import LinearProgress from "@mui/material/LinearProgress";
 import { getRoles, getCourseList } from "../IronsightAPI";
 import { useQuery } from "react-query";

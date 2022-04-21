@@ -3,6 +3,7 @@ import "../App.css";
 import Navbar from "../Components/Navbar";
 
 import CreateUser from "../Components/CreateUser";
+import CreateLab from "../Components/CreateLab";
 
 const Testing = () => {
   return (
@@ -17,7 +18,10 @@ const Testing = () => {
           <CreateUser />
         </div>
         <div className="col-span-1 rounded-box bg-base-100">
-          {/* Code here */}
+        <h2 className="collapse-title text-center text-base-900">
+            Lab Creation
+          </h2>
+          <CreateLab />
         </div>
         <div className="col-span-1 rounded-box bg-base-100">
           {/* Code here */}
