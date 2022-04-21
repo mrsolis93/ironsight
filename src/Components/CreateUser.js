@@ -53,7 +53,7 @@ const CreateUser = () => {
 
     // Check if password is blank
     if (password === "") {
-      alert("Passwords do not match!");
+      alert("Passwords cannot be empty!");
       return;
     }
     // Check password and confirm password match
@@ -171,7 +171,7 @@ const CreateUser = () => {
               className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
             >
               <input type="checkbox" />
-              <div className="collapse-title text-lg font-medium">
+              <div className="collapse-title text-md font-medium">
                 Role selection
               </div>
               <div className="collapse-content">
@@ -211,7 +211,7 @@ const CreateUser = () => {
               className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
             >
               <input type="checkbox" />
-              <div className="collapse-title text-lg font-medium">
+              <div className="collapse-title text-md font-medium">
                 Course selection
               </div>
               <div className="collapse-content">
