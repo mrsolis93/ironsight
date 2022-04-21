@@ -76,7 +76,7 @@ function UserDetails() {
     if (student_major === "") {
       student_major = "N/A";
     }
-    
+
     // Return a list of student data
     return {
       first_name: first_name,
