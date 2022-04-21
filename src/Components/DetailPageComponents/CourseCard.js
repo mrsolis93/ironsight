@@ -5,6 +5,7 @@ const CourseCard = ({ course_id, course_name, course_thumbnail }) => {
   var course_id_friendly = course_name.split(" -")[0];
 
   return (
+    <div>
     <Link to={`/course_details/${course_id}`}>
       {/* Course Card */}
       <div className="card md:w-96 bg-base-100 shadow-xl">
@@ -20,6 +21,8 @@ const CourseCard = ({ course_id, course_name, course_thumbnail }) => {
         </div>
       </div>
     </Link>
+    </div>
+
   );
 };
 

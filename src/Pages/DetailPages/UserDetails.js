@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { getUsersList, getCourseList } from "../../IronsightAPI";
 import LabTable from "../../Components/DetailPageComponents/LabsTable";
 import VirtualMachineTable from "../../Components/DetailPageComponents/VirtualMachinesTable";
+import CourseCard from "../../Components/DetailPageComponents/CourseCard";
 
 function UserDetails() {
   const { user_name } = useParams();
@@ -38,7 +39,6 @@ function UserDetails() {
   }
 
   var raw_student_data = user_data.map(function (student) {
-    console.log(student);
     // Capitalize the first letter of the first name
     var first_name =
       student.first_name.charAt(0).toUpperCase() + student.first_name.slice(1);
@@ -47,8 +47,8 @@ function UserDetails() {
       student.last_name.charAt(0).toUpperCase() + student.last_name.slice(1);
     var student_email = student.user_name + "@leomail.tamuc.edu";
     // Check the tags to see if the student is a student or a professor
-    var user_role = ""
-    // If student has a 
+    var user_role = "";
+    // If student has a
     if (student.roles.length > 0) {
       user_role = student.roles[0];
     }
@@ -88,6 +88,17 @@ function UserDetails() {
       student_data = raw_student_data[i];
     }
   }
+
+  var course_cards = course_data.map(
+    ({ course_id, course_name, course_thumbnail }) => (
+      <CourseCard
+        key={course_id}
+        course_name={course_name}
+        course_id={course_id}
+        course_thumbnail={course_thumbnail}
+      />
+    )
+  );
 
   return (
     <div className="course_details">
@@ -141,28 +152,40 @@ function UserDetails() {
                   <button
                     className={
                       selectedTab === "virtual_machines"
-                        ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
-                        : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                        ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0 lg:mb-0"
+                        : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0 lg:mb-0"
                     }
                     onClick={() => setSelectedTab("virtual_machines")}
                   >
                     Virtual Machines
+                  </button>
+                  <button
+                    className={
+                      selectedTab === "courses"
+                        ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                        : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                    }
+                    onClick={() => setSelectedTab("courses")}
+                  >
+                    Courses
                   </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-span-1 lg:col-span-3">
-          <div className="rounded-box bg-base-100 h-full">
-            {/* Lab overview */}
+        <div className="col-span-1 lg:col-span-3 rounded-box bg-base-100">
+          <div className=" h-full">
             <div className="page-content">
-              {selectedTab === "labs" ? (
-                <LabTable user_name={user_name} />
-              ) : (
-                <VirtualMachineTable
-                  user_name={user_name}
-                />
+              {/* Display the selected tab */}
+              {selectedTab === "labs" && <LabTable user_name={user_name} />}
+              {selectedTab === "virtual_machines" && (
+                <VirtualMachineTable user_name={user_name} />
+              )}
+              {selectedTab === "courses" && (
+                <div className="mt-4 grid grid-cols-1 md:flex md:flex-wrap mx-4 gap-4 md:gap-4">
+                  {course_cards}
+                </div>
               )}
             </div>
           </div>
