@@ -4,6 +4,8 @@ import Navbar from "../Components/Navbar";
 import LinearProgress from "@mui/material/LinearProgress";
 import { getRoles, getCourseList } from "../IronsightAPI";
 import { useQuery } from "react-query";
+import { handleEvent } from "../IronsightAPI";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Testing = () => {
   // Get roles from API
@@ -20,6 +22,18 @@ const Testing = () => {
     isError: isErrorCourses,
   } = useQuery("course_list", getCourseList);
 
+  // States that hold the variables for the dropdown menus and name/pass
+  const [first_name, setFirstName] = React.useState("");
+  const [last_name, setLastName] = React.useState("");
+  const [user_name, setUserName] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [confirm_password, setConfirmPassword] = React.useState("");
+  const [roles, setRoles] = React.useState([]);
+  const [courses, setCourses] = React.useState([]);
+  const [profile_pic_data, setProfilePicData] = React.useState("");
+  const [tags, setTags] = React.useState([]);
+  const [submitStatus, setSubmitStatus] = React.useState("");
+
   if (isLoadingRoles || isLoadingCourses) {
     return <LinearProgress />;
   }
@@ -30,11 +44,49 @@ const Testing = () => {
   // Take role_data and just make an array of the role names
   const role_names = role_data.map((role) => role.role);
 
-  // Take course_data and make an array of the course names
-  const course_names = course_data.map((course) => course.course_name);
+  // Function to print out JSON of selected courses and roles, firstname, lastname, etc.
+  const get_user_data = () => {
 
-  var selected_courses = [];
-  var selected_roles = [];
+    // Check password and confirm password match
+    if (password !== confirm_password) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    setSubmitStatus("submitting");
+    // Create a JSON object to hold the user data
+    var event_data = {
+      action: "create",
+      type: "user",
+      data: {
+        courses: courses,
+        roles: roles,
+        first_name: first_name.toLowerCase(),
+        last_name: last_name.toLowerCase(),
+        user_name: (first_name + "_" + last_name).toLowerCase(),
+        password: password,
+        profile_pic_data: profile_pic_data,
+        tags: tags,
+      },
+    };
+    // Submit the event to the API and get the response
+    handleEvent(event_data).then((response) => {
+      // If the response is successful, set the submit status to success
+      if (response.status === "success") {
+        setSubmitStatus("success");
+      }
+      // If the response is not successful, set the submit status to error
+      else {
+        setSubmitStatus(response.status);
+      }
+      console.log(response);
+      alert(response.status + ": " + response.message);
+    });
+  };
+
+  const handleSubmit = () => {
+    get_user_data();
+  };
 
   return (
     <div className="testing">
@@ -59,6 +111,7 @@ const Testing = () => {
                     placeholder="First Name"
                     className="input input-bordered w-full mb-4"
                     id="first_name"
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
                 <div className="col-span-1 row-span-1 mr-2">
@@ -67,6 +120,7 @@ const Testing = () => {
                     placeholder="Last Name"
                     className="input input-bordered w-full mb-4"
                     id="last_name"
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
               </div>
@@ -81,6 +135,7 @@ const Testing = () => {
                     placeholder="Password"
                     className="input input-bordered w-full mb-4"
                     id="password"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div className="col-span-1 row-span-1 mr-2">
@@ -89,6 +144,7 @@ const Testing = () => {
                     placeholder="Confirm Password"
                     className="input input-bordered w-full"
                     id="confirm_password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </div>
               </div>
@@ -114,6 +170,16 @@ const Testing = () => {
                             defaultChecked={false}
                             className="checkbox"
                             id={`${role}_checkbox`}
+                            onChange={(e) => {
+                              // If the checkbox is checked, add the role to the roles array
+                              if (e.target.checked) {
+                                setRoles([...roles, role]);
+                              }
+                              // If the checkbox is unchecked, remove the role from the roles array
+                              else {
+                                setRoles(roles.filter((r) => r !== role));
+                              }
+                            }}
                           />
                           <span className=" ml-4 checkbox-label-text">
                             {role}
@@ -137,18 +203,30 @@ const Testing = () => {
                   </div>
                   <div className="collapse-content">
                     {/* Map roles to checkboxes */}
-                    {course_names.map((course) => (
-                      <div key={course}>
+                    {course_data.map((course) => (
+                      <div key={course.course_id}>
                         {/* Put checkbox and course next to each other horizontally */}
                         <label className="checkbox-label">
                           <input
                             type="checkbox"
                             defaultChecked={false}
                             className="checkbox"
-                            id={`${course}_checkbox`}
+                            id={`${course.course_id}_checkbox`}
+                            onChange={(e) => {
+                              // If the checkbox is checked, add the course to the courses array
+                              if (e.target.checked) {
+                                setCourses([...courses, course.course_id]);
+                              }
+                              // If the checkbox is unchecked, remove the course from the courses array
+                              else {
+                                setCourses(
+                                  courses.filter((c) => c !== course.course_id)
+                                );
+                              }
+                            }}
                           />
                           <span className=" ml-4 checkbox-label-text">
-                            {course}
+                            {course.course_name}
                           </span>
                         </label>
                       </div>
@@ -158,7 +236,17 @@ const Testing = () => {
               </div>
             </div>
           </div>
-          <button className="btn btn-success m-4">Create User</button>
+          {/* When user presses button, run handleSubmit */}
+          {/* If submitStatus is "submitting", change button to circle loader */}
+          {submitStatus === "submitting" ? (
+            <div className="m-4">
+              <CircularProgress />
+            </div>
+          ) : (
+            <button className="btn btn-primary m-4" onClick={handleSubmit}>
+              Create User
+            </button>
+          )}
         </div>
         <div className="col-span-1 rounded-box bg-base-100">
           {/* Code here */}

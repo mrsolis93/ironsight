@@ -31,7 +31,7 @@ const StudentsTable = ({ course_id }) => {
     var user_role = student.roles[0];
     // Check for a link to a profile picture
     var profile_pic_data = "";
-    if (student.profile_pic_data !== null) {
+    if (student.profile_pic_data !== "") {
       profile_pic_data = student["profile_pic_data"];
     } else {
       profile_pic_data =
