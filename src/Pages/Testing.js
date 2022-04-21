@@ -94,7 +94,7 @@ const Testing = () => {
               </div>
 
               {/* Selection dropdown for the roles */}
-              <div className="col-span-2 row-span-1 mb-4">
+              <div className="col-span-2 row-span-1 mt-4 mb-4">
                 <div
                   tabIndex="0"
                   className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
