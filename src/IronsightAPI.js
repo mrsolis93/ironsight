@@ -20,6 +20,17 @@ export const getLabList = async () => {
   return response.json();
 };
 
+export const getTemplateList = async () => {
+  const response = await fetch( 
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_templates`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch templates");
+  }
+  return response.json();
+};
+
+
 export const getNewsList = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_news`
