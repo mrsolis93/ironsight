@@ -6,6 +6,7 @@ import Courses from "./Pages/Courses";
 import Resources from "./Pages/Resources";
 import Sandbox from "./Pages/Sandbox";
 import Users from "./Pages/Users";
+import Testing from "./Pages/Testing";
 import VirtualMachines from "./Pages/VirtualMachines";
 import Login from "./Pages/Login";
 import SignOut from "./Pages/SignOut";
@@ -74,7 +75,7 @@ function App() {
               <Route path="/virtual_machines" element={<VirtualMachines />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signout" element={<SignOut />} />
-              {/* <Route path='/users/reports' element={<Reports/>} /> */}
+              <Route path="/testing" element={<Testing />} />
             </Routes>
           </Router>
         </QueryClientProvider>
