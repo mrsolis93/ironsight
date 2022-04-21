@@ -41,9 +41,9 @@ const VMCPUWidgetHome = ({ vm_name }) => {
   var labels = [];
 
   // Limit the results list to 5 items
-  if (results_list.length > 5) {
-    results_list = results_list.slice(0, 5);
-  }
+  // if (results_list.length > 5) {
+  //   results_list = results_list.slice(0, 5);
+  // }
 
   for (var i = 0; i < results_list.length; i++) {
     var result = results_list[i];
@@ -119,7 +119,7 @@ const VMCPUWidgetHome = ({ vm_name }) => {
     },
     plugins: {
       legend: {
-        display: true,
+        display: false,
         // Set label to CPU Usage
       },
     },
