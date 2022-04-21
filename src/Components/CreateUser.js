@@ -96,7 +96,7 @@ const CreateUser = () => {
         setTags([]);
 
         // Alert the user that the user was created
-        alert("Success");
+        alert("Success! Your username is " + user_name);
       }
       // If the response is not successful, set the submit status to error
       else {
