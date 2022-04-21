@@ -96,14 +96,14 @@ const Testing = () => {
               {/* Selection dropdown for the roles */}
               <div className="col-span-2 row-span-1 mb-4">
                 <div
-                  tabindex="0"
-                  class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
+                  tabIndex="0"
+                  className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
                 >
                   <input type="checkbox" />
-                  <div class="collapse-title text-lg font-medium">
+                  <div className="collapse-title text-lg font-medium">
                     Role selection
                   </div>
-                  <div class="collapse-content">
+                  <div className="collapse-content">
                     {/* Map roles to checkboxes */}
                     {role_names.map((role) => (
                       <div key={role}>
@@ -128,14 +128,14 @@ const Testing = () => {
               {/* Selection dropdown for the courses */}
               <div className="col-span-2 row-span-1">
                 <div
-                  tabindex="0"
-                  class="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
+                  tabIndex="0"
+                  className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box"
                 >
                   <input type="checkbox" />
-                  <div class="collapse-title text-lg font-medium">
+                  <div className="collapse-title text-lg font-medium">
                     Course selection
                   </div>
-                  <div class="collapse-content">
+                  <div className="collapse-content">
                     {/* Map roles to checkboxes */}
                     {course_names.map((course) => (
                       <div key={course}>
