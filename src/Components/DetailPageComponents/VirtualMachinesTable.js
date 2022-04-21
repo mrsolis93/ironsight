@@ -27,7 +27,7 @@ const VirtualMachinesTable = ({ course_id, user_name }) => {
     data: course_data,
     isLoading: course_isLoading,
     isError: course_isError,
-  } = useQuery("course_data", getCourseList);
+  } = useQuery("course_list", getCourseList);
 
   const {
     data: lab_data,
