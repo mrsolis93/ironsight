@@ -47,39 +47,50 @@ const Testing = () => {
           </h2>
           {/* Text box for username */}
           <div className="form-control w-full mb-6">
-            <label className="label">
-              <span className="label-text mx-4">User Name</span>
-            </label>
             <div className="grid grid-cols-2 grid-flow-row mx-4">
-              <div className="col-span-1 row-span-1 mr-2">
-                <input
-                  type="text"
-                  placeholder="First Name"
-                  className="input input-bordered w-full mb-4"
-                  id="first_name"
-                />
-                <input
-                  type="text"
-                  placeholder="Password"
-                  className="input input-bordered w-full mb-4"
-                  id="password"
-                />
+              {/* First name and last name row */}
+              <label className="label">
+                <span className="label-text mx-4">User Name</span>
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row col-span-2">
+                <div className="col-span-1 row-span-1 mr-2">
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    className="input input-bordered w-full mb-4"
+                    id="first_name"
+                  />
+                </div>
+                <div className="col-span-1 row-span-1 mr-2">
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    className="input input-bordered w-full mb-4"
+                    id="last_name"
+                  />
+                </div>
               </div>
-              <div className="col-span-1 row-span-1 ml-2">
-                <input
-                  type="text"
-                  placeholder="Last Name"
-                  className="input input-bordered w-full mb-4"
-                  id="last_name"
-                />
-                <input
-                  type="text"
-                  placeholder="Confirm Password"
-                  className="input input-bordered w-full"
-                  id="confirm_password"
-                />
-
-                {/* Selector for which courses to enroll in */}
+              {/* Password confirmation row */}
+              <label className="label">
+                <span className="label-text mx-4">Password</span>
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row col-span-2">
+                <div className="col-span-1 row-span-1 mr-2">
+                  <input
+                    type="text"
+                    placeholder="Password"
+                    className="input input-bordered w-full mb-4"
+                    id="password"
+                  />
+                </div>
+                <div className="col-span-1 row-span-1 mr-2">
+                  <input
+                    type="text"
+                    placeholder="Confirm Password"
+                    className="input input-bordered w-full"
+                    id="confirm_password"
+                  />
+                </div>
               </div>
 
               {/* Selection dropdown for the roles */}
@@ -145,7 +156,6 @@ const Testing = () => {
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
           <button className="btn btn-success m-4">Create User</button>
