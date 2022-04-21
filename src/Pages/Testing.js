@@ -4,6 +4,7 @@ import Navbar from "../Components/Navbar";
 
 import CreateUser from "../Components/CreateUser";
 import CreateLab from "../Components/CreateLab";
+import CreateCourse from "../Components/CreateCourse";
 
 const Testing = () => {
   return (
@@ -24,7 +25,10 @@ const Testing = () => {
           <CreateLab />
         </div>
         <div className="col-span-1 rounded-box bg-base-100">
-          {/* Code here */}
+        <h2 className="collapse-title text-center text-base-900">
+            Course Creation
+          </h2>
+          <CreateCourse />
         </div>
       </div>
     </div>
