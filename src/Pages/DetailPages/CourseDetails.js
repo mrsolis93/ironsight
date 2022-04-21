@@ -101,7 +101,7 @@ function CourseDetails() {
 
               {/* Students */}
               {selectedTab === "students" && (
-                <StudentTable course_id={course_id} sub_tag={course_id} />
+                <StudentTable course_id={course_id} />
               )}
 
               {/* Virtual Machines */}
