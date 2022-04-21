@@ -27,6 +27,7 @@ import { useSort } from "@table-library/react-table-library/sort";
 import { FaSearch } from "react-icons/fa";
 import useUserData from "./UserData";
 import LinearProgress from "@mui/material/LinearProgress";
+import CreateUser from "../CreateUser";
 
 
 // import { nodes } from './data';
@@ -238,34 +239,12 @@ const UserTable = () => {
     <>
 
       <Modal open={modalOpened} onClose={() => setModalOpened(false)}>
-        <Box
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 500,
-            backgroundColor: '#ffffff',
-            border: '1px solid #e0e0e0',
-            borderRadius: '4px',
-            padding: '10px',
-          }}
-        >
-
-          <Typography variant="h6" component="h2">
-            "Not all features included here, but we got ..."
-          </Typography>
-          <FormGroup>
-            <FormControlLabel control={<Checkbox checked />} label="Resize" />
-            <FormControlLabel control={<Checkbox checked />} label="Sort" />
-            <FormControlLabel control={<Checkbox checked />} label="Search" />
-            <FormControlLabel control={<Checkbox checked />} label="Filter" />
-            <FormControlLabel control={<Checkbox checked />} label="Select" />
-            <FormControlLabel control={<Checkbox checked />} label="Tree" />
-            <FormControlLabel control={<Checkbox checked />} label="Drawer on Edit" />
-            <FormControlLabel control={<Checkbox checked />} label="Pagination" />
-          </FormGroup>
-        </Box>
+      <div className="rounded-box bg-base-100 mx-4 md:my-20 lg:mx-88">
+          <h2 className="collapse-title text-center text-base-900">
+            Create User
+          </h2>
+          <CreateUser />
+        </div>
       </Modal>
 
       <Stack spacing={120} direction="row-reverse" className="m-3 ">
