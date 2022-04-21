@@ -26,7 +26,7 @@ const CreateLab = () => {
     setSubmitStatus("submitting");
     // Create a JSON object to hold the lab data
     var event_data = {
-      action: "delete",
+      action: "create",
       type: "lab",
       data: {
         lab_name: "Lab Test Practice",
