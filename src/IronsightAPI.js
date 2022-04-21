@@ -203,6 +203,26 @@ export const getUsersList = async () => {
   return response.json();
 };
 
+export const getRoles = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_roles`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch roles");
+  }
+  return response.json();
+};
+
+export const getPermissions = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_permissions`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch permissions");
+  }
+  return response.json();
+};
+
 export const getHarvesterVMList = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_harvester_vms`
