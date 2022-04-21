@@ -5,7 +5,7 @@ import { getLabList } from "../../IronsightAPI";
 import { Link } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 
-const LabTable = ({ course_id, student_name }) => {
+const LabTable = ({ course_id, user_name }) => {
   const { data, isLoading, isError } = useQuery("lab_list", getLabList);
 
   if (isLoading) {
@@ -32,8 +32,8 @@ const LabTable = ({ course_id, student_name }) => {
   //   Take the raw JSON and turn it into the rows of the table
   var lab_html = lab_data.map(function (lab) {
     var lab_link = "/lab_details/" + lab.lab_num;
-    if (student_name !== undefined) {
-      lab_link += "/" + student_name;
+    if (user_name !== undefined) {
+      lab_link += "/" + user_name;
     }
     return (
       <tr key={lab.lab_num} className="hover">

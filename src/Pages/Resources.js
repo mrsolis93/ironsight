@@ -10,6 +10,8 @@ import VMsTotalWidget from "../Components/Widgets/VMStats/VMsTotalWidget";
 import MemoryProgress from "../Charts/MemoryProgress";
 import CPUProgress from "../Charts/CPUProgress";
 import ReAreaChartMultiple from "../Charts/ReAreaChartMultiple";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Resources() {
   return (
