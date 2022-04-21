@@ -51,7 +51,7 @@ module.exports = {
         ironsight_dark: {
           primary: "#6419E6",
           secondary: "#D926A9",
-          accent: "#1FB2A6",
+          accent: "#6419E6",
           neutral: "#191D24",
           "base-100": "#2F3136",
           info: "#3ABFF8",

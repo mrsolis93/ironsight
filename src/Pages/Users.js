@@ -8,21 +8,28 @@ import Navbar from "../Components/Navbar";
 
 import UserTable from "../Components/UserComponents/UserTable";
 
+
 function Users() {
+
+
+
   return (
     <div className="users">
 
       <Navbar />
+    
+      <div className="overflow-auto w-full">
 
-      <div className="overflow-auto m-4 xl:mx-48">
-          <div className="w-full h-full bg-base-100 shadow-xl">
-            <div className="course-content">
+          <div className=" bg-base-100 shadow-xl rounded-box overflow-auto m-6 xl:mx-48">
+            <div className="table w-full">
 
               <UserTable />
                  
             </div>
           </div>
+
       </div>
+     
 
     </div>
     

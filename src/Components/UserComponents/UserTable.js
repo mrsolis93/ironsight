@@ -1,52 +1,152 @@
-import * as React from 'react';
+import * as React from "react";
 
 import { useQuery } from "react-query";
-import {
-  getUsersList,
-} from "../../IronsightAPI";
- 
- 
+import { getUsersList } from "../../IronsightAPI";
 
-import { CompactTable } from '@table-library/react-table-library/compact';
-import { useTheme } from '@table-library/react-table-library/theme';
-import { DEFAULT_OPTIONS, getTheme } from '@table-library/react-table-library/material';
-import { useSort } from '@table-library/react-table-library/sort';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { Stack, TextField } from '@mui/material';
-import { FaSearch } from 'react-icons/fa';
-// import {useUserData} from "./UserData";
+import { CompactTable } from "@table-library/react-table-library/compact";
+import { useTheme } from "@table-library/react-table-library/theme";
+import {DEFAULT_OPTIONS, getTheme} from "@table-library/react-table-library/material";
+
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { usePagination } from '@table-library/react-table-library/pagination';
+
+
+import {
+  Stack,
+  TextField,
+  Checkbox,
+  Modal,
+  Box,
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  TablePagination,
+} from '@mui/material';
+
+import { useSort } from "@table-library/react-table-library/sort";
+import { FaSearch } from "react-icons/fa";
+import useUserData from "./UserData";
 import LinearProgress from "@mui/material/LinearProgress";
 
- import { nodes } from './data';
 
-const key = 'Search';
- 
+// import { nodes } from './data';
+
+
+const key = "Search";
+
+//THESE ARE YOUR OPTIONS FOR TABLE CSS
+// export declare type Theme = {
+//   Table?: string;
+//   Header?: string;
+//   Body?: string;
+//   BaseRow?: string;
+//   HeaderRow?: string;
+//   Row?: string;
+//   BaseCell?: string;
+//   HeaderCell?: string;
+//   Cell?: string;
+// };
+
+
+// const DEFAULT_OPTIONS: {
+//   horizontalSpacing: number;
+//   verticalSpacing: number;
+//   striped: boolean;
+//   highlightOnHover: boolean;
+// };
+
 const UserTable = () => {
 
+  //set data to users_data (DATA MUST BE NAMED NODES)
+  const nodes = useUserData();
+  let data = nodes;
 
-  const {
-    data: users_data,
-    isLoading: users_isLoading,
-    isError: users_isError,
-  } = useQuery("users_list", getUsersList);
+  
 
-  console.log("Users Data:",users_data)
+  const materialTheme = getTheme({
+    ...DEFAULT_OPTIONS,
+    
+    highlightOnHover: true,
+  });
 
-  //set data to users_data
-  let data =  table_data ;
+  const customTheme = {
+    Table: `
+    margin: 10px 10px;
+    background-color: #2f3137;
+    border-radius: 10px;
 
-  console.log("Data:",data)
-  console.log("Top Table Data:",table_data)
+    height: 100%;
 
-  const materialTheme = getTheme(DEFAULT_OPTIONS);
-  const theme = useTheme(materialTheme);
+    .hover-row {
+      background-color: #A4A8B5;
+    }
 
-  const [search, setSearch] = React.useState('');
+    
+    
+  `,
+
+    Cell:
+     `
+    font-size: 18px;
+
+    &:nth-of-type(1) {
+      min-width: 10%;
+      width: 10%;
+      background-color: #2f3137;
+    }
+
+    &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4) {
+      min-width: 20%;
+      width: 20%;
+      background-color: #2f3137;
+    }
+
+    &:nth-of-type(5) {
+      min-width: 30%;
+      width: 30%;
+      background-color: #2f3137;
+    }
+
+    &:nth-of-type(6) {
+      min-width: 30%;
+      width: 30%;
+      background-color: #2f3137;
+    }
+
+  
+    border-right: 1px solid transparent;
+    `,
+
+    Row:
+    `
+    .hover-row {
+      background-color: #A4A8B5;
+    }
+    `,
+  };
+
+  
+  const theme = useTheme([materialTheme, customTheme]);
+
+
+   const pagination = usePagination(data, {
+    state: {
+      page: 0,
+      size: 15,
+    },
+    onChange: onPaginationChange,
+  });
+
+  function onPaginationChange(action, state) {
+    console.log(action, state);
+  }
+
+
+  const [search, setSearch] = React.useState("");
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
-
 
   const sort = useSort(
     data,
@@ -60,118 +160,154 @@ const UserTable = () => {
         iconDown: <FaChevronDown />,
       },
       sortFns: {
-        TASK: (array) => array.sort((a, b) => a.name.localeCompare(b.name)),
-        DEADLINE: (array) => array.sort((a, b) => a.deadline - b.deadline),
-        TYPE: (array) => array.sort((a, b) => a.type.localeCompare(b.type)),
-        COMPLETE: (array) => array.sort((a, b) => a.isComplete - b.isComplete),
-        TASKS: (array) => array.sort((a, b) => (a.nodes || []).length - (b.nodes || []).length),
+        USER: (array) =>
+          array.sort((a, b) => a.first_name.localeCompare(b.first_name)),
+        ROLE: (array) =>
+          array.sort((a, b) => a.user_role.localeCompare(b.user_role)),
+        COURSES: (array) =>
+          array.sort((a, b) => a.course_id_list.localeCompare( b.course_id_list)),
+        COURSENUM: (array) =>
+          array.sort((a, b) => (b.course_num || []) - (a.course_num || [])),
+        VMNUM: (array) =>
+          array.sort((a, b) => (b.vm_num || []) - (a.vm_num || [])),
       },
-    },
-  );
+    }
+  );  
+
 
   function onSortChange(action, state) {
     console.log(action, state);
   }
 
-  if ( users_isLoading ) {
-    console.log("Users Loading...");
-    return "Hello";
+  //* Modal *//
 
+  const [modalOpened, setModalOpened] = React.useState(false);
+
+
+  if (!nodes) {
+    return <LinearProgress />;
   }
 
-  if (   users_isError) {
-    console.log("Error...");
-    return "Error";
-  }
+  console.log("Top Table Data:", data);
 
-  var raw_student_data = [];
-
-  raw_student_data = users_data;
-  // console.log(raw_student_data);
-  var table_html = raw_student_data.map(function (student) {
-    // Capitalize the first letter of the first name
-    var first_name =
-      student.first_name.charAt(0).toUpperCase() + student.first_name.slice(1);
-
-    // Capitalize the first letter of the last name
-    var last_name =
-      student.last_name.charAt(0).toUpperCase() + student.last_name.slice(1);
-
-    var student_email = student.user_name + "@leomail.tamuc.edu";
-    // Check the tags to see if the student is a student or a professor
-    var user_role = "";
-    for (let i = 0; i < student.tags.length; i++) {
-      if (student.tags[i]["type"] === "role") {
-        user_role = student.tags[i]["tag"];
-      }
-    }
-
-    // Check for a link to a profile picture
-    var profile_pic_data = "";
-    if (student.profile_pic_data !== null) {
-      profile_pic_data = student["profile_pic_data"];
-    } else {
-      profile_pic_data =
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
-    }
-
-    var student_major = "";
-
-    for (let i = 0; i < student.tags.length; i++) {
-      if (student.tags[i]["type"] === "major") {
-        student_major = student.tags[i]["tag"];
-      }
-    }
-  });
-
-  var table_data = [];
-  for (let i = 0; i < raw_student_data.length; i++) {
-    table_data.push({
-      first_name: raw_student_data[i]["first_name"],
-      last_name: raw_student_data[i]["last_name"],
-      user_name: raw_student_data[i]["user_name"],
-      profile_pic_data: raw_student_data[i]["profile_pic_data"],
-      student_major: raw_student_data[i]["tags"][1]["tag"],
-      user_role: raw_student_data[i]["tags"][0]["tag"],
-    });
-  }
-
-  console.log("Table Data: ", data.table_data);
-  
   data = {
-    table_data: data.table_data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())),
+    id: "users",
+    nodes: data.filter((item) =>
+      item.user_name.toLowerCase().includes(search.toLowerCase())
+    ),
   };
 
-  console.log("Table Data 2: ", table_data);
+  // console.log("Table Data 2: ", table_data);
 
   const COLUMNS = [
-    { label: 'User', renderCell: (item) => item.first_name, sort: { sortKey: 'TASK' } },
+    // Display a circle mask profile picture
+    {
+      label: "User",
+      renderCell: (item) => (item.thumbnail),
+      sort: { sortKey: "USER" },
+      
+    },
 
-    { label: 'Role', renderCell: (item) => item.last_name, sort: { sortKey: 'DEADLINE' }},
+    {
+      label: "Role",
+      renderCell: (item) => item.user_role,
+      sort: { sortKey: "ROLE" },
+    },
 
-    { label: 'Role', renderCell: (item) => item.user_name, sort: { sortKey: 'DEADLINE' }},
+    {
+      label: "Courses",
+      renderCell: (item) => item.course_id_list,
+      sort: { sortKey: "COURSES" },
+    },
 
-    { label: 'Class', renderCell: (item) => item.profile_pic_data, sort: { sortKey: 'TYPE' } },
+    {
+      label: "# of Courses",
+      renderCell: (item) => item.course_num,
+      sort: { sortKey: "COURSENUM" },
+    },
 
-    { label: '# of Labs', renderCell: (item) => item.student_major, sort: { sortKey: 'COMPLETE' }},
-
-    { label: '# of VMs', renderCell: (item) => item.user_role, sort: { sortKey: 'TASKS' } },
+    {
+      label: "# of VMs",
+      renderCell: (item) =>  item.vm_num,
+      sort: { sortKey: "VMNUM" },
+    },
   ];
 
-  return (
 
+  return (
     <>
-      <Stack spacing={10}>
-        <TextField label="Search Task" value={search} icon={<FaSearch />} onChange={handleSearch} />
+
+      <Modal open={modalOpened} onClose={() => setModalOpened(false)}>
+        <Box
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 500,
+            backgroundColor: '#ffffff',
+            border: '1px solid #e0e0e0',
+            borderRadius: '4px',
+            padding: '10px',
+          }}
+        >
+
+          <Typography variant="h6" component="h2">
+            "Not all features included here, but we got ..."
+          </Typography>
+          <FormGroup>
+            <FormControlLabel control={<Checkbox checked />} label="Resize" />
+            <FormControlLabel control={<Checkbox checked />} label="Sort" />
+            <FormControlLabel control={<Checkbox checked />} label="Search" />
+            <FormControlLabel control={<Checkbox checked />} label="Filter" />
+            <FormControlLabel control={<Checkbox checked />} label="Select" />
+            <FormControlLabel control={<Checkbox checked />} label="Tree" />
+            <FormControlLabel control={<Checkbox checked />} label="Drawer on Edit" />
+            <FormControlLabel control={<Checkbox checked />} label="Pagination" />
+          </FormGroup>
+        </Box>
+      </Modal>
+
+      <Stack spacing={120} direction="row-reverse" className="m-3 ">
+
+        <button variant="contained" onClick={() => setModalOpened(true)} className="btn btn-primary btn-med text-base-900 hover cursor-pointer" >
+          Create User
+        </button>
+
+        <TextField
+          label="Search Users"
+          value={search}
+          icon={<FaSearch />}
+          onChange={handleSearch}
+        />
+  
       </Stack>
+
+      
       <br />
 
-      <CompactTable columns={COLUMNS} data={data} sort={sort} theme={theme} />
+         <div className="grid  gap-4 m-4 "> 
+           <CompactTable columns={COLUMNS} data={data} sort={sort} theme={theme}  />
+        </div>
+         
 
       <br />
       
-    </>
 
+      <Stack spacing={10}>
+          <TablePagination
+            count={data.nodes.length}
+            page={pagination.state.page}
+            rowsPerPage={pagination.state.size}
+            rowsPerPageOptions={[10, 15, 20]}
+            onRowsPerPageChange={(event) =>
+              pagination.fns.onSetSize(parseInt(event.target.value, 10))
+            }
+            onPageChange={(event, page) => pagination.fns.onSetPage(page)}
+          />
+      </Stack>
+      
+    </>
   );
 };
 

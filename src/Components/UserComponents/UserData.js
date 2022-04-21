@@ -10,6 +10,7 @@ import {
 
 import LinearProgress from "@mui/material/LinearProgress";
 import { Link } from "react-router-dom";
+import CourseDetails from "../../Pages/DetailPages/CourseDetails";
 
 const useUserData = () => {
   // State for holding final data
@@ -67,16 +68,6 @@ const useUserData = () => {
     return;
   }
 
-  const get_vm_list_length = () => {
-    return data.length;
-  };
-  const vm_list_length = get_vm_list_length();
-
-  const get_labs_list_length = () => {
-    return lab_data.length;
-  };
-  const labs_length = get_labs_list_length();
-
   var majors = [];
   for (let i = 0; i < tags_data.length; i++) {
     if (tags_data[i].type === "major") {
@@ -102,9 +93,39 @@ const useUserData = () => {
     // Check the tags to see if the student is a student or a professor
     var user_role = student.roles[0];
 
+    // Get Full Course Names of the student
+    var course_names = [];
+    for (let i = 0; i < student.courses.length; i++) {
+      course_names.push(student.courses[i].course_name);
+    }
+
+
+    // Get Course Number of the student
+    var course_ids = [];
+    for (let i = 0; i < student.courses.length; i++) {
+      course_ids.push(student.courses[i].course_id);
+    }
+
+
+    // Get Number of courses the student is enrolled in
+    var course_num = student.courses.length;
+
+    // Get Number of VM's the student has
+    var vm_num = student.virtual_machines.length;
+
+  
+    // If courses undefined or empty, set to ---. Else, join courses with a comma
+    var course_list = course_names.length === 0 ? "---" : course_names.join(", ");
+
+    // If courses undefined or empty, set to ---. Else, join courses with a comma
+    var course_id_list = course_ids.length === 0 ? "---" : course_ids.join(", ");
+
+
+
+
     // Check for a link to a profile picture
     var profile_pic_data = "";
-    if (student.profile_pic_data !== null) {
+    if (student.profile_pic_data !== "") {
       profile_pic_data = student["profile_pic_data"];
     } else {
       profile_pic_data =
@@ -112,26 +133,76 @@ const useUserData = () => {
     }
 
     for (let i = 0; i < student.tags.length; i++) {
-      for (let j = 0; j < majors.length; j++) {
-        if (student.tags[i] === majors[j]) {
-          student_major = majors[j];
-          // Capitalize the first letter of each word in the major
-          var major_words = student_major.split(" ");
-          var capitalized_major_words = [];
-          for (let k = 0; k < major_words.length; k++) {
-            capitalized_major_words.push(
-              major_words[k].charAt(0).toUpperCase() + major_words[k].slice(1)
-            );
-          }
-          student_major = capitalized_major_words.join(" ");
+      if (student.tags[i]["type"] === "major") {
+        student_major = student.tags[i]["tag"];
+        // Capitalize the first letter of each word
+        student_major = student_major.split(" ").map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1);
         }
+        ).join(" ");
       }
     }
+    if (student_major === "") {
+      student_major = "---";
+    }
+
+    //Component to make a linked thumbnail for the profile data (Picture, name and major)
+
+    function UserID() {
+
+      var student_major = "";
+
+      for (let i = 0; i < student.tags.length; i++) {
+        if (student.tags[i]["type"] === "major") {
+          student_major = student.tags[i]["tag"];
+          // Capitalize the first letter of each word
+          student_major = student_major.split(" ").map((word) => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          }
+          ).join(" ");
+        }
+      }
+      if (student_major === "") {
+        student_major = "---";
+      }
+
+        //get link to user details 
+      var user_link = "/user_details/" + student.user_name;
+
+        return (
+          <Link
+                to={user_link}
+                key={student.user_name + "_link"}
+              >
+          <div className="flex items-center space-x-3">
+            <div className="avatar">
+              <div className="mask mask-squircle w-12 h-12">
+                <img src={profile_pic_data} alt="User Avatar" />
+              </div>
+            </div>
+            <div>
+              
+                <div className="font-bold">
+                  {first_name} {last_name}
+                </div>
+                <div className="text-sm opacity-50">{student_major}</div>
+              
+            </div>
+          </div>
+          </Link>
+        );
+    };  
+
 
     return {
 
+      thumbnail: <UserID />,
       first_name: first_name,
       last_name: last_name,
+      course_num: course_num,
+      course_list: course_list,
+      course_id_list: course_id_list,
+      vm_num: vm_num,
       user_name: student.user_name,
       student_email: student_email,
       student_major: student_major,
