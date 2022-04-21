@@ -6,7 +6,7 @@ import { getRoles, getCourseList, getTemplateList } from "../IronsightAPI";
 import { useQuery } from "react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const StupidShit = () => {
+const CreateLab = () => {
   // Get roles from API
 
   const {
@@ -211,4 +211,4 @@ const StupidShit = () => {
   );
 };
 
-export default StupidShit;
+export default CreateLab;
