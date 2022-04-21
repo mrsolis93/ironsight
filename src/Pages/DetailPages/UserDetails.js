@@ -77,6 +77,11 @@ function UserDetails() {
       student_major = "N/A";
     }
 
+    if (profile_pic_data === "") {
+      profile_pic_data =
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
+    }
+
     // Return a list of student data
     return {
       first_name: first_name,
