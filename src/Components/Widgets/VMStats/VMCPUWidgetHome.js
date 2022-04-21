@@ -5,6 +5,8 @@ import {
   PointElement,
   CategoryScale,
   LinearScale,
+  Tooltip,
+  Legend
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -13,7 +15,7 @@ import { getVMCPUUsage } from "../../../IronsightAPI";
 import { BsZoomIn } from "react-icons/bs";
 import { ResponsiveContainer } from "recharts";
 
-ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement);
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Legend, Tooltip);
 
 const VMCPUWidgetHome = ({ vm_name }) => {
   const [intervalMs, setIntervalMs] = React.useState(15000);
@@ -77,7 +79,7 @@ const VMCPUWidgetHome = ({ vm_name }) => {
             "rgba(255, 206, 86, 0.2)",
             "rgba(75, 192, 192, 0.2)",
             "rgba(153, 102, 255, 0.2)",
-            "rgba(255, 159, 64, 1)",
+            "rgba(255, 159, 64, 0.2)",
           ],
       borderColor: vm_name
         ? "rgba(100, 25, 230, 1)"
@@ -119,7 +121,7 @@ const VMCPUWidgetHome = ({ vm_name }) => {
     },
     plugins: {
       legend: {
-        display: false,
+        display: true,
         // Set label to CPU Usage
       },
     },
