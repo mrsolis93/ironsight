@@ -46,7 +46,17 @@ const Testing = () => {
 
   // Function to print out JSON of selected courses and roles, firstname, lastname, etc.
   const get_user_data = () => {
+    // Check to see if first name or last name is empty
+    if (first_name === "" || last_name === "") {
+      alert("Please enter a first and last name");
+      return;
+    }
 
+    // Check if password is blank
+    if (password === "") {
+      alert("Passwords do not match!");
+      return;
+    }
     // Check password and confirm password match
     if (password !== confirm_password) {
       alert("Passwords do not match!");
@@ -74,13 +84,26 @@ const Testing = () => {
       // If the response is successful, set the submit status to success
       if (response.status === "success") {
         setSubmitStatus("success");
+
+        // Clear the form
+        setFirstName("");
+        setLastName("");
+        setUserName("");
+        setPassword("");
+        setConfirmPassword("");
+        setRoles([]);
+        setCourses([]);
+        setProfilePicData("");
+        setTags([]);
+
+        // Alert the user that the user was created
+        alert("Success");
       }
       // If the response is not successful, set the submit status to error
       else {
         setSubmitStatus(response.status);
       }
       console.log(response);
-      alert(response.status + ": " + response.message);
     });
   };
 
