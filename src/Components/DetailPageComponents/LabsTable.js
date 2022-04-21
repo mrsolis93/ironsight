@@ -65,7 +65,7 @@ const LabTable = ({ course_id, user_name }) => {
         <table className="table w-full">
           <thead>
             <tr>
-              <th>Lab Name</th>
+              <td>Lab Name</td>
               <th>Description</th>
               <th>Start Date</th>
               <th>End Date</th>
