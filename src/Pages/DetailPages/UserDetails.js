@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { getUsersList, getCourseList } from "../../IronsightAPI";
 import LabTable from "../../Components/DetailPageComponents/LabsTable";
 import VirtualMachineTable from "../../Components/DetailPageComponents/VirtualMachinesTable";
+import CourseCard from "../../Components/DetailPageComponents/CourseCard";
 
 function UserDetails() {
   const { user_name } = useParams();
@@ -46,7 +47,11 @@ function UserDetails() {
       student.last_name.charAt(0).toUpperCase() + student.last_name.slice(1);
     var student_email = student.user_name + "@leomail.tamuc.edu";
     // Check the tags to see if the student is a student or a professor
-    var user_role = student.roles[0].toUpperCase();
+    var user_role = "";
+    // If student has a
+    if (student.roles.length > 0) {
+      user_role = student.roles[0];
+    }
 
     // Check for a link to a profile picture
     var profile_pic_data = "";
@@ -56,15 +61,27 @@ function UserDetails() {
       profile_pic_data =
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
     }
+
     var student_major = "";
     for (let i = 0; i < student.tags.length; i++) {
       if (student.tags[i]["type"] === "major") {
         student_major = student.tags[i]["tag"];
+        // Capitalize the first letter of each word
+        student_major = student_major.split(" ").map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        }
+        ).join(" ");
       }
     }
     if (student_major === "") {
       student_major = "N/A";
     }
+
+    if (profile_pic_data === "") {
+      profile_pic_data =
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
+    }
+
     // Return a list of student data
     return {
       first_name: first_name,
@@ -72,7 +89,8 @@ function UserDetails() {
       user_name: student.user_name,
       user_role: user_role,
       profile_pic_data: profile_pic_data,
-      student_major: student_major,
+      major: student_major,
+      email: student_email
     };
   });
 
@@ -83,6 +101,18 @@ function UserDetails() {
       student_data = raw_student_data[i];
     }
   }
+
+  var course_cards = course_data.map(
+    ({ course_id, course_name, course_thumbnail }) => (
+      <CourseCard
+        key={course_id}
+        course_name={course_name}
+        course_id={course_id}
+        course_thumbnail={course_thumbnail}
+        user_name={user_name}
+      />
+    )
+  );
 
   return (
     <div className="course_details">
@@ -118,7 +148,8 @@ function UserDetails() {
                 <div className="text-lg font-bold">
                   {student_data.first_name} {student_data.last_name}
                 </div>
-                <div className="text-sm opacity-50 mb-4">Computer Science</div>
+                <div className="text-sm opacity-50">{student_data.major}</div>
+                <div className="text-sm opacity-50 mb-4">{student_data.email}</div>
               </div>
               <div className="sidebar-links w-full">
                 {/* Display rows but highlight the one using selectedTab */}
@@ -136,28 +167,40 @@ function UserDetails() {
                   <button
                     className={
                       selectedTab === "virtual_machines"
-                        ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
-                        : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                        ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0 lg:mb-0"
+                        : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0 lg:mb-0"
                     }
                     onClick={() => setSelectedTab("virtual_machines")}
                   >
                     Virtual Machines
+                  </button>
+                  <button
+                    className={
+                      selectedTab === "courses"
+                        ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                        : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                    }
+                    onClick={() => setSelectedTab("courses")}
+                  >
+                    Courses
                   </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-span-1 lg:col-span-3">
-          <div className="rounded-box bg-base-100 h-full">
-            {/* Lab overview */}
+        <div className="col-span-1 lg:col-span-3 rounded-box bg-base-100">
+          <div className=" h-full">
             <div className="page-content">
-              {selectedTab === "labs" ? (
-                <LabTable student_name={user_name} />
-              ) : (
-                <VirtualMachineTable
-                  user_name={user_name}
-                />
+              {/* Display the selected tab */}
+              {selectedTab === "labs" && <LabTable user_name={user_name} />}
+              {selectedTab === "virtual_machines" && (
+                <VirtualMachineTable user_name={user_name} />
+              )}
+              {selectedTab === "courses" && (
+                <div className="mt-4 grid grid-cols-1 md:flex md:flex-wrap mx-4 gap-4 md:gap-4">
+                  {course_cards}
+                </div>
               )}
             </div>
           </div>

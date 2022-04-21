@@ -1,31 +1,19 @@
 import React from "react";
 import "../../App.css";
 import { useQuery } from "react-query";
-import { getUsersList, getTags } from "../../IronsightAPI";
+import { getUsersList } from "../../IronsightAPI";
 import { Link } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 
 const StudentsTable = ({ course_id }) => {
   const { data, isLoading, isError } = useQuery("users_list", getUsersList);
-  const {
-    data: tags_data,
-    isLoading: isLoading_tags,
-    isError: isError_tags,
-  } = useQuery("tags_list", getTags);
 
-  if (isLoading || isLoading_tags) {
+  if (isLoading) {
     return <LinearProgress />;
   }
 
-  if (isError || isError_tags) {
+  if (isError) {
     return <p>Error!</p>;
-  }
-
-  var majors = [];
-  for (let i = 0; i < tags_data.length; i++) {
-    if (tags_data[i].type === "major") {
-      majors.push(tags_data[i].tag);
-    }
   }
 
   var raw_student_data = [];
@@ -43,7 +31,7 @@ const StudentsTable = ({ course_id }) => {
     var user_role = student.roles[0];
     // Check for a link to a profile picture
     var profile_pic_data = "";
-    if (student.profile_pic_data !== null) {
+    if (student.profile_pic_data !== "") {
       profile_pic_data = student["profile_pic_data"];
     } else {
       profile_pic_data =
@@ -52,20 +40,17 @@ const StudentsTable = ({ course_id }) => {
 
     var student_major = "";
     for (let i = 0; i < student.tags.length; i++) {
-      for (let j = 0; j < majors.length; j++) {
-        if (student.tags[i] === majors[j]) {
-          student_major = majors[j];
-          // Capitalize the first letter of each word in the major
-          var major_words = student_major.split(" ");
-          var capitalized_major_words = [];
-          for (let k = 0; k < major_words.length; k++) {
-            capitalized_major_words.push(
-              major_words[k].charAt(0).toUpperCase() + major_words[k].slice(1)
-            );
-          }
-          student_major = capitalized_major_words.join(" ");
+      if (student.tags[i]["type"] === "major") {
+        student_major = student.tags[i]["tag"];
+        // Capitalize the first letter of each word
+        student_major = student_major.split(" ").map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1);
         }
+        ).join(" ");
       }
+    }
+    if (student_major === "") {
+      student_major = "N/A";
     }
 
     return (

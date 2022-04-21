@@ -56,15 +56,27 @@ function StudentCourseDetails() {
       profile_pic_data =
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
     }
+
     var student_major = "";
     for (let i = 0; i < student.tags.length; i++) {
       if (student.tags[i]["type"] === "major") {
         student_major = student.tags[i]["tag"];
+        // Capitalize the first letter of each word
+        student_major = student_major.split(" ").map((word) => {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        }
+        ).join(" ");
       }
     }
     if (student_major === "") {
       student_major = "N/A";
     }
+
+    if (profile_pic_data === "") {
+      profile_pic_data =
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png";
+    }
+
     // Return a list of student data
     return {
       first_name: first_name,
@@ -72,7 +84,8 @@ function StudentCourseDetails() {
       user_name: student.user_name,
       user_role: user_role,
       profile_pic_data: profile_pic_data,
-      student_major: student_major,
+      major: student_major,
+      email: student_email,
     };
   });
 
@@ -129,7 +142,8 @@ function StudentCourseDetails() {
                 <div className="text-lg font-bold">
                   {student_data.first_name} {student_data.last_name}
                 </div>
-                <div className="text-sm opacity-50 mb-4">Computer Science</div>
+                <div className="text-sm opacity-50">{student_data.major}</div>
+                <div className="text-sm opacity-50 mb-4">{student_data.email}</div>
               </div>
               <div className="sidebar-links w-full">
                 {/* Display rows but highlight the one using selectedTab */}

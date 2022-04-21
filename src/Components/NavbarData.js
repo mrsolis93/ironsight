@@ -51,12 +51,20 @@ export const NavbarData = [
 
   // },
 
+  // {
+  //   name: "Sandbox",
+  //   path: "/sandbox",
+  //   icon: <FaBiohazard />,
+  //   current: false
+  // },
+
   {
-    name: "Sandbox",
-    path: "/sandbox",
+    name: "Testing",
+    path: "/testing",
     icon: <FaBiohazard />,
     current: false
   },
+
 ];
 
 export const userNavigation = [

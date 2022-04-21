@@ -20,6 +20,17 @@ export const getLabList = async () => {
   return response.json();
 };
 
+export const getTemplateList = async () => {
+  const response = await fetch( 
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_templates`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch templates");
+  }
+  return response.json();
+};
+
+
 export const getNewsList = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_news`
@@ -203,6 +214,26 @@ export const getUsersList = async () => {
   return response.json();
 };
 
+export const getRoles = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_roles`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch roles");
+  }
+  return response.json();
+};
+
+export const getPermissions = async () => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}get.php?q=get_permissions`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch permissions");
+  }
+  return response.json();
+};
+
 export const getHarvesterVMList = async () => {
   const response = await fetch(
     `${process.env.REACT_APP_API_SERVER}get.php?q=get_harvester_vms`
@@ -270,6 +301,24 @@ export const getFileMonitoring = async ({queryKey}) => {
   );
   if (!response.ok) {
     throw new Error("Failed to fetch file monitoring");
+  }
+  return response.json();
+};
+
+export const handleEvent = async (event_data) => {
+  console.log("Event data: ", event_data);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_SERVER}event_handler.php`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(event_data),
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to create user");
   }
   return response.json();
 };
