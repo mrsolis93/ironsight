@@ -29,6 +29,7 @@ class Home extends Component {
                   <h3 className="font-mono text-lg mr-3">
                     [{new Date().toLocaleDateString()}]
                   </h3>
+                  
                 </div>
                 <OngoingLabs />
               </div>
@@ -39,12 +40,15 @@ class Home extends Component {
               <div className="flex flex-col card-body p-4 md:p-8">
                 <h2 className="card-title">VM Overview</h2>
                 <div className="grid grid-flow-col grid-rows-4 md:grid-rows-1">
+
                   <div className="col-span-1 row-span-3">
                     <VMCPUWidgetHome />
                   </div>
+
                   <div className="col-span-1 row-span-1">
                     <MiniVMStatsWidget />
-                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>

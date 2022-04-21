@@ -33,6 +33,7 @@ const VMCPUWidgetHome = ({ vm_name }) => {
   if (isError) {
     return <p>Error!</p>;
   }
+  
 
   // Make a GET request to the server to get the list of hostnames
   // and map them to a react-chartjs-2 chart
@@ -67,6 +68,10 @@ const VMCPUWidgetHome = ({ vm_name }) => {
     var chart_data_values = result.values.map(function (bucket) {
       return bucket[1] * 100;
     });
+
+     console.log("Hostname");
+      console.log(hostname);
+      
     datasets.push({
       label: hostname,
       data: chart_data_values,
@@ -128,7 +133,8 @@ const VMCPUWidgetHome = ({ vm_name }) => {
   };
 
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer width="100%"  height="100%">
+
       <div className="w-full">
         <div>
           <Line data={chart_data} height={280} options={options} />
@@ -143,6 +149,7 @@ const VMCPUWidgetHome = ({ vm_name }) => {
           </button>
         </div>
       </div>
+
     </ResponsiveContainer>
   );
 };
