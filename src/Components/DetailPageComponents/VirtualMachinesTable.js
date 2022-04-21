@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 import { BsPower } from "react-icons/bs";
 
-const VirtualMachinesTable = ({ course_id, student_name }) => {
+const VirtualMachinesTable = ({ course_id, user_name }) => {
   const [intervalMs, setIntervalMs] = React.useState(5000);
   const { data: data_vms, isLoading: isLoading_vms, isError: isLoading_error } = useQuery("virtual_machines", getVMList);
 
@@ -62,12 +62,12 @@ const VirtualMachinesTable = ({ course_id, student_name }) => {
     filtered_vm_list = data_vms;
   }
 
-  // If student_name is specified, filter the list to only include VMs for that student
-  if (student_name) {
+  // If user_name is specified, filter the list to only include VMs for that student
+  if (user_name) {
     var filtered_vm_list_2 = [];
     for (let i = 0; i < filtered_vm_list.length; i++) {
       for (let j = 0; j < filtered_vm_list[i].users.length; j++) {
-        if (filtered_vm_list[i].users[j] === student_name) {
+        if (filtered_vm_list[i].users[j] === user_name) {
           filtered_vm_list_2.push(filtered_vm_list[i]);
         }
       }
