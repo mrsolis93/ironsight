@@ -38,6 +38,7 @@ function UserDetails() {
   }
 
   var raw_student_data = user_data.map(function (student) {
+    console.log(student);
     // Capitalize the first letter of the first name
     var first_name =
       student.first_name.charAt(0).toUpperCase() + student.first_name.slice(1);
@@ -46,7 +47,11 @@ function UserDetails() {
       student.last_name.charAt(0).toUpperCase() + student.last_name.slice(1);
     var student_email = student.user_name + "@leomail.tamuc.edu";
     // Check the tags to see if the student is a student or a professor
-    var user_role = student.roles[0].toUpperCase();
+    var user_role = ""
+    // If student has a 
+    if (student.roles.length > 0) {
+      user_role = student.roles[0];
+    }
 
     // Check for a link to a profile picture
     var profile_pic_data = "";
@@ -153,7 +158,7 @@ function UserDetails() {
             {/* Lab overview */}
             <div className="page-content">
               {selectedTab === "labs" ? (
-                <LabTable student_name={user_name} />
+                <LabTable user_name={user_name} />
               ) : (
                 <VirtualMachineTable
                   user_name={user_name}
