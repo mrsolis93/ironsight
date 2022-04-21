@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CourseCard = ({ course_id, course_name, course_thumbnail }) => {
+const CourseCard = ({ course_id, course_name, course_thumbnail, user_name }) => {
   var course_id_friendly = course_name.split(" -")[0];
-
+  var card_link = `/course_details/${course_id}`
+  if (user_name) {
+    card_link = `/course_details/${course_id}/${user_name}`
+  }
   return (
     <div>
-    <Link to={`/course_details/${course_id}`}>
+    <Link to={card_link}>
       {/* Course Card */}
       <div className="card md:w-96 bg-base-100 shadow-xl">
         <figure>

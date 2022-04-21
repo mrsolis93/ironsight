@@ -96,6 +96,7 @@ function UserDetails() {
         course_name={course_name}
         course_id={course_id}
         course_thumbnail={course_thumbnail}
+        user_name={user_name}
       />
     )
   );
