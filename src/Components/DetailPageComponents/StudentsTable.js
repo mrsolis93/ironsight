@@ -16,10 +16,21 @@ const StudentsTable = ({ course_id }) => {
     return <p>Error!</p>;
   }
 
-  var raw_student_data = [];
   // Pull in all students and display them on the table
-  raw_student_data = data;
-  var table_html = raw_student_data.map(function (student) {
+  var student_data = [];
+  // Filter out students that are not in the course
+  if (course_id !== undefined) {
+  for (var i = 0; i < data.length; i++) {
+    for (var j = 0; j < data[i].courses.length; j++) {
+      if (data[i].courses[j].course_id === course_id) {
+        student_data.push(data[i]);
+      }
+    }
+  }
+  } else {
+    student_data = data;
+  }
+  var table_html = student_data.map(function (student) {
     // Capitalize the first letter of the first name
     var first_name =
       student.first_name.charAt(0).toUpperCase() + student.first_name.slice(1);
@@ -43,10 +54,12 @@ const StudentsTable = ({ course_id }) => {
       if (student.tags[i]["type"] === "major") {
         student_major = student.tags[i]["tag"];
         // Capitalize the first letter of each word
-        student_major = student_major.split(" ").map((word) => {
-          return word.charAt(0).toUpperCase() + word.slice(1);
-        }
-        ).join(" ");
+        student_major = student_major
+          .split(" ")
+          .map((word) => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          })
+          .join(" ");
       }
     }
     if (student_major === "") {
