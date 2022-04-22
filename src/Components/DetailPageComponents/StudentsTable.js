@@ -19,12 +19,16 @@ const StudentsTable = ({ course_id }) => {
   // Pull in all students and display them on the table
   var student_data = [];
   // Filter out students that are not in the course
+  if (course_id !== undefined) {
   for (var i = 0; i < data.length; i++) {
     for (var j = 0; j < data[i].courses.length; j++) {
       if (data[i].courses[j].course_id === course_id) {
         student_data.push(data[i]);
       }
     }
+  }
+  } else {
+    student_data = data;
   }
   var table_html = student_data.map(function (student) {
     // Capitalize the first letter of the first name
