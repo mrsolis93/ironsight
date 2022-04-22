@@ -363,13 +363,14 @@ function VMDetails() {
           <h2 className="card-title mx-4 mt-4">Status Panel</h2>
           <div className="grid grid-cols-2 xl:grid-cols-4 grid-row-1 gap-4 m-4">
             {vm_status === "Running" ? (
-              <button className="btn btn-success btn-outline btn-lg col-span-1 text-2xl">
+              <button
+                className="btn btn-success btn-outline btn-lg col-span-1 text-2xl"
+                onClick={() => {
+                  toggleVMPower(vm_name);
+                }}
+              >
                 <span>
-                  <BsPower
-                    onClick={() => {
-                      toggleVMPower(vm_name);
-                    }}
-                  />
+                  <BsPower />
                 </span>
               </button>
             ) : vm_status === "Starting" ? (
