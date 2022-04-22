@@ -68,7 +68,7 @@ export default function ReAreaChartMultiple() {
       return formattedTime;
     });
     var chart_data_values = result.values.map(function (bucket) {
-      return bucket[1] * 100;
+      return parseFloat(bucket[1] * 100).toFixed(2);
     });
 
     datasets.push({
@@ -78,17 +78,17 @@ export default function ReAreaChartMultiple() {
     labels = chart_data_keys;
   }
 
-  console.log("[Ironsight] Date(keys):", chart_data_keys);
-  console.log("[Ironsight] CPU Usage:", chart_data_values);
-  console.log("[Ironsight] DataSet0:", datasets[0]);
-  console.log("[Ironsight] DataSet1:", datasets[1]);
+  // console.log("[Ironsight] Date(keys):", chart_data_keys);
+  // console.log("[Ironsight] CPU Usage:", chart_data_values);
+  // console.log("[Ironsight] DataSet0:", datasets[0]);
+  // console.log("[Ironsight] DataSet1:", datasets[1]);
 
   // Map datasets into chart_data
   const chart_data = labels.map((x, y) => {
     return {
       labels: x,
-      value1: datasets[0].data[y].toFixed(2),
-      value2: datasets[1].data[y].toFixed(2),
+      value1: datasets[0].data[y],
+      value2: datasets[1].data[y],
     };
   });
 
@@ -104,7 +104,7 @@ export default function ReAreaChartMultiple() {
     }
   }
 
-  console.log("[Ironsight] Chart Data:", chart_data);
+  // console.log("[Ironsight] Chart Data:", chart_data);
 
   return (
     <div>
@@ -146,7 +146,7 @@ export default function ReAreaChartMultiple() {
             dataKey="value1"
             type="number"
             unit="%"
-            domain={isZoomed ? [0, "dataMax + 2"] : [0, 100]}
+            domain={isZoomed ? [0, max_value + 2] : [0, 100]}
             scale="linear"
           />
           <Tooltip content={<CustomTooltip data={chart_data} />} />
