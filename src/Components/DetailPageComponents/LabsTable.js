@@ -16,18 +16,33 @@ const LabTable = ({ course_id, user_name }) => {
     return <p>Error!</p>;
   }
 
-  //   Pull in JSON data and add to array if the lab belongs in this class (using sub_tag matching)
-  var lab_data = [];
-  data.forEach((lab) => {
-    // If course_id is not null
-    if (course_id != null) {
+  var lab_data = data;
+
+  // Filter the the labs, only show labs that have the user_name in users[]
+  var filtered_lab_data = lab_data.filter(function (lab) {
+    if (user_name) {
+      if (lab.users.length > 0) {
+        var user_found = false;
+        lab.users.forEach(function (user) {
+          if (user === user_name) {
+            user_found = true;
+          }
+        });
+        return user_found;
+      } else {
+        return false;
+      }
+    } else if (course_id) {
       if (lab.course_id === course_id) {
-        lab_data.push(lab);
+        return true;
+      } else {
+        return false;
       }
     } else {
-      lab_data.push(lab);
+      return true;
     }
   });
+  lab_data = filtered_lab_data;
 
   //   Take the raw JSON and turn it into the rows of the table
   var lab_html = lab_data.map(function (lab) {
