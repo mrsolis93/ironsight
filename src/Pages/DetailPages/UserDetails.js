@@ -90,7 +90,8 @@ function UserDetails() {
       user_role: user_role,
       profile_pic_data: profile_pic_data,
       major: student_major,
-      email: student_email
+      email: student_email,
+      courses: student.courses,
     };
   });
 
@@ -102,7 +103,7 @@ function UserDetails() {
     }
   }
 
-  var course_cards = course_data.map(
+  var course_cards = student_data.courses.map(
     ({ course_id, course_name, course_thumbnail }) => (
       <CourseCard
         key={course_id}
