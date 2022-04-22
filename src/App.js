@@ -45,6 +45,19 @@ function App() {
   return (
     // Only return the theme provider if the page is not the login page and the token is set
     <div className="App bg-slate-800">
+      <meta property="og:title" content="Ironsight" />
+      <meta
+        property="og:description"
+        content="Web based platform that will assist in the visualization of user activity inside a cyber-range"
+      />
+      <meta
+        property="og:image"
+        content="https://ironsight.rellis.dev/assets/Ironsight1080.jpg"
+      />
+      <meta
+        property="og:url"
+        content="https://ironsight.rellis.dev/"
+      />
       <ThemeProvider theme={darkTheme}>
         <QueryClientProvider client={queryClient}>
           <Router>
