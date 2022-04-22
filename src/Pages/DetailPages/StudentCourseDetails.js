@@ -186,11 +186,11 @@ function StudentCourseDetails() {
             {/* Lab overview */}
             <div className="page-content">
               {selectedTab === "labs" ? (
-                <LabTable course_id={course_id} student_name={student_name} />
+                <LabTable course_id={course_id} user_name={student_name} />
               ) : (
                 <VirtualMachineTable
                   course_id={course_id}
-                  student_name={student_name}
+                  user_name={student_name}
                 />
               )}
             </div>

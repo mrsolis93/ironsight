@@ -20,28 +20,27 @@ const LabTable = ({ course_id, user_name }) => {
 
   // Filter the the labs, only show labs that have the user_name in users[]
   var filtered_lab_data = lab_data.filter(function (lab) {
-    if (user_name) {
-      if (lab.users.length > 0) {
-        var user_found = false;
-        lab.users.forEach(function (user) {
-          if (user === user_name) {
-            user_found = true;
-          }
-        });
-        return user_found;
-      } else {
-        return false;
-      }
-    } else if (course_id) {
-      if (lab.course_id === course_id) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
+    if (!course_id && !user_name) {
       return true;
     }
+    if (course_id && user_name) {
+      if (lab["course_id"] === course_id && lab["users"].includes(user_name)) {
+        return true;
+      }
+    }
+    if (course_id && !user_name) {
+      if (lab["course_id"] === course_id) {
+        return true;
+      }
+    }
+    if (!course_id && user_name) {
+      if (lab["users"].includes(user_name)) {
+        return true;
+      }
+    }
+    return false;
   });
+
   lab_data = filtered_lab_data;
 
   //   Take the raw JSON and turn it into the rows of the table
