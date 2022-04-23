@@ -23,7 +23,7 @@ function Users() {
           <div className=" bg-base-100 shadow-xl rounded-box overflow-auto m-6 xl:mx-48">
             <div className="table w-full">
 
-              <UserTable />
+              <UserTable className=""/>
                  
             </div>
           </div>

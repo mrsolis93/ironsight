@@ -71,11 +71,16 @@ const UserTable = () => {
 
   const customTheme = {
     Table: `
-    margin: 10px 10px;
-    background-color: #2f3137;
-    border-radius: 10px;
+    margin: 5px 5px;
+    background-color: pink;
+    border-radius: 10 px;
 
     height: 100%;
+    color: #6419E6;
+
+    &.my-table {
+      background-color: orange;
+     }
 
     .hover-row {
       background-color: #A4A8B5;
@@ -85,6 +90,20 @@ const UserTable = () => {
     
   `,
 
+  Body:
+  `
+    
+    background-color: transparent;
+  
+  `,
+
+  BaseRow:
+  `
+  
+    background-color: transparent;
+  
+  `,
+
     Cell:
      `
     font-size: 18px;
@@ -92,36 +111,51 @@ const UserTable = () => {
     &:nth-of-type(1) {
       min-width: 10%;
       width: 10%;
-      background-color: #2f3137;
+      color: #6419E6;
+      
     }
 
     &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4) {
       min-width: 20%;
       width: 20%;
-      background-color: #2f3137;
+      background-color: transparent;
     }
 
     &:nth-of-type(5) {
       min-width: 30%;
       width: 30%;
-      background-color: #2f3137;
+      background-color: transparent;
     }
 
     &:nth-of-type(6) {
       min-width: 30%;
       width: 30%;
-      background-color: #2f3137;
+      background-color: transparent;
     }
 
   
     border-right: 1px solid transparent;
     `,
 
+    HeaderRow:
+    `
+    
+      background-color: #1E1E1E;
+      color: #ABACAF;
+      
+    
+    `,
+
     Row:
     `
-    .hover-row {
-      background-color: #A4A8B5;
+    &:hover {
+      color: #6419E6;
+      background-color: #2F3137;
+      opacity: 0.9;
+
     }
+      background-color: transparent;
+    
     `,
   };
 
@@ -270,7 +304,7 @@ const UserTable = () => {
 
       <Stack spacing={120} direction="row-reverse" className="m-3 ">
 
-        <button variant="contained" onClick={() => setModalOpened(true)} className="btn btn-primary btn-med text-base-900 hover cursor-pointer" >
+        <button variant="contained" onClick={() => setModalOpened(true)} className="btn btn-primary btn-med text-base-900 hover cursor-pointer " >
           Create User
         </button>
 
