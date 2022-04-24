@@ -68,9 +68,6 @@ const VMCPUWidgetHome = ({ vm_name }) => {
     var chart_data_values = result.values.map(function (bucket) {
       return bucket[1] * 100;
     });
-
-     console.log("Hostname");
-      console.log(hostname);
       
     datasets.push({
       label: hostname,

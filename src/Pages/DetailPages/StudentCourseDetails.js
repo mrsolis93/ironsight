@@ -46,7 +46,11 @@ function StudentCourseDetails() {
       student.last_name.charAt(0).toUpperCase() + student.last_name.slice(1);
     var student_email = student.user_name + "@leomail.tamuc.edu";
     // Check the tags to see if the student is a student or a professor
-    var user_role = student.roles[0].toUpperCase();
+    if (student.roles.length > 0) {
+      var user_role = student.roles[0];
+    } else {
+      var user_role = "";
+    }
 
     // Check for a link to a profile picture
     var profile_pic_data = "";
@@ -62,10 +66,12 @@ function StudentCourseDetails() {
       if (student.tags[i]["type"] === "major") {
         student_major = student.tags[i]["tag"];
         // Capitalize the first letter of each word
-        student_major = student_major.split(" ").map((word) => {
-          return word.charAt(0).toUpperCase() + word.slice(1);
-        }
-        ).join(" ");
+        student_major = student_major
+          .split(" ")
+          .map((word) => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          })
+          .join(" ");
       }
     }
     if (student_major === "") {
@@ -143,7 +149,9 @@ function StudentCourseDetails() {
                   {student_data.first_name} {student_data.last_name}
                 </div>
                 <div className="text-sm opacity-50">{student_data.major}</div>
-                <div className="text-sm opacity-50 mb-4">{student_data.email}</div>
+                <div className="text-sm opacity-50 mb-4">
+                  {student_data.email}
+                </div>
               </div>
               <div className="sidebar-links w-full">
                 {/* Display rows but highlight the one using selectedTab */}
@@ -178,11 +186,11 @@ function StudentCourseDetails() {
             {/* Lab overview */}
             <div className="page-content">
               {selectedTab === "labs" ? (
-                <LabTable course_id={course_id} student_name={student_name} />
+                <LabTable course_id={course_id} user_name={student_name} />
               ) : (
                 <VirtualMachineTable
                   course_id={course_id}
-                  student_name={student_name}
+                  user_name={student_name}
                 />
               )}
             </div>

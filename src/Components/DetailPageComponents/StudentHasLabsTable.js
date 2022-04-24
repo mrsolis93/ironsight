@@ -1,36 +1,46 @@
 import React from "react";
 import "../../App.css";
 import { useQuery } from "react-query";
-import { getUsersList } from "../../IronsightAPI";
+import { getLabOverview, getUsersList } from "../../IronsightAPI";
 import { Link } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
+import { useParams } from "react-router-dom";
 
-const StudentsTable = ({ course_id }) => {
-  const { data, isLoading, isError } = useQuery("users_list", getUsersList);
 
-  if (isLoading) {
+
+const StudentsLabsTable = ({ course_id }) => {  
+  const { lab_num } = useParams();
+  const {
+    data: lab_overview_data,
+    isLoading: isLoading_lab_overview_table_students,
+    isError: isError_lab_overview_table_students,
+  } = useQuery(["lab_overview_student", lab_num], getLabOverview);
+
+  const {
+    data: data,
+    isLoading: isLoading_user,
+    isError: isError_user,
+  } = useQuery("users_list", getUsersList);
+
+  if (isLoading_lab_overview_table_students || isLoading_user) {
     return <LinearProgress />;
   }
 
-  if (isError) {
+  if (isError_lab_overview_table_students || isError_user) {
     return <p>Error!</p>;
   }
 
+  var raw_lab_data = [];
+  var raw_student_data = [];
+  raw_student_data = data;
+  raw_lab_data = lab_overview_data;
   // Pull in all students and display them on the table
-  var student_data = [];
-  // Filter out students that are not in the course
-  if (course_id !== undefined) {
-  for (var i = 0; i < data.length; i++) {
-    for (var j = 0; j < data[i].courses.length; j++) {
-      if (data[i].courses[j].course_id === course_id) {
-        student_data.push(data[i]);
-      }
-    }
-  }
-  } else {
-    student_data = data;
-  }
-  var table_html = student_data.map(function (student) {
+
+    
+
+
+
+  var table_html = raw_student_data.map(function (student) {
     // Capitalize the first letter of the first name
     var first_name =
       student.first_name.charAt(0).toUpperCase() + student.first_name.slice(1);
@@ -64,35 +74,37 @@ const StudentsTable = ({ course_id }) => {
     }
     if (student_major === "") {
       student_major = "N/A";
+    } else {
     }
-
-    return (
-      <tr key={student.user_name} className="hover">
-        <td>
-          <div className="flex items-center space-x-3">
-            <div className="avatar">
-              <div className="mask mask-squircle w-12 h-12">
-                <img src={profile_pic_data} alt="User Avatar" />
+    
+      return (
+        <tr key={student.user_name} className="hover">
+          <td>
+            <div className="flex items-center space-x-3">
+              <div className="avatar">
+                <div className="mask mask-squircle w-12 h-12">
+                  <img src={profile_pic_data} alt="User Avatar" />
+                </div>
+              </div>
+              <div>
+                <Link
+                  to={"/course_details/" + course_id + "/" + student.user_name}
+                  key={student.user_name + "_link"}
+                >
+                  <div className="font-bold">
+                    {first_name} {last_name}
+                  </div>
+                  <div className="text-sm opacity-50">{student_major}</div>
+                </Link>
               </div>
             </div>
-            <div>
-              <Link
-                to={"/course_details/" + course_id + "/" + student.user_name}
-                key={student.user_name + "_link"}
-              >
-                <div className="font-bold">
-                  {first_name} {last_name}
-                </div>
-                <div className="text-sm opacity-50">{student_major}</div>
-              </Link>
-            </div>
-          </div>
-        </td>
-        <td>{student_email}</td>
-        <td>********</td>
-        <td>{user_role}</td>
-      </tr>
-    );
+          </td>
+          <td>{student_email}</td>
+          <td>********</td>
+          <td>{user_role}</td>
+        </tr>
+      );
+    
   });
 
   //   Take the raw JSON and turn it into the rows of the table
@@ -116,4 +128,4 @@ const StudentsTable = ({ course_id }) => {
   );
 };
 
-export default StudentsTable;
+export default StudentsLabsTable;

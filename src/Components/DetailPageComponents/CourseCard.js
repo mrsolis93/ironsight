@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const CourseCard = ({ course_id, course_name, course_thumbnail, user_name }) => {
-  var course_id_friendly = course_name.split(" -")[0];
+  var course_id_friendly = course_id.replace(/_/g, " ");
+  course_id_friendly = course_id_friendly.toUpperCase();
   var card_link = `/course_details/${course_id}`
   if (user_name) {
     card_link = `/course_details/${course_id}/${user_name}`

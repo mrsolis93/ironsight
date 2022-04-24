@@ -3,6 +3,10 @@ import "../../App.css";
 import Navbar from "../../Components/Navbar";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
+import LabTable from "../../Components/DetailPageComponents/LabsTable";
+import VirtualMachineTable from "../../Components/DetailPageComponents/VirtualMachinesTable";
+import CourseCard from "../../Components/DetailPageComponents/CourseCard";
+import StudentsLabsTable, {StudentHasLabsTable} from "../../Components/DetailPageComponents/StudentHasLabsTable";
 import {
   getLabOverview,
   getCourseList,
@@ -15,6 +19,7 @@ import { Link } from "react-router-dom";
 import ReAreaChart from "../../Charts/ReAreaChart";
 
 function LabOverview() {
+  const { user_name } = useParams();
   const { lab_num } = useParams();
   const {
     data: lab_overview_data,
@@ -41,6 +46,7 @@ function LabOverview() {
     isLoading: isLoading_user,
     isError: isError_user,
   } = useQuery("users_list", getUsersList);
+  var [selectedTab, setSelectedTab] = React.useState("labs");
 
   if (
     isLoading_lab_overview ||
@@ -64,13 +70,20 @@ function LabOverview() {
     isError_lab ||
     isError_user
   ) {
-    return (
-      <div>
-        <Navbar />
-        <p>Error!</p>)
-      </div>
-    );
+    return <p>Error!</p>;
   }
+
+  var course_cards = course_data.map(
+    ({ course_id, course_name, course_thumbnail }) => (
+      <CourseCard
+        key={course_id}
+        course_name={course_name}
+        course_id={course_id}
+        course_thumbnail={course_thumbnail}
+        user_name={user_name}
+      />
+    )
+  );
 
   // If data comes back as {}, return "No data"
   if (Object.keys(lab_overview_data).length === 0) {
@@ -96,7 +109,7 @@ function LabOverview() {
   }
 
   // Map the users to a table
-  const get_users = () => {
+  const getUsersList2 = () => {
     return users.map((user) => (
       <tr key={user} className="hover">
         <td>
@@ -154,94 +167,119 @@ function LabOverview() {
   };
 
   return (
-    <div className="labs">
+    <>
       <Navbar />
-      {/* Top bar (breadcrumbs) */}
-
-      <div className="navbar bg-base-300 rounded-box">
-        <div className="flex flex-1 px-2">
-          <div className="flex items-stretch">
-            <div className="flex flex-col">
-              <div className="flex flex-row text-md breadcrumbs m-4">
-                <ul>
-                  <li>
-                    <Link to="/">Home</Link>
-                  </li>
-                  <li>
-                    <Link to="/courses">Courses</Link>
-                  </li>
-                  <li>
-                    <Link to={`/course_details/${course_id}/`}>
-                      {class_name}
-                    </Link>
-                  </li>
-                  <li>
-                    <strong>{lab_overview_data.lab_name}</strong>
-                  </li>
-                </ul>
-              </div>
-              <div class="flex flex-row ml-4">{get_tags()}</div>
-
-              <div className="flex flex-row ml-4">
-                Date start: {lab_overview_data.date_start}
-              </div>
-              <div className="flex flex-row ml-4">
-                Date end: {lab_overview_data.date_end}
-              </div>
-              <div className="overflow-auto m-4">
-                {lab_overview_data.lab_description}
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="text-md breadcrumbs m-4">
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/courses">Courses</Link>
+          </li>
+          <li>
+            <strong>{lab_overview_data.lab_name}</strong>
+          </li>
+        </ul>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-4 grid-flow-row m-4 gap-4">
-        {/* Users table */}
-        <div className="col-span-1 rounded-box bg-base-100 shadow-xl">
-          <div className="card-body p-4 md:p-8 max-h-96">
-            <div className="flex flex-row">
-              <table className="table w-full">
-                <thead>
-                  <tr>
-                    <td>Users</td>
-                  </tr>
-                </thead>
-                <tbody>{get_users()}</tbody>
-              </table>
+      <div className="grid grid-cols-1 lg:grid-cols-4 grid-flow-row m-4 gap-4 h-full ">
+        <div className="col-span-1 w-full">
+          <div className="rounded-box bg-base-100 ">
+            {/* Profile picture, firstname lastname, etc */}
+            <div className="flex flex-col items-center justify-center ">
+              <div className="text-center">
+                <img
+                  src="https://imageio.forbes.com/specials-images/imageserve/513343414/0x0.jpg"
+                  alt="Course Picture"
+                  className="rounded-full w-32 h-32 mt-4"
+                />
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold">
+                  {lab_overview_data.lab_name}
+                </div>
+                <div className="text-sm opacity-50">
+                  {lab_overview_data.date_start}
+                </div>
+                <div className="text-sm opacity-50 mb-4">
+                  {lab_overview_data.date_end}
+                </div>
+              </div>
+              <div className="sidebar-links w-full">
+                {/* Display rows but highlight the one using selectedTab */}
+                <div className="grid grid-cols-2 lg:grid-cols-1 grid-flow-row gap-4 mx-4 ">
+                  <button
+                    className={
+                      selectedTab === "Users"
+                        ? "btn btn-primary w-full text-base-900 hover cursor-pointer mt-4 mb-4 lg:mb-0"
+                        : "btn btn-outline w-full text-base-900 hover cursor-pointer mt-4 mb-4 md:mb-0"
+                    }
+                    onClick={() => setSelectedTab("Users")}
+                  >
+                    Students
+                  </button>
+                  <button
+                    className={
+                      selectedTab === "virtual_machines"
+                        ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0 lg:mb-0"
+                        : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0 lg:mb-0"
+                    }
+                    onClick={() => setSelectedTab("virtual_machines")}
+                  >
+                    Virtual Machines
+                  </button>
+                  <button
+                    className={
+                      selectedTab === "templates"
+                        ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                        : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                    }
+                    onClick={() => setSelectedTab("templates")}
+                  >
+                    Templates
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <div className="col-span-1 lg:col-span-3 rounded-box bg-base-100 ">
+          <div className=" max-h-full ">
+            <div className="page-content">
+              {/* Display the selected tab */}
+              {selectedTab === "Users" && (
+                <StudentsLabsTable/>
+                
+              )}
 
-        {/* Virtual Machine table will eventually add status icons */}
-        <div className="col-span-1 md:col-span-2 rounded-box bg-base-100 shadow-xl">
-          <div className="card-body p-4 md:p-8 max-h-96">
-            <div className="flex flex-row">
+              {selectedTab === "virtual_machines" && (
+              
+              <div className="overflow-x-auto w-full">
               <table className="table w-full">
-                <thead>
-                  <tr>
-                    <th>Virtual Machines</th>
-                  </tr>
-                </thead>
-                <tbody>{get_virtual_machines()}</tbody>
-              </table>
+                      <thead>
+                        <tr>
+                          <th>Virtual Machines in {lab_overview_data.lab_name}</th>
+                        </tr>
+                      </thead>
+                      <tbody>{get_virtual_machines()}</tbody>
+                    </table>
+                  </div>
+                
+              
+              )}
+              {selectedTab === "courses" && (
+                <div className="mt-4 grid grid-cols-1 md:flex md:flex-wrap mx-4 gap-4 md:gap-4">
+                  {course_cards}
+                </div>
+              )}
             </div>
           </div>
         </div>
-        <div className="col-span-1 rounded-box bg-base-100 shadow-xl">
-          <div className="card-body p-2 md:p-5 max-h-96">
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>Templates</th>
-                </tr>
-              </thead>
-              <tbody>{get_templates()}</tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <div>
+      
     </div>
+    </div>
+    </>
   );
 }
 
