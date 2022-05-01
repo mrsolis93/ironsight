@@ -1,13 +1,13 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
 
-function Analysis() {
+function Network() {
   return (
     <>
       <Navbar />
-      <div className="analysis"></div>
+      <div className="network"></div>
     </>
   );
 }
 
-export default Analysis;
+export default Network;

@@ -44,7 +44,7 @@ body
 
 }
 
-.home, .users, .courses, .course_details, .labs, .resources, .analysis, .sandbox, .virtual_machines, .login, .signout, .testing {
+.home, .users, .courses, .course_details, .labs, .resources, .network, .sandbox, .virtual_machines, .login, .signout, .testing {
   font-family: 'Roboto', sans-serif;
   color: var(--text-color);
   height: 100%;

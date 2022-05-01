@@ -5,6 +5,7 @@ import { ImLab } from "react-icons/im";
 import { GoGraph } from "react-icons/go";
 import { RiComputerLine } from "react-icons/ri";
 import { IoMdSettings } from "react-icons/io";
+import { FaNetworkWired } from "react-icons/fa";
 
 export const NavbarData = [
   {
@@ -43,13 +44,13 @@ export const NavbarData = [
     current: false
   },
 
-  // {
-  //   name: "Analysis",
-  //   path: "/analysis",
-  //   icon: <MdTimeline />,
-  //   current: false
+  {
+    name: "Network",
+    path: "/network",
+    icon: <FaNetworkWired />,
+    current: false
 
-  // },
+  },
 
   // {
   //   name: "Sandbox",

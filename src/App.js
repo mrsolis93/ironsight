@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
-import Analysis from "./Pages/Analysis";
+import Network from "./Pages/Network";
 import Courses from "./Pages/Courses";
 import Resources from "./Pages/Resources";
 import Sandbox from "./Pages/Sandbox";
@@ -65,8 +65,8 @@ function App() {
             <Routes>
               <Route path="/" exact element={<Home />} />
               <Route path="/home" exact element={<Home />} />
-              <Route path="/analysis" element={<Analysis />} />
-              <Route path="/analysis/reports" element={<Analysis />} />
+              <Route path="/network" element={<Network />} />
+              <Route path="/network/reports" element={<Network />} />
               <Route path="/courses" element={<Courses />} />
               <Route path="lab_details/:lab_num" element={<LabOverview />} />
               <Route
