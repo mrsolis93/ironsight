@@ -6,6 +6,7 @@ import { GoGraph } from "react-icons/go";
 import { RiComputerLine } from "react-icons/ri";
 import { IoMdSettings } from "react-icons/io";
 import { FaNetworkWired } from "react-icons/fa";
+import { MdSecurity } from "react-icons/md";
 
 export const NavbarData = [
   {
@@ -48,6 +49,14 @@ export const NavbarData = [
     name: "Network",
     path: "/network",
     icon: <FaNetworkWired />,
+    current: false
+
+  },
+
+  {
+    name: "Security",
+    path: "/security",
+    icon: <MdSecurity />,
     current: false
 
   },
