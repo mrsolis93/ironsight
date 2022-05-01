@@ -14,6 +14,7 @@ import {
   Select,
   Switch,
   Tooltip,
+  Checkbox,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -33,6 +34,10 @@ export default function CreateVMDialog() {
   const [user_selection, setUserSelection] = React.useState("");
   const [is_elastic, setIsElastic] = React.useState(false);
   const [is_customize_open, setIsCustomizeOpen] = React.useState(false);
+  const [cpu_cores, setCpuCores] = React.useState(2);
+  const [memory, setMemory] = React.useState(4);
+  const [redeploy, setRedeploy] = React.useState(false);
+  const [is_running, setIsRunning] = React.useState(true);
 
   const handleClickOpen = () => {
     if (localStorage.getItem("ironsight_username") === "demo_user") {
@@ -185,19 +190,19 @@ export default function CreateVMDialog() {
       if (lab_list[i].props.value.course_id === course_selection) {
         filtered_labs.push(lab_list[i].props.value);
       }
-      }
-    };
+    }
+  };
   filter_labs();
 
-// Map labs to HTML
-const lab_list_html = filtered_labs.map((lab) => {
-  return (
-    <MenuItem key={lab.lab_name} value={lab}>
-      {lab.lab_name}
-    </MenuItem>
-  );
-});
-  
+  // Map labs to HTML
+  const lab_list_html = filtered_labs.map((lab) => {
+    return (
+      <MenuItem key={lab.lab_name} value={lab}>
+        {lab.lab_name}
+      </MenuItem>
+    );
+  });
+
   // Make a POST request to the server to create a new VM
   // Function to print out JSON of selected courses and roles, firstname, lastname, etc.
   const get_vm_data = () => {
@@ -211,8 +216,14 @@ const lab_list_html = filtered_labs.map((lab) => {
         user_name: user_selection,
         template_name: template_selection.template_name,
         course_id: course_selection,
-        lab_num: lab_selection.lab_num.toString(),
-        template_override: "",
+        lab_num: lab_selection.lab_num,
+        template_override: {
+          elastic_enrolled: is_elastic,
+          cpu_cores: cpu_cores,
+          memory: memory,
+          redeploy: redeploy,
+          running: is_running,
+        },
       },
     };
     console.log(event_data);
@@ -233,7 +244,6 @@ const lab_list_html = filtered_labs.map((lab) => {
       console.log(response);
     });
   };
-
 
   const handleSubmit = () => {
     get_vm_data();
@@ -381,6 +391,9 @@ const lab_list_html = filtered_labs.map((lab) => {
                   fullWidth
                   autoComplete="off"
                   defaultValue={2}
+                  onChange={(event) => {
+                    setCpuCores(event.target.value);
+                  }}
                   InputLabelProps={{ required: false }}
                 />
               </FormControl>
@@ -394,7 +407,40 @@ const lab_list_html = filtered_labs.map((lab) => {
                   fullWidth
                   autoComplete="off"
                   defaultValue={4}
+                  onChange={(event) => {
+                    setMemory(event.target.value);
+                  }}
                   InputLabelProps={{ required: false }}
+                />
+              </FormControl>
+              <FormControl sx={{ ml: 2, minWidth: "46%" }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={redeploy}
+                      onChange={(event) => {
+                        setRedeploy(event.target.checked);
+                      }}
+                      name="redeploy"
+                      color="primary"
+                    />
+                  }
+                  label="Redeploy"
+                />
+              </FormControl>
+              <FormControl sx={{ ml: 2, minWidth: "46%" }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={is_running}
+                      onChange={(event) => {
+                        setIsRunning(event.target.checked);
+                      }}
+                      name="running"
+                      color="primary"
+                    />
+                  }
+                  label="Running"
                 />
               </FormControl>
             </div>
