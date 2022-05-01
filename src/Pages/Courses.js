@@ -38,7 +38,6 @@ function Courses() {
           </li>
         </ul>
       </div>
-
       <div>
         {/* Course cards */}
         {/* If cards are going to off the screen, make them go into the next column */}

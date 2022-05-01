@@ -4,7 +4,9 @@ import { FaHome, FaUsers, FaBiohazard } from "react-icons/fa";
 import { ImLab } from "react-icons/im";
 import { GoGraph } from "react-icons/go";
 import { RiComputerLine } from "react-icons/ri";
-import { MdTimeline } from "react-icons/md";
+import { IoMdSettings } from "react-icons/io";
+import { FaNetworkWired } from "react-icons/fa";
+import { MdSecurity } from "react-icons/md";
 
 export const NavbarData = [
   {
@@ -43,10 +45,18 @@ export const NavbarData = [
     current: false
   },
 
+  {
+    name: "Network",
+    path: "/network",
+    icon: <FaNetworkWired />,
+    current: false
+
+  },
+
   // {
-  //   name: "Analysis",
-  //   path: "/analysis",
-  //   icon: <MdTimeline />,
+  //   name: "Security",
+  //   path: "/security",
+  //   icon: <MdSecurity />,
   //   current: false
 
   // },
@@ -59,9 +69,9 @@ export const NavbarData = [
   // },
 
   {
-    name: "Testing",
-    path: "/testing",
-    icon: <FaBiohazard />,
+    name: "Settings",
+    path: "/settings",
+    icon: <IoMdSettings />,
     current: false
   },
 

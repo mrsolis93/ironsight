@@ -84,6 +84,36 @@ function StudentLabDetails() {
     }
   }
 
+  function getLabRequirements(lab_num) {
+    var lab_requirements = [];
+    for (let i = 0; i < 10; i++) {
+      lab_requirements[i] = (
+        <div class="form-control flex flex-row gap-4 items-center">
+          <label class="label cursor-pointer">
+            <input
+              type="checkbox"
+              defaultChecked={i < 5 ? true : false}
+              class="checkbox checkbox-primary"
+            />
+            {/* Item 1 justify next to checkbox */}
+          </label>
+          <span class="checkbox-label">Item {i + 1}</span>
+        </div>
+      );
+    }
+    return lab_requirements;
+  }
+
+  function getVirtualMachineTabs() {
+    return (
+      <div class="btn-group">
+        <button class="btn btn-active">kubuntu-tharrison</button>
+        <button class="btn">elastictest-tharrison</button>
+        <button class="btn">debian11-tharrison</button>
+      </div>
+    );
+  }
+
   return (
     <div className="labs">
       <Navbar />
@@ -107,6 +137,44 @@ function StudentLabDetails() {
             </strong>
           </li>
         </ul>
+      </div>
+
+      {/* Display VMs that are in this lab, lab requirements with checkboxes, 
+          combined bash history for each virtual machine in lab, login history,
+          whether or not the lab has been submitted, and notes*/}
+
+      <div className="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-4 mx-4">
+        <div className="row-span-4 md:col-span-2 rounded-box bg-base-100 shadow-xl">
+          <div className="mx-4 my-6 h-full">
+            {/* Main Panel */}
+            <div className="grid grid-cols-1 mb-4">
+              {/* Main panel title */}
+              <div className="col-span-1 flex flex-col">
+                <div className="flex flex-row gap-4">
+                <h2 className="card-title">Virtual Machines</h2>
+                {getVirtualMachineTabs()}
+                </div>
+                <div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row-span-4 md:col-span-1 rounded-box bg-base-100 shadow-xl">
+          <div className="mx-4 my-6 h-full">
+            {/* Lab Requirements */}
+            <div className="grid grid-cols-1 mb-4">
+              {/* Lab Requirements title */}
+              <div className="col-span-1">
+                <h2 className="card-title mb-4">Lab Requirements</h2>
+                {/* Checkboxes for action items */}
+                {/* Make 8 of them as a placeholder */}
+                {getLabRequirements(1)}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

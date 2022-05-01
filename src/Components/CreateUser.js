@@ -40,6 +40,34 @@ const CreateUser = () => {
     return <p>Error!</p>;
   }
 
+  function set_first_name(value) {
+    // Make sure the value has only letters or is empty
+    if (value.match(/^[a-zA-Z]+$/) || value === "") {
+      setFirstName(value);
+    }
+  }
+
+  function set_last_name(value) {
+    // Make sure the value has only letters or is empty
+    if (value.match(/^[a-zA-Z]+$/) || value === "") {
+      setLastName(value);
+    }
+  }
+
+  function set_password(value) {
+    // Make sure the value has no spaces or is empty
+    if (value.match(/^\S+$/) || value === "") {
+      setPassword(value);
+    }
+  }
+
+  function set_confirm_password(value) {
+    // Make sure the value has no spaces or is empty
+    if (value.match(/^\S+$/) || value === "") {
+      setConfirmPassword(value);
+    }
+  }
+
   // Take role_data and just make an array of the role names
   const role_names = role_data.map((role) => role.role);
 
@@ -70,8 +98,8 @@ const CreateUser = () => {
       data: {
         courses: courses,
         roles: roles,
-        first_name: first_name.toLowerCase(),
-        last_name: last_name.toLowerCase(),
+        first_name: first_name,
+        last_name: last_name,
         user_name: (first_name + "_" + last_name).toLowerCase(),
         password: password,
         profile_pic_data: profile_pic_data,
@@ -126,7 +154,8 @@ const CreateUser = () => {
                 placeholder="First Name"
                 className="input input-bordered w-full mb-4"
                 id="first_name"
-                onChange={(e) => setFirstName(e.target.value)}
+                onChange={(e) => set_first_name(e.target.value)}
+                value={first_name}
               />
             </div>
             <div className="col-span-1 row-span-1 mr-2">
@@ -135,7 +164,8 @@ const CreateUser = () => {
                 placeholder="Last Name"
                 className="input input-bordered w-full mb-4"
                 id="last_name"
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={(e) => set_last_name(e.target.value)}
+                value={last_name}
               />
             </div>
           </div>
@@ -150,7 +180,8 @@ const CreateUser = () => {
                 placeholder="Password"
                 className="input input-bordered w-full mb-4"
                 id="password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => set_password(e.target.value)}
+                value={password}
               />
             </div>
             <div className="col-span-1 row-span-1 mr-2">
@@ -159,7 +190,8 @@ const CreateUser = () => {
                 placeholder="Confirm Password"
                 className="input input-bordered w-full"
                 id="confirm_password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => set_confirm_password(e.target.value)}
+                value={confirm_password}
               />
             </div>
           </div>

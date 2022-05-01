@@ -38,7 +38,7 @@ class Home extends Component {
             {/* VM Overview */}
             <div className="md:col-span-2 row-span-1 rounded-box bg-base-100 shadow-xl m-3">
               <div className="flex flex-col card-body p-4 md:p-8">
-                <h2 className="card-title">VM Overview</h2>
+                <h2 className="card-title">VM Performance</h2>
                 <div className="grid grid-flow-col grid-rows-4 md:grid-rows-1">
 
                   <div className="col-span-1 row-span-3">
