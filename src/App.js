@@ -18,6 +18,7 @@ import UserDetails from "./Pages/DetailPages/UserDetails";
 import VMDetails from "./Pages/DetailPages/VMDetails";
 import CourseDetails from "./Pages/DetailPages/CourseDetails";
 import StudentCourseDetails from "./Pages/DetailPages/StudentCourseDetails";
+import Settings from "./Pages/Settings";
 
 const darkTheme = createTheme({
   palette: {
@@ -89,6 +90,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signout" element={<SignOut />} />
               <Route path="/testing" element={<Testing />} />
+              <Route path="/settings" element={<Settings />} />
             </Routes>
           </Router>
         </QueryClientProvider>

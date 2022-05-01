@@ -4,7 +4,7 @@ import { FaHome, FaUsers, FaBiohazard } from "react-icons/fa";
 import { ImLab } from "react-icons/im";
 import { GoGraph } from "react-icons/go";
 import { RiComputerLine } from "react-icons/ri";
-import { MdTimeline } from "react-icons/md";
+import { IoMdSettings } from "react-icons/io";
 
 export const NavbarData = [
   {
@@ -59,9 +59,9 @@ export const NavbarData = [
   // },
 
   {
-    name: "Testing",
-    path: "/testing",
-    icon: <FaBiohazard />,
+    name: "Settings",
+    path: "/settings",
+    icon: <IoMdSettings />,
     current: false
   },
 
