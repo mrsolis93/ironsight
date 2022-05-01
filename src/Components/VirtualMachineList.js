@@ -107,7 +107,11 @@ export const VirtualMachineList = () => {
     return harvester_data.map(
       ({ metadata, status, port_number, users, labs }) => (
         <tr key={metadata.name} className="hover">
-          <td><Link key={metadata.name} to={"/vm_details/" + metadata.name}>{metadata.name}</Link></td>
+          <td>
+            <Link key={metadata.name} to={"/vm_details/" + metadata.name}>
+              {metadata.name}
+            </Link>
+          </td>
           <td>
             {
               // If users is undefined or an empty list, display ---. Otherwise, display the users list
@@ -116,10 +120,22 @@ export const VirtualMachineList = () => {
           </td>
           <td>
             {
-              // If users is undefined or an empty list, display ---. Otherwise, display the users list
+              // If users is undefined or an empty list, display ---. Otherwise, display the users list where each user name goes to user_details page
               users === undefined || users.length === 0
                 ? "---"
-                : users.join(", ")
+                : users.map((user) => (
+                    <Link
+                      key={user}
+                      to={"/user_details/" + user}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
+                      {/* Separate with commas */}
+                      {user}
+                      {users.length - 1 === users.indexOf(user) ? "" : ", "}
+                    </Link>
+                  ))
             }
           </td>
           <td>{port_number ? port_number : "---"}</td>
