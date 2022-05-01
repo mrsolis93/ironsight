@@ -53,13 +53,13 @@ export const NavbarData = [
 
   },
 
-  {
-    name: "Security",
-    path: "/security",
-    icon: <MdSecurity />,
-    current: false
+  // {
+  //   name: "Security",
+  //   path: "/security",
+  //   icon: <MdSecurity />,
+  //   current: false
 
-  },
+  // },
 
   // {
   //   name: "Sandbox",
