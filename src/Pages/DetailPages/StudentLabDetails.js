@@ -10,6 +10,8 @@ import {
   getVMList,
   getLabList,
   getUsersList,
+  getHarvesterVMList,
+  getLabOverview,
 } from "../../IronsightAPI";
 
 function StudentLabDetails() {
@@ -21,6 +23,11 @@ function StudentLabDetails() {
     isLoading: isLoading_course,
     isError: isError_course,
   } = useQuery("course_list", getCourseList);
+  const {
+    data: lab_overview_data,
+    isLoading: isLoading_lab_overview,
+    isError: isError_lab_overview,
+  } = useQuery(["lab_overview", lab_num], getLabOverview);
   const {
     data: lab_data,
     isLoading: isLoading_lab,
@@ -36,11 +43,30 @@ function StudentLabDetails() {
     isLoading: isLoading_user,
     isError: isError_user,
   } = useQuery("users_list", getUsersList);
+  const {
+    data: harvester_data,
+    isLoading: harvester_isLoading,
+    isError: harvester_isError,
+  } = useQuery("harvester_vms", getHarvesterVMList);
 
-  if (isLoading_course || isLoading_lab || isLoading_vm || isLoading_user) {
+  var [selectedVM, setSelectedVM] = React.useState("");
+
+  if (
+    isLoading_course ||
+    isLoading_lab ||
+    isLoading_vm ||
+    isLoading_user ||
+    harvester_isLoading
+  ) {
     return <LinearProgress />;
   }
-  if (isError_course || isError_lab || isError_vm || isError_user) {
+  if (
+    isError_course ||
+    isError_lab ||
+    isError_vm ||
+    isError_user ||
+    harvester_isError
+  ) {
     return <p>Error!</p>;
   }
 
@@ -84,34 +110,71 @@ function StudentLabDetails() {
     }
   }
 
-  function getLabRequirements(lab_num) {
+  function getLabRequirements() {
     var lab_requirements = [];
     for (let i = 0; i < 10; i++) {
       lab_requirements[i] = (
-        <div class="form-control flex flex-row gap-4 items-center">
-          <label class="label cursor-pointer">
+        <div className="form-control flex flex-row gap-4 items-center">
+          <label className="label cursor-pointer">
             <input
               type="checkbox"
               defaultChecked={i < 5 ? true : false}
-              class="checkbox checkbox-primary"
+              className="checkbox checkbox-primary"
             />
             {/* Item 1 justify next to checkbox */}
           </label>
-          <span class="checkbox-label">Item {i + 1}</span>
+          <span className="checkbox-label">Item {i + 1}</span>
         </div>
       );
     }
     return lab_requirements;
   }
 
+  function getStudentVirtualMachines() {
+    var lab_vms = [];
+    for (let i = 0; i < vm_data.length; i++) {
+      for (let j = 0; j < vm_data[i].labs.length; j++) {
+        if (vm_data[i].labs[j].toString() === lab_num) {
+          lab_vms.push(vm_data[i]);
+        }
+      }
+    }
+    var student_vms = [];
+    for (let i = 0; i < lab_vms.length; i++) {
+      for (let j = 0; j < lab_vms[i].users.length; j++) {
+        if (lab_vms[i].users[j].toString() === student_name) {
+          student_vms.push(lab_vms[i]);
+        }
+      }
+    }
+    return student_vms;
+  }
+
   function getVirtualMachineTabs() {
-    return (
-      <div class="btn-group">
-        <button class="btn btn-active">kubuntu-tharrison</button>
-        <button class="btn">elastictest-tharrison</button>
-        <button class="btn">debian11-tharrison</button>
-      </div>
-    );
+    var student_vms = getStudentVirtualMachines();
+    var vm_tabs = [];
+    for (let i = 0; i < student_vms.length; i++) {
+      vm_tabs.push(
+        <button
+          className={
+            selectedVM === student_vms[i].vm_name ? "btn btn-primary" : "btn"
+          }
+          onClick={() => setSelectedVM(student_vms[i].vm_name)}
+        >
+          {student_vms[i].vm_name}
+        </button>
+      );
+    }
+
+    return <div className="btn-group">{vm_tabs}</div>;
+  }
+
+  if (getVirtualMachineTabs().length != 0 && selectedVM == "") {
+    selectedVM = getStudentVirtualMachines()[0].vm_name;
+  }
+
+  function remoteVNC(vm_name) {
+    
   }
 
   return (
@@ -151,12 +214,18 @@ function StudentLabDetails() {
               {/* Main panel title */}
               <div className="col-span-1 flex flex-col">
                 <div className="flex flex-row gap-4">
-                <h2 className="card-title">Virtual Machines</h2>
-                {getVirtualMachineTabs()}
+                  <h2 className="card-title">Virtual Machines</h2>
+                  {getVirtualMachineTabs()}
+                  <button
+                    className="btn btn-success btn-outline"
+                    onClick={() => {
+                      remoteVNC("filler");
+                    }}
+                  >
+                    <span>Remote VNC</span>
+                  </button>
                 </div>
-                <div>
-
-                </div>
+                <div></div>
               </div>
             </div>
           </div>
@@ -170,7 +239,7 @@ function StudentLabDetails() {
                 <h2 className="card-title mb-4">Lab Requirements</h2>
                 {/* Checkboxes for action items */}
                 {/* Make 8 of them as a placeholder */}
-                {getLabRequirements(1)}
+                {getLabRequirements()}
               </div>
             </div>
           </div>
