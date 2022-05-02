@@ -192,7 +192,7 @@ function VMCPUWidgetHome() {
           <XAxis
             dataKey={"label"}
             type="category"
-            interval={"preserveStartEnd" | "10"}
+            interval={"preserveStartEnd" | "20"}
             tickCount={15}
             angle={-30}
             height={100}
