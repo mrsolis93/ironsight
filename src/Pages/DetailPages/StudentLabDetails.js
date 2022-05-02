@@ -12,6 +12,7 @@ import {
   getUsersList,
   getHarvesterVMList,
   getBashHistory,
+  getFileMonitoring,
 } from "../../IronsightAPI";
 
 function StudentLabDetails() {
@@ -49,14 +50,19 @@ function StudentLabDetails() {
     isLoading: bash_isLoading,
     isError: bash_isError,
   } = useQuery(["bash_history" + selectedVM, selectedVM], getBashHistory);
+  // Get the VM's files modified
+  const {
+    data: modified_files_data,
+    isLoading: modified_isLoading,
+    isError: modified_isError,
+  } = useQuery(["modified_files" + selectedVM, selectedVM], getFileMonitoring);
 
   if (
     isLoading_course ||
     isLoading_lab ||
     isLoading_vm ||
     isLoading_user ||
-    harvester_isLoading ||
-    bash_isLoading
+    harvester_isLoading
   ) {
     return <LinearProgress />;
   }
@@ -65,8 +71,7 @@ function StudentLabDetails() {
     isError_lab ||
     isError_vm ||
     isError_user ||
-    harvester_isError ||
-    bash_isError
+    harvester_isError
   ) {
     return <p>Error!</p>;
   }
@@ -194,7 +199,12 @@ function StudentLabDetails() {
         >
           {/* Need to remove everything after the dot in the timestamp */}
           <td>
-            {bash_history_row["@timestamp"].split(".")[0].replace("T", " ")}
+            {/* Chop off the last 3 characters */}
+            {bash_history_row["@timestamp"]
+              .split(".")[0]
+              .replace("T", " ")
+              .slice(0, -3)
+              .slice(2)}
           </td>
           <td>{bash_history_row["osquery"]["command"]}</td>
           <td>{bash_history_row["osquery"]["username"]}</td>
@@ -208,6 +218,46 @@ function StudentLabDetails() {
         );
       }
       return bash_history_rows;
+    } else {
+      return (
+        <tr>
+          <td>
+            <LinearProgress />
+          </td>
+        </tr>
+      );
+    }
+  };
+
+  var modified_files = [];
+  // Map the file modifications to table rows
+  const get_modified_files = () => {
+    if (!modified_isLoading && !modified_isError) {
+      console.log(modified_files_data);
+      modified_files = modified_files_data.hits.hits;
+      var modified_files_rows = modified_files.map((modified_file) => (
+        <tr key={modified_file["_source"]["osquery"]["path"]} className="hover">
+          <td className="break-normal whitespace-normal">
+            {modified_file["_source"]["osquery"]["path"]}
+          </td>
+          <td>{modified_file["_source"]["osquery"]["owner"]}</td>
+          <td>{modified_file["_source"]["osquery"]["last_mod"]}</td>
+          <td>
+            {modified_file["_source"]["osquery"]["size_mb"]
+              .toString()
+              .split(".")[0] + " MB"}
+          </td>
+          <td>{modified_file["_source"]["osquery"]["created"]}</td>
+        </tr>
+      ));
+      if (modified_files_rows.length === 0) {
+        modified_files_rows = (
+          <tr>
+            <td>No modified files found</td>
+          </tr>
+        );
+      }
+      return modified_files_rows;
     } else {
       return (
         <tr>
@@ -275,7 +325,7 @@ function StudentLabDetails() {
               </div>
               {/* Main panel body */}
               <div className="col-span-1">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="mx-4 my-6">
                     <h2 className="card-title">Commands Executed</h2>
                     <div className="overflow-auto mt-2 max-h-96">
@@ -294,6 +344,31 @@ function StudentLabDetails() {
                           </tr>
                         </thead>
                         <tbody className="w-full">{get_bash_history()}</tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div className="mx-4 my-6">
+                    <h2 className="card-title">Files Modified</h2>
+                    <div className="overflow-auto mt-2 max-h-96">
+                      <table className="overflow-auto table table-compact w-full">
+                        <thead>
+                          <tr>
+                            <td>Path</td>
+                            <th>
+                              <span>Owner</span>
+                            </th>
+                            <th>
+                              <span>Last Modified</span>
+                            </th>
+                            <th>
+                              <span>Size</span>
+                            </th>
+                            <th>
+                              <span>Created</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="w-full">{get_modified_files()}</tbody>
                       </table>
                     </div>
                   </div>
