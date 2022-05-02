@@ -263,7 +263,7 @@ export const getBashHistory = async ({queryKey}) => {
   const start_time_iso = new Date(start_time).toISOString();
   const end_time_iso = new Date(end_time).toISOString();
   const response = await fetch(
-    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_bash_history"}}]}}}'&i=.ds-logs-osquery_manager.result-default-2022.04.02-000001`
+    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_bash_history"}}]}}}'&i=.ds-logs-osquery_manager.result-default-2022.05.02-000002`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch bash history");
@@ -280,7 +280,7 @@ export const getRunningProcesses = async ({queryKey}) => {
   const start_time_iso = new Date(start_time).toISOString();
   const end_time_iso = new Date(end_time).toISOString();
   const response = await fetch(
-    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_Processes"}}],"should": [],"must_not": []}}}'&i=.ds-logs-osquery_manager.result-default-2022.04.02-000001`
+    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_Processes"}}],"should": [],"must_not": []}}}'&i=.ds-logs-osquery_manager.result-default-2022.05.02-000002`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch running processes");
@@ -297,7 +297,7 @@ export const getFileMonitoring = async ({queryKey}) => {
   const start_time_iso = new Date(start_time).toISOString();
   const end_time_iso = new Date(end_time).toISOString();
   const response = await fetch(
-    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_file_monitoring"}}],"should": [],"must_not": []}}}'&i=.ds-logs-osquery_manager.result-default-2022.04.02-000001`
+    `${process.env.REACT_APP_API_SERVER}get.php?q='{"size": 500,"query": {"bool": {"must": [],"filter": [{"bool": {"should": [{"match_phrase": {"agent.name": "${queryKey[1]}"}}],"minimum_should_match": 1}},{"range": {"@timestamp": {"format": "strict_date_optional_time","gte": "${start_time_iso}","lte": "${end_time_iso}"}}},{"match_phrase": {"action_id": "pack_Ironsight_Pack_file_monitoring"}}],"should": [],"must_not": []}}}'&i=.ds-logs-osquery_manager.result-default-2022.05.02-000002`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch file monitoring");
