@@ -48,7 +48,7 @@ function LabOverview() {
     isLoading: isLoading_user,
     isError: isError_user,
   } = useQuery("users_list", getUsersList);
-  var [selectedTab, setSelectedTab] = React.useState("labs");
+  var [selectedTab, setSelectedTab] = React.useState("students");
 
   if (
     isLoading_lab_overview ||
@@ -181,7 +181,7 @@ function LabOverview() {
           </li>
           <li>
             <Link to={"/course_details/" + course_id}>{class_name}</Link>
-            </li>
+          </li>
           <li>
             <strong>{lab_overview_data.lab_name}</strong>
           </li>
@@ -192,22 +192,31 @@ function LabOverview() {
           <div className="rounded-box bg-base-100 ">
             {/* Profile picture, firstname lastname, etc */}
             <div className="flex flex-col items-center justify-center ">
-              <div className="text-center">
-                <img
-                  src="https://imageio.forbes.com/specials-images/imageserve/513343414/0x0.jpg"
-                  alt="Course Picture"
-                  className="rounded-full w-32 h-32 mt-4"
-                />
-              </div>
-              <div className="text-center">
+              <div className="text-center mt-4">
                 <div className="text-lg font-bold">
                   {lab_overview_data.lab_name}
                 </div>
+                <div className="flex flex-col md:flex-row">
+                  <div className="flex flex-row mx-4 md:m-4 md:mt-2 overflow-x-auto">
+                    <div className="badge badge-info gap-2 mx-1">
+                      cryptography
+                    </div>
+                    <div className="badge badge-success mx-1">networking</div>
+                    <div className="badge badge-warning mx-1">linux</div>
+                    <div className="badge badge-error ml-1 mr-4 break-after-all whitespace-nowrap">
+                      terminal practice
+                    </div>
+                  </div>
+                </div>
+                <div className="text-sm opacity-50 mb-4 mx-4">
+                  Description: {lab_overview_data.lab_description}
+                </div>
                 <div className="text-sm opacity-50">
-                  {lab_overview_data.date_start}
+                  {/* Chop off last 3 characters of dates */}
+                  Start: {lab_overview_data.date_start.slice(0, -3)}
                 </div>
                 <div className="text-sm opacity-50 mb-4">
-                  {lab_overview_data.date_end}
+                  End: {lab_overview_data.date_end.slice(0, -3)}
                 </div>
               </div>
               <div className="sidebar-links w-full">
@@ -215,7 +224,7 @@ function LabOverview() {
                 <div className="grid grid-cols-2 lg:grid-cols-1 grid-flow-row gap-4 mx-4 ">
                   <button
                     className={
-                      selectedTab === "Users"
+                      selectedTab === "students"
                         ? "btn btn-primary w-full text-base-900 hover cursor-pointer mt-4 mb-4 lg:mb-0"
                         : "btn btn-outline w-full text-base-900 hover cursor-pointer mt-4 mb-4 md:mb-0"
                     }
