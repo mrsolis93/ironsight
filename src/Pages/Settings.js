@@ -60,12 +60,22 @@ function Settings() {
                 <button
                   className={
                     selectedTab === "courses"
-                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
-                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mt-4 lg:mt-0"
+                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mt-4 lg:mt-0"
                   }
                   onClick={() => set_selected_tab("courses")}
                 >
                   Courses
+                </button>
+                <button
+                  className={
+                    selectedTab === "tags"
+                      ? "btn btn-primary w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                      : "btn btn-outline w-full text-base-900 hover cursor-pointer mb-4 mt-4 lg:mt-0"
+                  }
+                  onClick={() => set_selected_tab("tags")}
+                >
+                  Tags
                 </button>
               </div>
             </div>

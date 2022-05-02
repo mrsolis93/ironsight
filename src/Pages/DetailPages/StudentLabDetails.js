@@ -10,6 +10,9 @@ import {
   getVMList,
   getLabList,
   getUsersList,
+  getHarvesterVMList,
+  getBashHistory,
+  getFileMonitoring,
 } from "../../IronsightAPI";
 
 function StudentLabDetails() {
@@ -36,11 +39,40 @@ function StudentLabDetails() {
     isLoading: isLoading_user,
     isError: isError_user,
   } = useQuery("users_list", getUsersList);
+  const {
+    data: harvester_data,
+    isLoading: harvester_isLoading,
+    isError: harvester_isError,
+  } = useQuery("harvester_vms", getHarvesterVMList);
+  var [selectedVM, setSelectedVM] = React.useState("");
+  const {
+    data: bash_history_data,
+    isLoading: bash_isLoading,
+    isError: bash_isError,
+  } = useQuery(["bash_history" + selectedVM, selectedVM], getBashHistory);
+  // Get the VM's files modified
+  const {
+    data: modified_files_data,
+    isLoading: modified_isLoading,
+    isError: modified_isError,
+  } = useQuery(["modified_files" + selectedVM, selectedVM], getFileMonitoring);
 
-  if (isLoading_course || isLoading_lab || isLoading_vm || isLoading_user) {
+  if (
+    isLoading_course ||
+    isLoading_lab ||
+    isLoading_vm ||
+    isLoading_user ||
+    harvester_isLoading
+  ) {
     return <LinearProgress />;
   }
-  if (isError_course || isError_lab || isError_vm || isError_user) {
+  if (
+    isError_course ||
+    isError_lab ||
+    isError_vm ||
+    isError_user ||
+    harvester_isError
+  ) {
     return <p>Error!</p>;
   }
 
@@ -84,34 +116,161 @@ function StudentLabDetails() {
     }
   }
 
-  function getLabRequirements(lab_num) {
+  function getLabRequirements() {
     var lab_requirements = [];
     for (let i = 0; i < 10; i++) {
       lab_requirements[i] = (
-        <div class="form-control flex flex-row gap-4 items-center">
-          <label class="label cursor-pointer">
+        <div className="form-control flex flex-row gap-4 items-center">
+          <label className="label cursor-pointer">
             <input
               type="checkbox"
               defaultChecked={i < 5 ? true : false}
-              class="checkbox checkbox-primary"
+              className="checkbox checkbox-primary"
             />
             {/* Item 1 justify next to checkbox */}
           </label>
-          <span class="checkbox-label">Item {i + 1}</span>
+          <span className="checkbox-label">Item {i + 1}</span>
         </div>
       );
     }
     return lab_requirements;
   }
 
+  function getStudentVirtualMachines() {
+    var lab_vms = [];
+    for (let i = 0; i < vm_data.length; i++) {
+      for (let j = 0; j < vm_data[i].labs.length; j++) {
+        if (vm_data[i].labs[j].toString() === lab_num) {
+          lab_vms.push(vm_data[i]);
+        }
+      }
+    }
+    var student_vms = [];
+    for (let i = 0; i < lab_vms.length; i++) {
+      for (let j = 0; j < lab_vms[i].users.length; j++) {
+        if (lab_vms[i].users[j].toString() === student_name) {
+          student_vms.push(lab_vms[i]);
+        }
+      }
+    }
+    return student_vms;
+  }
+
   function getVirtualMachineTabs() {
-    return (
-      <div class="btn-group">
-        <button class="btn btn-active">kubuntu-tharrison</button>
-        <button class="btn">elastictest-tharrison</button>
-        <button class="btn">debian11-tharrison</button>
-      </div>
-    );
+    var student_vms = getStudentVirtualMachines();
+    var vm_tabs = [];
+    for (let i = 0; i < student_vms.length; i++) {
+      vm_tabs.push(
+        <button
+          className={
+            selectedVM === student_vms[i].vm_name ? "btn btn-primary" : "btn"
+          }
+          onClick={() => setSelectedVM(student_vms[i].vm_name)}
+        >
+          {student_vms[i].vm_name}
+        </button>
+      );
+    }
+
+    return <div className="btn-group">{vm_tabs}</div>;
+  }
+
+  if (getStudentVirtualMachines().length != 0 && selectedVM == "") {
+    selectedVM = getStudentVirtualMachines()[0].vm_name;
+  }
+
+  var bash_history = [];
+  if (!bash_isLoading && !bash_isError) {
+    // Extract bash_history_data.hits.hits[0]._source.osquery
+    for (let i = 0; i < bash_history_data.hits.hits.length; i++) {
+      bash_history.push(bash_history_data.hits.hits[i]._source);
+    }
+  }
+
+  // Map the timestamp, osquery command, and osquery username to table rows
+  const get_bash_history = () => {
+    if (!bash_isLoading && !bash_isError) {
+      // Reverse bash_history so that the most recent is at the top
+      bash_history.reverse();
+      var bash_history_rows = bash_history.map((bash_history_row) => (
+        <tr
+          key={bash_history_row["@timestamp"]}
+          className="hover break-normal whitespace-normal"
+        >
+          {/* Need to remove everything after the dot in the timestamp */}
+          <td>
+            {/* Chop off the last 3 characters */}
+            {bash_history_row["@timestamp"]
+              .split(".")[0]
+              .replace("T", " ")
+              .slice(0, -3)
+              .slice(2)}
+          </td>
+          <td>{bash_history_row["osquery"]["command"]}</td>
+          <td>{bash_history_row["osquery"]["username"]}</td>
+        </tr>
+      ));
+      if (bash_history_rows.length === 0) {
+        bash_history_rows = (
+          <tr>
+            <td>No bash history found</td>
+          </tr>
+        );
+      }
+      return bash_history_rows;
+    } else {
+      return (
+        <tr>
+          <td>
+            <LinearProgress />
+          </td>
+        </tr>
+      );
+    }
+  };
+
+  var modified_files = [];
+  // Map the file modifications to table rows
+  const get_modified_files = () => {
+    if (!modified_isLoading && !modified_isError) {
+      console.log(modified_files_data);
+      modified_files = modified_files_data.hits.hits;
+      var modified_files_rows = modified_files.map((modified_file) => (
+        <tr key={modified_file["_source"]["osquery"]["path"]} className="hover">
+          <td className="break-normal whitespace-normal">
+            {modified_file["_source"]["osquery"]["path"]}
+          </td>
+          <td>{modified_file["_source"]["osquery"]["owner"]}</td>
+          <td>{modified_file["_source"]["osquery"]["last_mod"]}</td>
+          <td>
+            {modified_file["_source"]["osquery"]["size_mb"]
+              .toString()
+              .split(".")[0] + " MB"}
+          </td>
+          <td>{modified_file["_source"]["osquery"]["created"]}</td>
+        </tr>
+      ));
+      if (modified_files_rows.length === 0) {
+        modified_files_rows = (
+          <tr>
+            <td>No modified files found</td>
+          </tr>
+        );
+      }
+      return modified_files_rows;
+    } else {
+      return (
+        <tr>
+          <td>
+            <LinearProgress />
+          </td>
+        </tr>
+      );
+    }
+  };
+
+  function remoteVNC(vm_name) {
+    // TODO: Implement
   }
 
   return (
@@ -151,11 +310,68 @@ function StudentLabDetails() {
               {/* Main panel title */}
               <div className="col-span-1 flex flex-col">
                 <div className="flex flex-row gap-4">
-                <h2 className="card-title">Virtual Machines</h2>
-                {getVirtualMachineTabs()}
+                  <h2 className="card-title">Virtual Machines</h2>
+                  {getVirtualMachineTabs()}
+                  <button
+                    className="btn btn-success btn-outline"
+                    onClick={() => {
+                      remoteVNC("filler");
+                    }}
+                  >
+                    <span>Remote VNC</span>
+                  </button>
                 </div>
-                <div>
-
+                <div></div>
+              </div>
+              {/* Main panel body */}
+              <div className="col-span-1">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="mx-4 my-6">
+                    <h2 className="card-title">Commands Executed</h2>
+                    <div className="overflow-auto mt-2 max-h-96">
+                      <table className="table table-compact w-full">
+                        <thead>
+                          <tr>
+                            <td>
+                              <span>Timestamp</span>
+                            </td>
+                            <th>
+                              <span>Command</span>
+                            </th>
+                            <th>
+                              <span>User</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="w-full">{get_bash_history()}</tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div className="mx-4 my-6">
+                    <h2 className="card-title">Files Modified</h2>
+                    <div className="overflow-auto mt-2 max-h-96">
+                      <table className="overflow-auto table table-compact w-full">
+                        <thead>
+                          <tr>
+                            <td>Path</td>
+                            <th>
+                              <span>Owner</span>
+                            </th>
+                            <th>
+                              <span>Last Modified</span>
+                            </th>
+                            <th>
+                              <span>Size</span>
+                            </th>
+                            <th>
+                              <span>Created</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="w-full">{get_modified_files()}</tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -170,7 +386,7 @@ function StudentLabDetails() {
                 <h2 className="card-title mb-4">Lab Requirements</h2>
                 {/* Checkboxes for action items */}
                 {/* Make 8 of them as a placeholder */}
-                {getLabRequirements(1)}
+                {getLabRequirements()}
               </div>
             </div>
           </div>

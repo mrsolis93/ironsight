@@ -141,9 +141,9 @@ const CreateLab = () => {
                         type="radio"
                         name="radio-7"
                         id={`${template_name}_checkbox`}
-                        class="radio checked:bg-blue-500"
+                        className="radio checked:bg-blue-500"
                         defaultChecked={false}
-                        className="radio"
+                        class="radio"
                         onChange={(e) => {
                           setTemplateSelection(template_name);
                         }}
@@ -178,9 +178,9 @@ const CreateLab = () => {
                         type="radio"
                         name="radio-6"
                         id={`${course.course_name}_checkbox`}
-                        class="radio checked:bg-blue-500"
+                        className="radio checked:bg-blue-500"
                         defaultChecked={false}
-                        className="radio"
+                        class="radio"
                         onChange={(e) => {
                           setCourseSelection(course.course_id);
                         }}
