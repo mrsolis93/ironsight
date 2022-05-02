@@ -1,29 +1,35 @@
 import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useQuery } from "react-query";
 import { getUsersList } from "../../IronsightAPI";
 
 import { CompactTable } from "@table-library/react-table-library/compact";
 import { useTheme } from "@table-library/react-table-library/theme";
+import { useRowSelect } from '@table-library/react-table-library/select';
 import {DEFAULT_OPTIONS, getTheme} from "@table-library/react-table-library/material";
 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { usePagination } from '@table-library/react-table-library/pagination';
 
+import {
+    Table,
+    Header,
+    HeaderRow,
+    Body,
+    Row,
+    HeaderCell,
+    Cell,
+  } from '@table-library/react-table-library/table';
 
 import {
   Stack,
   TextField,
-  Checkbox,
   Modal,
-  Box,
-  Typography,
-  FormGroup,
-  FormControlLabel,
   TablePagination,
 } from '@mui/material';
 
-import { useSort } from "@table-library/react-table-library/sort";
+import { useSort, HeaderCellSort } from "@table-library/react-table-library/sort";
 import { FaSearch } from "react-icons/fa";
 import useUserData from "./UserData";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -71,58 +77,116 @@ const UserTable = () => {
   });
 
   const customTheme = {
+
     Table: `
-    margin: 10px 10px;
-    background-color: #2f3137;
-    border-radius: 10px;
+    margin: 5px 5px;
+    background-color: transparent;
+    border-radius: 10 px;
 
     height: 100%;
+    color: pink;
+
+    &.my-table {
+      background-color: orange;
+     }
 
     .hover-row {
-      background-color: #A4A8B5;
+      background-color: #blue;
     }
 
     
     
   `,
 
+  Body:
+  `
+    
+    background-color: transparent;
+  
+  `,
+
+  BaseRow:
+  `
+  
+    background-color: transparent;
+  
+  `,
+
+  BaseCell: `
+      &:nth-of-type(1) {
+        min-width: 30%;
+        width: 30%;
+      }
+
+      &:nth-of-type(3) {
+        min-width: 20%;
+        width: 20%;
+      }
+
+
+      &:nth-of-type(2), &:nth-of-type(4) {
+        min-width: 15%;
+        width: 15%;
+      }
+
+      &:nth-of-type(5) {
+        min-width: 20%;
+        width: 20%;
+      }
+    `,
+
     Cell:
      `
-    font-size: 18px;
+    font-size: 16px;
 
     &:nth-of-type(1) {
-      min-width: 10%;
-      width: 10%;
+      min-width: 20%;
+      width: 20%;
+      color: #DDDDDF;
       background-color: #2f3137;
+      
     }
 
     &:nth-of-type(2), &:nth-of-type(3), &:nth-of-type(4) {
-      min-width: 20%;
-      width: 20%;
+      min-width: 30%;
+      width: 30%;
+      color: #DDDDDF;
       background-color: #2f3137;
     }
 
     &:nth-of-type(5) {
-      min-width: 30%;
-      width: 30%;
+      min-width: 25%;
+      width: 25%;
+      color: #DDDDDF;
       background-color: #2f3137;
     }
 
-    &:nth-of-type(6) {
-      min-width: 30%;
-      width: 30%;
-      background-color: #2f3137;
-    }
 
   
     border-right: 1px solid transparent;
     `,
 
+    HeaderRow:
+    `
+    
+      background-color: #1E1E1E;
+      color: #DDDDDF;
+      
+    
+    `,
+
     Row:
     `
-    .hover-row {
-      background-color: #A4A8B5;
+    &:hover {
+      color: purple;
+
+      background-color: #1E1E1E;
+      opacity: 0.9;
+
     }
+    
+      background-color: purple;
+    
     `,
   };
 
@@ -130,7 +194,42 @@ const UserTable = () => {
   const theme = useTheme([materialTheme, customTheme]);
 
 
-   const pagination = usePagination(data, {
+
+//   const select = useRowSelect(data);
+
+// // get all state
+// console.log(select.state);
+
+
+  // const select = useRowSelect(
+  //   data, 
+  //   {
+      
+  //     onChange: onSelectChange,
+  //   });
+
+  // function onSelectChange(action, state) {
+
+  //     console.log(action, state);
+
+  //   }
+
+
+  
+      let navigate = useNavigate();
+
+       //function to handle linking the click of the row
+       
+       function handleClick(item) {
+         var user_link_details = "/user_details/" + item;
+         navigate(user_link_details);
+      }
+  
+
+
+   const pagination = usePagination(
+     data,
+      {
     state: {
       page: 0,
       size: 15,
@@ -143,11 +242,13 @@ const UserTable = () => {
   }
 
 
+
   const [search, setSearch] = React.useState("");
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
+
 
   const sort = useSort(
     data,
@@ -162,11 +263,11 @@ const UserTable = () => {
       },
       sortFns: {
         USER: (array) =>
-          array.sort((a, b) => a.first_name.localeCompare(b.first_name)),
+          array.sort((a, b) => a.first_name?.localeCompare(b.first_name)),
         ROLE: (array) =>
-          array.sort((a, b) => a.user_role.localeCompare(b.user_role)),
+          array.sort((a, b) => a.user_role?.localeCompare(b.user_role)),
         COURSES: (array) =>
-          array.sort((a, b) => a.course_id_list.localeCompare( b.course_id_list)),
+          array.sort((a, b) => a.course_id_list?.localeCompare( b.course_id_list)),
         COURSENUM: (array) =>
           array.sort((a, b) => (b.course_num || []) - (a.course_num || [])),
         VMNUM: (array) =>
@@ -184,7 +285,6 @@ const UserTable = () => {
 
   const [modalOpened, setModalOpened] = React.useState(false);
 
-
   if (!nodes) {
     return <LinearProgress />;
   }
@@ -198,41 +298,6 @@ const UserTable = () => {
     ),
   };
 
-  // console.log("Table Data 2: ", table_data);
-
-  const COLUMNS = [
-    // Display a circle mask profile picture
-    {
-      label: "User",
-      renderCell: (item) => (item.thumbnail),
-      sort: { sortKey: "USER" },
-      
-    },
-
-    {
-      label: "Role",
-      renderCell: (item) => item.user_role,
-      sort: { sortKey: "ROLE" },
-    },
-
-    {
-      label: "Courses",
-      renderCell: (item) => item.course_id_list,
-      sort: { sortKey: "COURSES" },
-    },
-
-    {
-      label: "# of Courses",
-      renderCell: (item) => item.course_num,
-      sort: { sortKey: "COURSENUM" },
-    },
-
-    {
-      label: "# of VMs",
-      renderCell: (item) =>  item.vm_num,
-      sort: { sortKey: "VMNUM" },
-    },
-  ];
 
 
   return (
@@ -247,9 +312,9 @@ const UserTable = () => {
         </div>
       </Modal>
 
-      <Stack spacing={120} direction="row-reverse" className="m-3 ">
+      <Stack spacing={100} direction="row-reverse" className="m-3 ">
 
-        <button variant="contained" onClick={() => setModalOpened(true)} className="btn btn-primary btn-med text-base-900 hover cursor-pointer" >
+        <button variant="contained" onClick={() => setModalOpened(true)} className="btn btn-primary btn-med text-base-900 hover cursor-pointer " >
           Create User
         </button>
 
@@ -263,10 +328,60 @@ const UserTable = () => {
       </Stack>
 
       
-      <br />
+      
 
          <div className="grid  gap-4 m-4 "> 
-           <CompactTable columns={COLUMNS} data={data} sort={sort} theme={theme}  />
+         
+            <Table 
+            // columns={COLUMNS} 
+            data={data}
+            sort={sort}
+            theme={theme}
+            // select={select}
+            layout={{ custom: true }}
+            pagination={pagination}>
+
+                {(tableList) => (
+
+                <>
+                    <Header>
+                        <HeaderRow>
+                              <HeaderCellSort sortKey="USER">User</HeaderCellSort>
+                              <HeaderCellSort sortKey="ROLE">Role</HeaderCellSort>
+                              <HeaderCellSort sortKey="COURSES">Courses</HeaderCellSort>
+                              <HeaderCellSort sortKey="COURSENUM"># of Courses</HeaderCellSort>
+                              <HeaderCellSort sortKey="VMNUM"># of VMs</HeaderCellSort>
+                        </HeaderRow>
+                    </Header>
+
+
+                    <Body>
+                        {tableList.map((item) => (
+                          
+                            
+                            <Row key={item.id} item={item} 
+                            
+                            onClick={() => {
+                            handleClick(item.user_name);
+                            }}
+
+                            className="bg-slate-900 hover:bg-base-200 cursor-pointer"
+                            >
+                             
+                                    <Cell>{item.thumbnail}</Cell>
+                                    <Cell>{item.user_role}</Cell>
+                                    <Cell>{item.course_id_list}</Cell>
+                                    <Cell>{item.course_num}</Cell>
+                                    <Cell>{item.vm_num}</Cell>
+
+                            </Row>
+                        ))}
+                    </Body>
+                </>
+                )}
+
+            </Table>
+
         </div>
          
 
