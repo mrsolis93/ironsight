@@ -6,7 +6,7 @@ import ReAreaChartMultiple from "../Charts/ReAreaChartMultiple";
 import ReLineChart from "../Charts/ReLineChart";
 import Navbar from "../Components/Navbar";
 
-import UserTable from "../Components/UserComponents/UserTable2";
+import UserTable from "../Components/UserComponents/UserTable";
 
 
 function Users() {
