@@ -169,7 +169,7 @@ function StudentLabDetails() {
     return <div className="btn-group">{vm_tabs}</div>;
   }
 
-  if (getVirtualMachineTabs().length != 0 && selectedVM == "") {
+  if (getStudentVirtualMachines().length != 0 && selectedVM == "") {
     selectedVM = getStudentVirtualMachines()[0].vm_name;
   }
 
