@@ -192,12 +192,21 @@ function LabOverview() {
           <div className="rounded-box bg-base-100 ">
             {/* Profile picture, firstname lastname, etc */}
             <div className="flex flex-col items-center justify-center ">
+            <div className="text-center">
+                <img
+                // Get random picture from the internet
+                  src="/assets/default_lab.png"
+                  alt="Lab Picture"
+                  className="rounded-full w-32 h-32 mt-4"
+                />
+              </div>
               <div className="text-center mt-4">
                 <div className="text-lg font-bold">
                   {lab_overview_data.lab_name}
                 </div>
+
                 <div className="flex flex-col md:flex-row">
-                  <div className="flex flex-row mx-4 md:m-4 md:mt-2 overflow-x-auto">
+                  <div className="flex flex-row mx-4 md:m-4 md:mt-4 overflow-x-auto">
                     <div className="badge badge-info gap-2 mx-1">
                       cryptography
                     </div>
