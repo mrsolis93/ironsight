@@ -3,6 +3,7 @@ import "../App.css";
 import ThemeButton from "../Components/ThemeButton";
 import { authenticate, postActivityLog } from "../IronsightAPI";
 import CircularProgress from "@mui/material/CircularProgress";
+import {ReactComponent as Logo } from "../IronsightLogo.svg";
 
 //   Get clients remote IP address and log to console
 const get_client_ip = () => {
@@ -91,9 +92,20 @@ function submitLogin() {
   }
 }
 
+
+
 const Login = () => {
   // State for isLoggingIn
   const [isLoggingIn, setIsLoggingIn] = React.useState(false);
+
+
+  // Check if localStorage.theme is set
+  if (localStorage.getItem("theme") === null) { 
+  // If not, set it to "ironsight_dark"
+  localStorage.setItem("theme", "ironsight_dark");
+  
+  }
+
   return (
     <div className="login min-w-max fill-window h-screen bg-slate-800">
       <div className="flex justify-end m-4">
@@ -102,11 +114,17 @@ const Login = () => {
       <div className="flex md:m-0 min-h-[80%]">
         <div className="flex w-full mx-4 md:mx-0 min-h-full justify-center m-auto">
           <div className="card w-full md:w-[48rem] bg-base-100 shadow-xl">
-            <img
-              className="block h-8 mx-auto mt-4"
-              src={process.env.PUBLIC_URL + "/logo_horizontal.png"}
+          
+            <Logo
+              // className="block h-12 mx-auto mt-4"
+
+              className="block h-14 mx-auto mt-4 light:fill-slate-900 fill-gray-100 "  
+
+              src={"./IronsightLogo.svg"}
               alt="Ironsight Banner"
+              
             />
+
             <div className="form-control card-body p-4 md:p-8">
               <label className="input-group input-group-vertical">
                 <span>Username</span>

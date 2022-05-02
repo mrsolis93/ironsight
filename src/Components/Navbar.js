@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import {ReactComponent as Logo } from "../IronsightLogo.svg";
+
 import { NavLink, Link } from "react-router-dom";
 import { NavbarData, userNavigation } from "./NavbarData";
 import styled from "styled-components";
@@ -87,15 +89,17 @@ export default function Navbar() {
 
               <div className="flex-1 flex items-center justify-center lg:items-stretch lg:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                  <img
-                    className="block lg:hidden h-8 w-auto"
-                    src={process.env.PUBLIC_URL + "/logo_horizontal.png"}
+                  <Logo
+                    className="block lg:hidden h-10 w-auto"
+                    
                     alt="Ironsight Banner"
+                    fill='white'
                   />
-                  <img
-                    className="hidden lg:block h-8 w-auto"
-                    src={process.env.PUBLIC_URL + "/logo_horizontal.png"}
+                  <Logo
+                    className="hidden lg:block h-10 w-auto"
+                   
                     alt="Ironsight Logo"
+                    fill='white'
                   />
                 </div>
 
