@@ -11,7 +11,7 @@ import {
   getLabList,
   getUsersList,
   getHarvesterVMList,
-  getLabOverview,
+  getBashHistory,
 } from "../../IronsightAPI";
 
 function StudentLabDetails() {
@@ -23,11 +23,6 @@ function StudentLabDetails() {
     isLoading: isLoading_course,
     isError: isError_course,
   } = useQuery("course_list", getCourseList);
-  const {
-    data: lab_overview_data,
-    isLoading: isLoading_lab_overview,
-    isError: isError_lab_overview,
-  } = useQuery(["lab_overview", lab_num], getLabOverview);
   const {
     data: lab_data,
     isLoading: isLoading_lab,
@@ -48,15 +43,20 @@ function StudentLabDetails() {
     isLoading: harvester_isLoading,
     isError: harvester_isError,
   } = useQuery("harvester_vms", getHarvesterVMList);
-
   var [selectedVM, setSelectedVM] = React.useState("");
+  const {
+    data: bash_history_data,
+    isLoading: bash_isLoading,
+    isError: bash_isError,
+  } = useQuery(["bash_history" + selectedVM, selectedVM], getBashHistory);
 
   if (
     isLoading_course ||
     isLoading_lab ||
     isLoading_vm ||
     isLoading_user ||
-    harvester_isLoading
+    harvester_isLoading ||
+    bash_isLoading
   ) {
     return <LinearProgress />;
   }
@@ -65,7 +65,8 @@ function StudentLabDetails() {
     isError_lab ||
     isError_vm ||
     isError_user ||
-    harvester_isError
+    harvester_isError ||
+    bash_isError
   ) {
     return <p>Error!</p>;
   }
@@ -173,8 +174,53 @@ function StudentLabDetails() {
     selectedVM = getStudentVirtualMachines()[0].vm_name;
   }
 
+  var bash_history = [];
+  if (!bash_isLoading && !bash_isError) {
+    // Extract bash_history_data.hits.hits[0]._source.osquery
+    for (let i = 0; i < bash_history_data.hits.hits.length; i++) {
+      bash_history.push(bash_history_data.hits.hits[i]._source);
+    }
+  }
+
+  // Map the timestamp, osquery command, and osquery username to table rows
+  const get_bash_history = () => {
+    if (!bash_isLoading && !bash_isError) {
+      // Reverse bash_history so that the most recent is at the top
+      bash_history.reverse();
+      var bash_history_rows = bash_history.map((bash_history_row) => (
+        <tr
+          key={bash_history_row["@timestamp"]}
+          className="hover break-normal whitespace-normal"
+        >
+          {/* Need to remove everything after the dot in the timestamp */}
+          <td>
+            {bash_history_row["@timestamp"].split(".")[0].replace("T", " ")}
+          </td>
+          <td>{bash_history_row["osquery"]["command"]}</td>
+          <td>{bash_history_row["osquery"]["username"]}</td>
+        </tr>
+      ));
+      if (bash_history_rows.length === 0) {
+        bash_history_rows = (
+          <tr>
+            <td>No bash history found</td>
+          </tr>
+        );
+      }
+      return bash_history_rows;
+    } else {
+      return (
+        <tr>
+          <td>
+            <LinearProgress />
+          </td>
+        </tr>
+      );
+    }
+  };
+
   function remoteVNC(vm_name) {
-    
+    // TODO: Implement
   }
 
   return (
@@ -226,6 +272,32 @@ function StudentLabDetails() {
                   </button>
                 </div>
                 <div></div>
+              </div>
+              {/* Main panel body */}
+              <div className="col-span-1">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="mx-4 my-6">
+                    <h2 className="card-title">Commands Executed</h2>
+                    <div className="overflow-auto mt-2 max-h-96">
+                      <table className="table table-compact w-full">
+                        <thead>
+                          <tr>
+                            <td>
+                              <span>Timestamp</span>
+                            </td>
+                            <th>
+                              <span>Command</span>
+                            </th>
+                            <th>
+                              <span>User</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="w-full">{get_bash_history()}</tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
