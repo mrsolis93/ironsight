@@ -34,13 +34,18 @@ const StudentsLabsTable = ({ course_id }) => {
   var raw_student_data = [];
   raw_student_data = data;
   raw_lab_data = lab_overview_data;
+  var filtered_students = [];
+
+  for (var i = 0; i < raw_student_data.length; i++) {
+    for (var j = 0; j < raw_lab_data.users.length; j++) {
+      if (raw_student_data[i].user_name === raw_lab_data.users[j]) {
+        filtered_students.push(raw_student_data[i]);
+      }
+    }
+  }
+
   // Pull in all students and display them on the table
-
-    
-
-
-
-  var table_html = raw_student_data.map(function (student) {
+  var table_html = filtered_students.map(function (student) {
     // Capitalize the first letter of the first name
     var first_name =
       student.first_name.charAt(0).toUpperCase() + student.first_name.slice(1);
@@ -88,7 +93,7 @@ const StudentsLabsTable = ({ course_id }) => {
               </div>
               <div>
                 <Link
-                  to={"/course_details/" + course_id + "/" + student.user_name}
+                  to={"/lab_details/" + lab_num + "/" + student.user_name}
                   key={student.user_name + "_link"}
                 >
                   <div className="font-bold">

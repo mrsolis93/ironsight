@@ -6,7 +6,9 @@ import { useQuery } from "react-query";
 import LabTable from "../../Components/DetailPageComponents/LabsTable";
 import VirtualMachineTable from "../../Components/DetailPageComponents/VirtualMachinesTable";
 import CourseCard from "../../Components/DetailPageComponents/CourseCard";
-import StudentsLabsTable, {StudentHasLabsTable} from "../../Components/DetailPageComponents/StudentHasLabsTable";
+import StudentsLabsTable, {
+  StudentHasLabsTable,
+} from "../../Components/DetailPageComponents/StudentHasLabsTable";
 import {
   getLabOverview,
   getCourseList,
@@ -178,6 +180,9 @@ function LabOverview() {
             <Link to="/courses">Courses</Link>
           </li>
           <li>
+            <Link to={"/course_details/" + course_id}>{class_name}</Link>
+            </li>
+          <li>
             <strong>{lab_overview_data.lab_name}</strong>
           </li>
         </ul>
@@ -214,7 +219,7 @@ function LabOverview() {
                         ? "btn btn-primary w-full text-base-900 hover cursor-pointer mt-4 mb-4 lg:mb-0"
                         : "btn btn-outline w-full text-base-900 hover cursor-pointer mt-4 mb-4 md:mb-0"
                     }
-                    onClick={() => setSelectedTab("Users")}
+                    onClick={() => setSelectedTab("students")}
                   >
                     Students
                   </button>
@@ -247,25 +252,21 @@ function LabOverview() {
           <div className=" max-h-full ">
             <div className="page-content">
               {/* Display the selected tab */}
-              {selectedTab === "Users" && (
-                <StudentsLabsTable/>
-                
-              )}
+              {selectedTab === "students" && <StudentsLabsTable />}
 
               {selectedTab === "virtual_machines" && (
-              
-              <div className="overflow-x-auto w-full">
-              <table className="table w-full">
-                      <thead>
-                        <tr>
-                          <th>Virtual Machines in {lab_overview_data.lab_name}</th>
-                        </tr>
-                      </thead>
-                      <tbody>{get_virtual_machines()}</tbody>
-                    </table>
-                  </div>
-                
-              
+                <div className="overflow-x-auto w-full">
+                  <table className="table w-full">
+                    <thead>
+                      <tr>
+                        <th>
+                          Virtual Machines in {lab_overview_data.lab_name}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>{get_virtual_machines()}</tbody>
+                  </table>
+                </div>
               )}
               {selectedTab === "courses" && (
                 <div className="mt-4 grid grid-cols-1 md:flex md:flex-wrap mx-4 gap-4 md:gap-4">
@@ -275,10 +276,8 @@ function LabOverview() {
             </div>
           </div>
         </div>
-      <div>
-      
-    </div>
-    </div>
+        <div></div>
+      </div>
     </>
   );
 }
