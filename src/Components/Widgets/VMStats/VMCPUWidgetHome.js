@@ -140,6 +140,8 @@ function VMCPUWidgetHome() {
       }
     }
   }
+  // Convert to integer
+  max_value = Math.ceil(max_value);
 
   // console.log("[Ironsight] Chart Data:", chart_data);
 
@@ -154,7 +156,7 @@ function VMCPUWidgetHome() {
             top: 20,
             right: 10,
             left: -20,
-            bottom: -40,
+            bottom: -30,
           }}
           
         >
@@ -201,7 +203,7 @@ function VMCPUWidgetHome() {
             dataKey={sorted_data[0].labels}
             type="number"
             unit="%"
-            domain={isZoomed ? [0, max_value + 2] : [0, 100]}
+            domain={isZoomed ? [0, max_value] : [0, 100]}
             scale="linear"
           />
           <Tooltip content={<CustomTooltip data={chart_data} />} />
