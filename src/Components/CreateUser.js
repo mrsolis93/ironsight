@@ -24,7 +24,6 @@ const CreateUser = () => {
   // States that hold the variables for the dropdown menus and name/pass
   const [first_name, setFirstName] = React.useState("");
   const [last_name, setLastName] = React.useState("");
-  const [user_name, setUserName] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirm_password, setConfirmPassword] = React.useState("");
   const [roles, setRoles] = React.useState([]);
@@ -115,7 +114,6 @@ const CreateUser = () => {
         // Clear the form
         setFirstName("");
         setLastName("");
-        setUserName("");
         setPassword("");
         setConfirmPassword("");
         setRoles([]);
@@ -124,7 +122,7 @@ const CreateUser = () => {
         setTags([]);
 
         // Alert the user that the user was created
-        alert("Success! Your username is " + user_name);
+        alert("Success! Your username is " + event_data.data.user_name);
       }
       // If the response is not successful, set the submit status to error
       else {
