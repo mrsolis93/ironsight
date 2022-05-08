@@ -21,6 +21,12 @@ import StudentCourseDetails from "./Pages/DetailPages/StudentCourseDetails";
 import Settings from "./Pages/Settings";
 import Security from "./Pages/Security";
 
+// import { Web3AuthProvider } from "./services/web3auth";
+// import { WEB3AUTH_NETWORK_TYPE } from "./config/web3AuthNetwork";
+// import { CHAIN_CONFIG_TYPE } from "./config/chainConfig";
+// import Main from "./components/Main";
+// import Setting from "./components/Setting";
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -28,6 +34,10 @@ const darkTheme = createTheme({
 });
 
 const queryClient = new QueryClient();
+
+// const [web3AuthNetwork, setWeb3AuthNetwork] = useState<WEB3AUTH_NETWORK_TYPE>("mainnet");
+// const [chain, setChain] = useState<CHAIN_CONFIG_TYPE>("etherium_mainnet");
+
 
 function App() {
   // Check if localStorage.theme is set
@@ -43,6 +53,8 @@ function App() {
   ) {
     window.location.href = "/login";
   }
+
+
 
   return (
     // Only return the theme provider if the page is not the login page and the token is set
@@ -64,41 +76,43 @@ function App() {
       />
 
       <ThemeProvider theme={darkTheme}>
-        <QueryClientProvider client={queryClient}>
-          <Router>
-            <Routes>
-              <Route path="/" exact element={<Home />} />
-              <Route path="/home" exact element={<Home />} />
-              <Route path="/network" element={<Network />} />
-              <Route path="/network/reports" element={<Network />} />
-              <Route path="/courses" element={<Courses />} />
-              <Route path="lab_details/:lab_num" element={<LabOverview />} />
-              <Route
-                path="lab_details/:lab_num/:student_name"
-                element={<StudentLabDetails />}
-              />
-              <Route
-                path="course_details/:course_id"
-                element={<CourseDetails />}
-              />
-              <Route
-                path="course_details/:course_id/:student_name"
-                element={<StudentCourseDetails />}
-              />
-              <Route path="vm_details/:vm_name" element={<VMDetails />} />
-              <Route path="user_details/:user_name" element={<UserDetails />} />
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/sandbox" element={<Sandbox />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/virtual_machines" element={<VirtualMachines />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signout" element={<SignOut />} />
-              <Route path="/testing" element={<Testing />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/security" element={<Security />} />
-            </Routes>
-          </Router>
-        </QueryClientProvider>
+          {/* <Web3AuthProvider chain={chain} web3AuthNetwork={web3AuthNetwork}> */}
+            <QueryClientProvider client={queryClient}>
+              <Router>
+                <Routes>
+                  <Route path="/" exact element={<Home />} />
+                  <Route path="/home" exact element={<Home />} />
+                  <Route path="/network" element={<Network />} />
+                  <Route path="/network/reports" element={<Network />} />
+                  <Route path="/courses" element={<Courses />} />
+                  <Route path="lab_details/:lab_num" element={<LabOverview />} />
+                  <Route
+                    path="lab_details/:lab_num/:student_name"
+                    element={<StudentLabDetails />}
+                  />
+                  <Route
+                    path="course_details/:course_id"
+                    element={<CourseDetails />}
+                  />
+                  <Route
+                    path="course_details/:course_id/:student_name"
+                    element={<StudentCourseDetails />}
+                  />
+                  <Route path="vm_details/:vm_name" element={<VMDetails />} />
+                  <Route path="user_details/:user_name" element={<UserDetails />} />
+                  <Route path="/resources" element={<Resources />} />
+                  <Route path="/sandbox" element={<Sandbox />} />
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/virtual_machines" element={<VirtualMachines />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signout" element={<SignOut />} />
+                  <Route path="/testing" element={<Testing />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/security" element={<Security />} />
+                </Routes>
+              </Router>
+            </QueryClientProvider>
+          {/* </Web3AuthProvider> */}
       </ThemeProvider>
     </div>
   );
